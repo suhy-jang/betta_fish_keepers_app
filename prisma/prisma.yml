@@ -1,3 +1,3 @@
-endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: http://localhost:4466/betta/dev
 datamodel: datamodel.prisma
-secret: ${env:PRISMA_SECRET}
+secret: abcabc

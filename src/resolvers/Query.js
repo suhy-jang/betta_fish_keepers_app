@@ -2,7 +2,6 @@ import getUserId from '../utils/getUserId'
 
 const Query = {
   users(parent, args, { prisma }, info) {
-    const { query } = args
     const opArgs = {
       first: args.first,
       skip: args.skip,
@@ -10,9 +9,9 @@ const Query = {
       orderBy: args.orderBy,
     }
 
-    if (query) {
+    if (args.query) {
       opArgs.where = {
-        name_contains: query,
+        name_contains: args.query,
       }
     }
     return prisma.query.users(opArgs, info)
