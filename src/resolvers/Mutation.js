@@ -72,6 +72,30 @@ const Mutation = {
       info,
     )
   },
+  createPost(parent, args, { prisma, request }, info) {
+    return prisma.mutation.createPost({
+      data: {
+        title: args.data.title,
+        body: args.data.body,
+        published: args.data.published,
+      },
+    })
+  },
+  deletePost(parent, args, { prisma, request }, info) {
+    return prisma.mutation.deletePost({
+      where: {
+        id: args.id,
+      },
+    })
+  },
+  updatePost(parent, args, { prisma, request }, info) {
+    return prisma.mutation.updatePost({
+      where: {
+        id: args.id,
+      },
+      data: args.data,
+    })
+  },
 }
 
 export { Mutation as default }

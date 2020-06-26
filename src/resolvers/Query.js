@@ -16,6 +16,10 @@ const Query = {
     }
     return prisma.query.users(opArgs, info)
   },
+  posts(parent, args, { prisma }, info) {
+    const opArgs = {}
+    return prisma.query.posts(opArgs, info)
+  },
   me(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
     return prisma.query.user(
@@ -24,6 +28,13 @@ const Query = {
       },
       info,
     )
+  },
+  post(parent, args, ctx, info) {
+    return {
+      title: 'a new post',
+      body: '',
+      published: true,
+    }
   },
 }
 

@@ -8,7 +8,9 @@ type Query {
     skip: Int
     orderBy: UserOrderByInput
   ): [User!]!
+  posts: [Post!]!
   me: User!
+  post: Post!
 }
 
 type Mutation {
@@ -16,6 +18,9 @@ type Mutation {
   login(data: LoginUserInput!): AuthPayload!
   deleteUser: User!
   updateUser(data: UpdateUserInput!): User!
+  createPost(data: CreatePostInput!): Post!
+  deletePost(id: ID!): Post!
+  updatePost(id: ID!, data: UpdatePostInput!): Post!
 }
 
 # type Subscription {
@@ -43,13 +48,34 @@ input UpdateUserInput {
   password: String
 }
 
+input CreatePostInput {
+  title: String!
+  body: String!
+  published: Boolean!
+}
+
+input UpdatePostInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
 type User {
   id: ID!
   name: String!
   email: String
   password: String!
-  updatedAt: String!
   createdAt: String!
+  updatedAt: String!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  createdAt: String!
+  updatedAt: String!
 }
 
 enum MutationType {
