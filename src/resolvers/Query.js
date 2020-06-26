@@ -36,6 +36,9 @@ const Query = {
       published: true,
     }
   },
+  comments(parent, args, { prisma }, info) {
+    return prisma.query.comments({})
+  },
 }
 
 export { Query as default }

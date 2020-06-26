@@ -96,6 +96,26 @@ const Mutation = {
       data: args.data,
     })
   },
+  createComment(parent, args, { prisma }, info) {
+    return prisma.mutation.createComment({
+      data: args.data,
+    })
+  },
+  updateComment(parent, args, { prisma }, info) {
+    return prisma.mutation.updateComment({
+      where: {
+        id: args.id,
+      },
+      data: args.data,
+    })
+  },
+  deleteComment(parent, args, { prisma }, info) {
+    return prisma.mutation.deleteComment({
+      where: {
+        id: args.id,
+      },
+    })
+  },
 }
 
 export { Mutation as default }

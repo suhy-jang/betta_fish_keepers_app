@@ -9,6 +9,7 @@ type Query {
     orderBy: UserOrderByInput
   ): [User!]!
   posts: [Post!]!
+  comments: [Comment!]!
   me: User!
   post: Post!
 }
@@ -21,6 +22,9 @@ type Mutation {
   createPost(data: CreatePostInput!): Post!
   deletePost(id: ID!): Post!
   updatePost(id: ID!, data: UpdatePostInput!): Post!
+  createComment(data: CreateCommentInput!): Comment!
+  updateComment(id: ID!, data: UpdateCommentInput!): Comment!
+  deleteComment(id: ID!): Comment!
 }
 
 # type Subscription {
@@ -60,11 +64,21 @@ input UpdatePostInput {
   published: Boolean
 }
 
+input CreateCommentInput {
+  text: String!
+}
+
+input UpdateCommentInput {
+  text: String
+}
+
 type User {
   id: ID!
   name: String!
   email: String
   password: String!
+  posts: [Post!]!
+  comments: [Comment!]!
   createdAt: String!
   updatedAt: String!
 }
@@ -74,6 +88,17 @@ type Post {
   title: String!
   body: String!
   published: Boolean!
+  author: User!
+  comments: [Comment!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  author: User!
+  post: Post!
   createdAt: String!
   updatedAt: String!
 }
