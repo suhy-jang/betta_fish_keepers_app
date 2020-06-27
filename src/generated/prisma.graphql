@@ -1,7 +1,11 @@
 # source: http://localhost:4466
-# timestamp: Sat Jun 27 2020 20:22:36 GMT+0900 (Korean Standard Time)
+# timestamp: Sat Jun 27 2020 23:34:24 GMT+0900 (Korean Standard Time)
 
 type AggregateComment {
+  count: Int!
+}
+
+type AggregateFeatured {
   count: Int!
 }
 
@@ -489,6 +493,203 @@ input CommentWhereUniqueInput {
 
 scalar DateTime
 
+type Featured implements Node {
+  id: ID!
+  user: User!
+  post: Post!
+}
+
+"""A connection to a list of items."""
+type FeaturedConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FeaturedEdge]!
+  aggregate: AggregateFeatured!
+}
+
+input FeaturedCreateInput {
+  id: ID
+  user: UserCreateOneWithoutFeaturedPostInput!
+  post: PostCreateOneWithoutFeaturedByInput!
+}
+
+input FeaturedCreateOneWithoutPostInput {
+  create: FeaturedCreateWithoutPostInput
+  connect: FeaturedWhereUniqueInput
+}
+
+input FeaturedCreateOneWithoutUserInput {
+  create: FeaturedCreateWithoutUserInput
+  connect: FeaturedWhereUniqueInput
+}
+
+input FeaturedCreateWithoutPostInput {
+  id: ID
+  user: UserCreateOneWithoutFeaturedPostInput!
+}
+
+input FeaturedCreateWithoutUserInput {
+  id: ID
+  post: PostCreateOneWithoutFeaturedByInput!
+}
+
+"""An edge in a connection."""
+type FeaturedEdge {
+  """The item at the end of the edge."""
+  node: Featured!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum FeaturedOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type FeaturedPreviousValues {
+  id: ID!
+}
+
+type FeaturedSubscriptionPayload {
+  mutation: MutationType!
+  node: Featured
+  updatedFields: [String!]
+  previousValues: FeaturedPreviousValues
+}
+
+input FeaturedSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FeaturedSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FeaturedSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FeaturedSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: FeaturedWhereInput
+}
+
+input FeaturedUpdateInput {
+  user: UserUpdateOneRequiredWithoutFeaturedPostInput
+  post: PostUpdateOneRequiredWithoutFeaturedByInput
+}
+
+input FeaturedUpdateOneWithoutPostInput {
+  create: FeaturedCreateWithoutPostInput
+  connect: FeaturedWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: FeaturedUpdateWithoutPostDataInput
+  upsert: FeaturedUpsertWithoutPostInput
+}
+
+input FeaturedUpdateOneWithoutUserInput {
+  create: FeaturedCreateWithoutUserInput
+  connect: FeaturedWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: FeaturedUpdateWithoutUserDataInput
+  upsert: FeaturedUpsertWithoutUserInput
+}
+
+input FeaturedUpdateWithoutPostDataInput {
+  user: UserUpdateOneRequiredWithoutFeaturedPostInput
+}
+
+input FeaturedUpdateWithoutUserDataInput {
+  post: PostUpdateOneRequiredWithoutFeaturedByInput
+}
+
+input FeaturedUpsertWithoutPostInput {
+  update: FeaturedUpdateWithoutPostDataInput!
+  create: FeaturedCreateWithoutPostInput!
+}
+
+input FeaturedUpsertWithoutUserInput {
+  update: FeaturedUpdateWithoutUserDataInput!
+  create: FeaturedCreateWithoutUserInput!
+}
+
+input FeaturedWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FeaturedWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FeaturedWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FeaturedWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  user: UserWhereInput
+  post: PostWhereInput
+}
+
+input FeaturedWhereUniqueInput {
+  id: ID
+}
+
 """Raw JSON value"""
 scalar Json
 
@@ -501,18 +702,22 @@ scalar Long
 type Mutation {
   createUser(data: UserCreateInput!): User!
   createPinned(data: PinnedCreateInput!): Pinned!
+  createFeatured(data: FeaturedCreateInput!): Featured!
   createPost(data: PostCreateInput!): Post!
   createComment(data: CommentCreateInput!): Comment!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updatePinned(data: PinnedUpdateInput!, where: PinnedWhereUniqueInput!): Pinned
+  updateFeatured(data: FeaturedUpdateInput!, where: FeaturedWhereUniqueInput!): Featured
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   deleteUser(where: UserWhereUniqueInput!): User
   deletePinned(where: PinnedWhereUniqueInput!): Pinned
+  deleteFeatured(where: FeaturedWhereUniqueInput!): Featured
   deletePost(where: PostWhereUniqueInput!): Post
   deleteComment(where: CommentWhereUniqueInput!): Comment
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertPinned(where: PinnedWhereUniqueInput!, create: PinnedCreateInput!, update: PinnedUpdateInput!): Pinned!
+  upsertFeatured(where: FeaturedWhereUniqueInput!, create: FeaturedCreateInput!, update: FeaturedUpdateInput!): Featured!
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -520,6 +725,7 @@ type Mutation {
   updateManyComments(data: CommentUpdateManyMutationInput!, where: CommentWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyPinneds(where: PinnedWhereInput): BatchPayload!
+  deleteManyFeatureds(where: FeaturedWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyComments(where: CommentWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
@@ -571,7 +777,7 @@ type PinnedConnection {
 input PinnedCreateInput {
   id: ID
   user: UserCreateOneWithoutPinnedPostsInput!
-  post: PostCreateOneWithoutPinsInput!
+  post: PostCreateOneWithoutPinGazersInput!
 }
 
 input PinnedCreateManyWithoutPostInput {
@@ -591,7 +797,7 @@ input PinnedCreateWithoutPostInput {
 
 input PinnedCreateWithoutUserInput {
   id: ID
-  post: PostCreateOneWithoutPinsInput!
+  post: PostCreateOneWithoutPinGazersInput!
 }
 
 """An edge in a connection."""
@@ -704,7 +910,7 @@ input PinnedSubscriptionWhereInput {
 
 input PinnedUpdateInput {
   user: UserUpdateOneRequiredWithoutPinnedPostsInput
-  post: PostUpdateOneRequiredWithoutPinsInput
+  post: PostUpdateOneRequiredWithoutPinGazersInput
 }
 
 input PinnedUpdateManyWithoutPostInput {
@@ -734,7 +940,7 @@ input PinnedUpdateWithoutPostDataInput {
 }
 
 input PinnedUpdateWithoutUserDataInput {
-  post: PostUpdateOneRequiredWithoutPinsInput
+  post: PostUpdateOneRequiredWithoutPinGazersInput
 }
 
 input PinnedUpdateWithWhereUniqueWithoutPostInput {
@@ -820,11 +1026,12 @@ type Post implements Node {
   id: ID!
   title: String!
   body: String!
-  published: Boolean!
-  allowComments: Boolean!
-  pins(where: PinnedWhereInput, orderBy: PinnedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pinned!]
+  published: Boolean
+  allowComments: Boolean
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  pinGazers(where: PinnedWhereInput, orderBy: PinnedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pinned!]
+  featuredBy: Featured
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -845,9 +1052,10 @@ input PostCreateInput {
   body: String!
   published: Boolean
   allowComments: Boolean
-  pins: PinnedCreateManyWithoutPostInput
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
+  pinGazers: PinnedCreateManyWithoutPostInput
+  featuredBy: FeaturedCreateOneWithoutPostInput
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -860,8 +1068,13 @@ input PostCreateOneWithoutCommentsInput {
   connect: PostWhereUniqueInput
 }
 
-input PostCreateOneWithoutPinsInput {
-  create: PostCreateWithoutPinsInput
+input PostCreateOneWithoutFeaturedByInput {
+  create: PostCreateWithoutFeaturedByInput
+  connect: PostWhereUniqueInput
+}
+
+input PostCreateOneWithoutPinGazersInput {
+  create: PostCreateWithoutPinGazersInput
   connect: PostWhereUniqueInput
 }
 
@@ -871,8 +1084,9 @@ input PostCreateWithoutAuthorInput {
   body: String!
   published: Boolean
   allowComments: Boolean
-  pins: PinnedCreateManyWithoutPostInput
   comments: CommentCreateManyWithoutPostInput
+  pinGazers: PinnedCreateManyWithoutPostInput
+  featuredBy: FeaturedCreateOneWithoutPostInput
 }
 
 input PostCreateWithoutCommentsInput {
@@ -881,11 +1095,12 @@ input PostCreateWithoutCommentsInput {
   body: String!
   published: Boolean
   allowComments: Boolean
-  pins: PinnedCreateManyWithoutPostInput
   author: UserCreateOneWithoutPostsInput!
+  pinGazers: PinnedCreateManyWithoutPostInput
+  featuredBy: FeaturedCreateOneWithoutPostInput
 }
 
-input PostCreateWithoutPinsInput {
+input PostCreateWithoutFeaturedByInput {
   id: ID
   title: String!
   body: String!
@@ -893,6 +1108,18 @@ input PostCreateWithoutPinsInput {
   allowComments: Boolean
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
+  pinGazers: PinnedCreateManyWithoutPostInput
+}
+
+input PostCreateWithoutPinGazersInput {
+  id: ID
+  title: String!
+  body: String!
+  published: Boolean
+  allowComments: Boolean
+  author: UserCreateOneWithoutPostsInput!
+  comments: CommentCreateManyWithoutPostInput
+  featuredBy: FeaturedCreateOneWithoutPostInput
 }
 
 """An edge in a connection."""
@@ -925,8 +1152,8 @@ type PostPreviousValues {
   id: ID!
   title: String!
   body: String!
-  published: Boolean!
-  allowComments: Boolean!
+  published: Boolean
+  allowComments: Boolean
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1158,9 +1385,10 @@ input PostUpdateInput {
   body: String
   published: Boolean
   allowComments: Boolean
-  pins: PinnedUpdateManyWithoutPostInput
   author: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
+  pinGazers: PinnedUpdateManyWithoutPostInput
+  featuredBy: FeaturedUpdateOneWithoutPostInput
 }
 
 input PostUpdateManyDataInput {
@@ -1201,11 +1429,18 @@ input PostUpdateOneRequiredWithoutCommentsInput {
   upsert: PostUpsertWithoutCommentsInput
 }
 
-input PostUpdateOneRequiredWithoutPinsInput {
-  create: PostCreateWithoutPinsInput
+input PostUpdateOneRequiredWithoutFeaturedByInput {
+  create: PostCreateWithoutFeaturedByInput
   connect: PostWhereUniqueInput
-  update: PostUpdateWithoutPinsDataInput
-  upsert: PostUpsertWithoutPinsInput
+  update: PostUpdateWithoutFeaturedByDataInput
+  upsert: PostUpsertWithoutFeaturedByInput
+}
+
+input PostUpdateOneRequiredWithoutPinGazersInput {
+  create: PostCreateWithoutPinGazersInput
+  connect: PostWhereUniqueInput
+  update: PostUpdateWithoutPinGazersDataInput
+  upsert: PostUpsertWithoutPinGazersInput
 }
 
 input PostUpdateWithoutAuthorDataInput {
@@ -1213,8 +1448,9 @@ input PostUpdateWithoutAuthorDataInput {
   body: String
   published: Boolean
   allowComments: Boolean
-  pins: PinnedUpdateManyWithoutPostInput
   comments: CommentUpdateManyWithoutPostInput
+  pinGazers: PinnedUpdateManyWithoutPostInput
+  featuredBy: FeaturedUpdateOneWithoutPostInput
 }
 
 input PostUpdateWithoutCommentsDataInput {
@@ -1222,17 +1458,29 @@ input PostUpdateWithoutCommentsDataInput {
   body: String
   published: Boolean
   allowComments: Boolean
-  pins: PinnedUpdateManyWithoutPostInput
   author: UserUpdateOneRequiredWithoutPostsInput
+  pinGazers: PinnedUpdateManyWithoutPostInput
+  featuredBy: FeaturedUpdateOneWithoutPostInput
 }
 
-input PostUpdateWithoutPinsDataInput {
+input PostUpdateWithoutFeaturedByDataInput {
   title: String
   body: String
   published: Boolean
   allowComments: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
+  pinGazers: PinnedUpdateManyWithoutPostInput
+}
+
+input PostUpdateWithoutPinGazersDataInput {
+  title: String
+  body: String
+  published: Boolean
+  allowComments: Boolean
+  author: UserUpdateOneRequiredWithoutPostsInput
+  comments: CommentUpdateManyWithoutPostInput
+  featuredBy: FeaturedUpdateOneWithoutPostInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -1245,9 +1493,14 @@ input PostUpsertWithoutCommentsInput {
   create: PostCreateWithoutCommentsInput!
 }
 
-input PostUpsertWithoutPinsInput {
-  update: PostUpdateWithoutPinsDataInput!
-  create: PostCreateWithoutPinsInput!
+input PostUpsertWithoutFeaturedByInput {
+  update: PostUpdateWithoutFeaturedByDataInput!
+  create: PostCreateWithoutFeaturedByInput!
+}
+
+input PostUpsertWithoutPinGazersInput {
+  update: PostUpdateWithoutPinGazersDataInput!
+  create: PostCreateWithoutPinGazersInput!
 }
 
 input PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -1437,13 +1690,14 @@ input PostWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
-  pins_every: PinnedWhereInput
-  pins_some: PinnedWhereInput
-  pins_none: PinnedWhereInput
   author: UserWhereInput
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
+  pinGazers_every: PinnedWhereInput
+  pinGazers_some: PinnedWhereInput
+  pinGazers_none: PinnedWhereInput
+  featuredBy: FeaturedWhereInput
 }
 
 input PostWhereUniqueInput {
@@ -1457,14 +1711,17 @@ enum PrismaDatabase {
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   pinneds(where: PinnedWhereInput, orderBy: PinnedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pinned]!
+  featureds(where: FeaturedWhereInput, orderBy: FeaturedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Featured]!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
   user(where: UserWhereUniqueInput!): User
   pinned(where: PinnedWhereUniqueInput!): Pinned
+  featured(where: FeaturedWhereUniqueInput!): Featured
   post(where: PostWhereUniqueInput!): Post
   comment(where: CommentWhereUniqueInput!): Comment
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   pinnedsConnection(where: PinnedWhereInput, orderBy: PinnedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PinnedConnection!
+  featuredsConnection(where: FeaturedWhereInput, orderBy: FeaturedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FeaturedConnection!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
 
@@ -1478,6 +1735,7 @@ type Query {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   pinned(where: PinnedSubscriptionWhereInput): PinnedSubscriptionPayload
+  featured(where: FeaturedSubscriptionWhereInput): FeaturedSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
 }
@@ -1488,8 +1746,9 @@ type User implements Node {
   email: String!
   password: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
-  pinnedPosts(where: PinnedWhereInput, orderBy: PinnedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pinned!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  pinnedPosts(where: PinnedWhereInput, orderBy: PinnedOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Pinned!]
+  featuredPost: Featured
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1510,12 +1769,18 @@ input UserCreateInput {
   email: String!
   password: String!
   posts: PostCreateManyWithoutAuthorInput
-  pinnedPosts: PinnedCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutAuthorInput
+  pinnedPosts: PinnedCreateManyWithoutUserInput
+  featuredPost: FeaturedCreateOneWithoutUserInput
 }
 
 input UserCreateOneWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutFeaturedPostInput {
+  create: UserCreateWithoutFeaturedPostInput
   connect: UserWhereUniqueInput
 }
 
@@ -1536,6 +1801,17 @@ input UserCreateWithoutCommentsInput {
   password: String!
   posts: PostCreateManyWithoutAuthorInput
   pinnedPosts: PinnedCreateManyWithoutUserInput
+  featuredPost: FeaturedCreateOneWithoutUserInput
+}
+
+input UserCreateWithoutFeaturedPostInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  posts: PostCreateManyWithoutAuthorInput
+  comments: CommentCreateManyWithoutAuthorInput
+  pinnedPosts: PinnedCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutPinnedPostsInput {
@@ -1545,6 +1821,7 @@ input UserCreateWithoutPinnedPostsInput {
   password: String!
   posts: PostCreateManyWithoutAuthorInput
   comments: CommentCreateManyWithoutAuthorInput
+  featuredPost: FeaturedCreateOneWithoutUserInput
 }
 
 input UserCreateWithoutPostsInput {
@@ -1552,8 +1829,9 @@ input UserCreateWithoutPostsInput {
   name: String!
   email: String!
   password: String!
-  pinnedPosts: PinnedCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutAuthorInput
+  pinnedPosts: PinnedCreateManyWithoutUserInput
+  featuredPost: FeaturedCreateOneWithoutUserInput
 }
 
 """An edge in a connection."""
@@ -1633,8 +1911,9 @@ input UserUpdateInput {
   email: String
   password: String
   posts: PostUpdateManyWithoutAuthorInput
-  pinnedPosts: PinnedUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutAuthorInput
+  pinnedPosts: PinnedUpdateManyWithoutUserInput
+  featuredPost: FeaturedUpdateOneWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -1648,6 +1927,13 @@ input UserUpdateOneRequiredWithoutCommentsInput {
   connect: UserWhereUniqueInput
   update: UserUpdateWithoutCommentsDataInput
   upsert: UserUpsertWithoutCommentsInput
+}
+
+input UserUpdateOneRequiredWithoutFeaturedPostInput {
+  create: UserCreateWithoutFeaturedPostInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutFeaturedPostDataInput
+  upsert: UserUpsertWithoutFeaturedPostInput
 }
 
 input UserUpdateOneRequiredWithoutPinnedPostsInput {
@@ -1670,6 +1956,16 @@ input UserUpdateWithoutCommentsDataInput {
   password: String
   posts: PostUpdateManyWithoutAuthorInput
   pinnedPosts: PinnedUpdateManyWithoutUserInput
+  featuredPost: FeaturedUpdateOneWithoutUserInput
+}
+
+input UserUpdateWithoutFeaturedPostDataInput {
+  name: String
+  email: String
+  password: String
+  posts: PostUpdateManyWithoutAuthorInput
+  comments: CommentUpdateManyWithoutAuthorInput
+  pinnedPosts: PinnedUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutPinnedPostsDataInput {
@@ -1678,19 +1974,26 @@ input UserUpdateWithoutPinnedPostsDataInput {
   password: String
   posts: PostUpdateManyWithoutAuthorInput
   comments: CommentUpdateManyWithoutAuthorInput
+  featuredPost: FeaturedUpdateOneWithoutUserInput
 }
 
 input UserUpdateWithoutPostsDataInput {
   name: String
   email: String
   password: String
-  pinnedPosts: PinnedUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutAuthorInput
+  pinnedPosts: PinnedUpdateManyWithoutUserInput
+  featuredPost: FeaturedUpdateOneWithoutUserInput
 }
 
 input UserUpsertWithoutCommentsInput {
   update: UserUpdateWithoutCommentsDataInput!
   create: UserCreateWithoutCommentsInput!
+}
+
+input UserUpsertWithoutFeaturedPostInput {
+  update: UserUpdateWithoutFeaturedPostDataInput!
+  create: UserCreateWithoutFeaturedPostInput!
 }
 
 input UserUpsertWithoutPinnedPostsInput {
@@ -1919,12 +2222,13 @@ input UserWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
-  pinnedPosts_every: PinnedWhereInput
-  pinnedPosts_some: PinnedWhereInput
-  pinnedPosts_none: PinnedWhereInput
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
+  pinnedPosts_every: PinnedWhereInput
+  pinnedPosts_some: PinnedWhereInput
+  pinnedPosts_none: PinnedWhereInput
+  featuredPost: FeaturedWhereInput
 }
 
 input UserWhereUniqueInput {
