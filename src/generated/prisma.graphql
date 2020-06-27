@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Jun 27 2020 09:14:22 GMT+0900 (Korean Standard Time)
+# timestamp: Sat Jun 27 2020 18:45:14 GMT+0900 (Korean Standard Time)
 
 type AggregateComment {
   count: Int!
@@ -548,6 +548,7 @@ type Post implements Node {
   title: String!
   body: String!
   published: Boolean!
+  allowComments: Boolean!
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   createdAt: DateTime!
@@ -569,6 +570,7 @@ input PostCreateInput {
   title: String!
   body: String!
   published: Boolean
+  allowComments: Boolean
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
 }
@@ -588,6 +590,7 @@ input PostCreateWithoutAuthorInput {
   title: String!
   body: String!
   published: Boolean
+  allowComments: Boolean
   comments: CommentCreateManyWithoutPostInput
 }
 
@@ -596,6 +599,7 @@ input PostCreateWithoutCommentsInput {
   title: String!
   body: String!
   published: Boolean
+  allowComments: Boolean
   author: UserCreateOneWithoutPostsInput!
 }
 
@@ -617,6 +621,8 @@ enum PostOrderByInput {
   body_DESC
   published_ASC
   published_DESC
+  allowComments_ASC
+  allowComments_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -628,6 +634,7 @@ type PostPreviousValues {
   title: String!
   body: String!
   published: Boolean!
+  allowComments: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -765,6 +772,10 @@ input PostScalarWhereInput {
 
   """All values that are not equal to given value."""
   published_not: Boolean
+  allowComments: Boolean
+
+  """All values that are not equal to given value."""
+  allowComments_not: Boolean
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -854,6 +865,7 @@ input PostUpdateInput {
   title: String
   body: String
   published: Boolean
+  allowComments: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
   comments: CommentUpdateManyWithoutPostInput
 }
@@ -862,12 +874,14 @@ input PostUpdateManyDataInput {
   title: String
   body: String
   published: Boolean
+  allowComments: Boolean
 }
 
 input PostUpdateManyMutationInput {
   title: String
   body: String
   published: Boolean
+  allowComments: Boolean
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -898,6 +912,7 @@ input PostUpdateWithoutAuthorDataInput {
   title: String
   body: String
   published: Boolean
+  allowComments: Boolean
   comments: CommentUpdateManyWithoutPostInput
 }
 
@@ -905,6 +920,7 @@ input PostUpdateWithoutCommentsDataInput {
   title: String
   body: String
   published: Boolean
+  allowComments: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
 }
 
@@ -1057,6 +1073,10 @@ input PostWhereInput {
 
   """All values that are not equal to given value."""
   published_not: Boolean
+  allowComments: Boolean
+
+  """All values that are not equal to given value."""
+  allowComments_not: Boolean
   createdAt: DateTime
 
   """All values that are not equal to given value."""

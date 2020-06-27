@@ -38,7 +38,8 @@ const Query = {
     return {
       title: 'a new post',
       body: '',
-      published: true,
+      published: false,
+      allowComments: true,
     }
   },
   comments(parent, args, { prisma }, info) {

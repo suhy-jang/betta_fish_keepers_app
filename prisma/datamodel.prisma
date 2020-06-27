@@ -14,6 +14,7 @@ type Post {
   title: String!
   body: String!
   published: Boolean! @default(value: false)
+  allowComments: Boolean! @default(value: true)
   author: User! @relation(name: "PostToUser", onDelete: SET_NULL)
   comments: [Comment!]! @relation(name: "CommentToPost", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
