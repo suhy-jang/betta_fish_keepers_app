@@ -83,7 +83,7 @@ type User {
   name: String!
   email: String
   password: String!
-  pinnedPost: [Pinned!]!
+  pinnedPosts: [Pinned!]!
   featuredPost: Featured
   posts: [Post!]!
   comments: [Comment!]!
@@ -110,7 +110,7 @@ type Post {
   published: Boolean!
   allowComments: Boolean!
   featuredBy: Featured
-  pins: [Pinned!]!
+  pinGazers: [Pinned!]!
   author: User!
   comments: [Comment!]!
   createdAt: String!

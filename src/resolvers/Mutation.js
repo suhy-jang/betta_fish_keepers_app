@@ -159,6 +159,71 @@ const Mutation = {
       info,
     )
   },
+  async pinPost(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    const data = await prisma.mutation.createPinned(
+      {
+        data: {
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+          post: {
+            connect: {
+              id: args.id,
+            },
+          },
+        },
+      },
+      info,
+    )
+
+    if (!data.id) {
+      throw new Error('Unable to pin post')
+    }
+
+    return prisma.query.post({
+      where: {
+        id: args.id,
+      },
+    })
+  },
+  async featurePost(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    const { data } = await prisma.mutation.createFeatured(
+      {
+        data: {
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+          post: {
+            connect: {
+              id: args.id,
+            },
+          },
+        },
+      },
+      info,
+    )
+
+    if (!data || !data.createFeatured) {
+      throw new Error('Unable to pin post')
+    }
+
+    return prisma.query.featured(
+      {
+        where: {
+          id: data.createFeatured.id,
+        },
+      },
+      info,
+    )
+  },
   async createComment(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
 
