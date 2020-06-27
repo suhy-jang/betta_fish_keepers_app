@@ -80,10 +80,17 @@ type User {
   name: String!
   email: String
   password: String!
+  pinnedPost: [Pinned!]!
   posts: [Post!]!
   comments: [Comment!]!
   createdAt: String!
   updatedAt: String!
+}
+
+type Pinned {
+  id: ID!
+  user: User!
+  post: Post!
 }
 
 type Post {
@@ -92,6 +99,7 @@ type Post {
   body: String!
   published: Boolean!
   allowComments: Boolean!
+  pins: [Pinned!]!
   author: User!
   comments: [Comment!]!
   createdAt: String!
