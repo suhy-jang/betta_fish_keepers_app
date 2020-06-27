@@ -42,7 +42,13 @@ const Query = {
     }
   },
   comments(parent, args, { prisma }, info) {
-    return prisma.query.comments({})
+    const opArgs = {}
+    if (args.query) {
+      opArgs.where = {
+        text_contains: args.query,
+      }
+    }
+    return prisma.query.comments(opArgs, info)
   },
 }
 
