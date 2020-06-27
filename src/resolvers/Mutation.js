@@ -159,41 +159,25 @@ const Mutation = {
       info,
     )
   },
-  async pinPost(parent, args, { prisma, request }, info) {
+  async createPinned(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
 
-    const data = await prisma.mutation.createPinned(
-      {
-        data: {
-          user: {
-            connect: {
-              id: userId,
-            },
-          },
-          post: {
-            connect: {
-              id: args.id,
-            },
-          },
-        },
-      },
-      info,
-    )
-
-    if (!data.id) {
-      throw new Error('Unable to pin post')
-    }
-
-    return prisma.query.post({
+    const [pinExists] = await prisma.query.pinneds({
       where: {
-        id: args.id,
+        user: {
+          id: userId,
+        },
+        post: {
+          id: args.id,
+        },
       },
     })
-  },
-  async featurePost(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request)
 
-    const { data } = await prisma.mutation.createFeatured(
+    if (pinExists) {
+      throw new Error('Unable to create pinned post')
+    }
+
+    return prisma.mutation.createPinned(
       {
         data: {
           user: {
@@ -210,15 +194,104 @@ const Mutation = {
       },
       info,
     )
+  },
+  async deletePinned(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
 
-    if (!data || !data.createFeatured) {
-      throw new Error('Unable to pin post')
+    const [pinExists] = await prisma.query.pinneds({
+      where: {
+        user: {
+          id: userId,
+        },
+        post: {
+          id: args.id,
+        },
+      },
+    })
+
+    if (!pinExists) {
+      throw new Error('Unable to delete pinned post')
     }
 
-    return prisma.query.featured(
+    return prisma.mutation.deletePinned(
       {
         where: {
-          id: data.createFeatured.id,
+          id: pinExists.id,
+        },
+      },
+      info,
+    )
+  },
+  async createFeatured(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    const [featureExists] = await prisma.query.featureds({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    })
+
+    const [postExists] = await prisma.query.posts({
+      where: {
+        id: args.id,
+        author: {
+          id: userId,
+        },
+      },
+    })
+
+    if (featureExists || !postExists) {
+      throw new Error('Unable to create featured post')
+    }
+
+    return prisma.mutation.createFeatured(
+      {
+        data: {
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+          post: {
+            connect: {
+              id: args.id,
+            },
+          },
+        },
+      },
+      info,
+    )
+  },
+  async deleteFeatured(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request)
+
+    const [featureExists] = await prisma.query.featureds({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    })
+
+    const [postExists] = await prisma.query.posts({
+      where: {
+        id: args.id,
+        author: {
+          id: userId,
+        },
+      },
+    })
+
+    if (!featureExists || !postExists) {
+      throw new Error('Unable to delete featured post')
+    }
+
+    return prisma.mutation.deleteFeatured(
+      {
+        where: {
+          id: featureExists.id,
         },
       },
       info,

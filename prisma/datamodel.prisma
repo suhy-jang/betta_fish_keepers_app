@@ -6,15 +6,15 @@ type User {
   posts: [Post!]! @relation(name: "PostToUser", onDelete: CASCADE)
   comments: [Comment!]! @relation(name: "CommentToUser", onDelete: CASCADE)
   pinnedPosts: [Pinned!]! @relation(name: "PinnedToUser", onDelete: CASCADE)
-  featuredPost: Featured @relation(name: "FeaturedToUser", onDelete: CASCADE)
+  featuredPost: Featured @unique @relation(name: "FeaturedToUser", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
 type Pinned {
   id: ID! @id
-  user: User! @relation(name: "PinnedToUser", onDelete: SET_NULL)
-  post: Post! @relation(name: "PinnedToPost", onDelete: SET_NULL)
+  user: User! @relation(link: INLINE, name: "PinnedToUser")
+  post: Post! @relation(link: INLINE, name: "PinnedToPost")
 }
 
 type Featured {
@@ -32,7 +32,7 @@ type Post {
   author: User! @relation(name: "PostToUser", onDelete: SET_NULL)
   comments: [Comment!]! @relation(name: "CommentToPost", onDelete: CASCADE)
   pinGazers: [Pinned!]! @relation(name: "PinnedToPost", onDelete: CASCADE)
-  featuredBy: Featured @relation(name: "FeaturedToPost", onDelete: CASCADE)
+  featuredBy: Featured @unique @relation(name: "FeaturedToPost", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

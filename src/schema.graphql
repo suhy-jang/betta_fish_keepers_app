@@ -22,8 +22,10 @@ type Mutation {
   createPost(data: CreatePostInput!): Post!
   deletePost(id: ID!): Post!
   updatePost(id: ID!, data: UpdatePostInput!): Post!
-  pinPost(id: ID!): Post!
-  featurePost(id: ID!): Post!
+  createPinned(id: ID!): Pinned!
+  createFeatured(id: ID!): Featured!
+  deletePinned(id: ID!): Pinned!
+  deleteFeatured(id: ID!): Featured!
   createComment(data: CreateCommentInput!): Comment!
   updateComment(id: ID!, data: UpdateCommentInput!): Comment!
   deleteComment(id: ID!): Comment!
@@ -66,7 +68,6 @@ input UpdatePostInput {
   body: String
   published: Boolean
   allowComments: Boolean
-  featured: Boolean
 }
 
 input CreateCommentInput {
