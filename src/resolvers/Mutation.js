@@ -15,12 +15,15 @@ const Mutation = {
       throw new Error('Email already taken.')
     }
 
-    const user = await prisma.mutation.createUser({
-      data: {
-        ...args.data,
-        password,
+    const user = await prisma.mutation.createUser(
+      {
+        data: {
+          ...args.data,
+          password,
+        },
       },
-    })
+      info,
+    )
 
     return {
       user,
@@ -343,12 +346,15 @@ const Mutation = {
       throw new Error('Unable to update comment')
     }
 
-    return prisma.mutation.updateComment({
-      where: {
-        id: args.id,
+    return prisma.mutation.updateComment(
+      {
+        where: {
+          id: args.id,
+        },
+        data: args.data,
       },
-      data: args.data,
-    })
+      info,
+    )
   },
   async deleteComment(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
@@ -364,11 +370,14 @@ const Mutation = {
       throw new Error('Unable to delete comment')
     }
 
-    return prisma.mutation.deleteComment({
-      where: {
-        id: args.id,
+    return prisma.mutation.deleteComment(
+      {
+        where: {
+          id: args.id,
+        },
       },
-    })
+      info,
+    )
   },
 }
 

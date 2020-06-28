@@ -34,13 +34,31 @@ const Query = {
       info,
     )
   },
-  post(parent, args, ctx, info) {
-    return {
-      title: 'a new post',
-      body: '',
-      published: false,
-      allowComments: true,
+  async post(parent, args, { prisma, request }, info) {
+    const userId = getUserId(request, false)
+
+    const posts = await prisma.query.posts(
+      {
+        where: {
+          id: args.id,
+          OR: [
+            {
+              published: true,
+            },
+            {
+              author: { id: userId },
+            },
+          ],
+        },
+      },
+      info,
+    )
+
+    if (posts.length === 0) {
+      throw new Error('Post not found')
     }
+
+    return posts[0]
   },
   comments(parent, args, { prisma }, info) {
     const opArgs = {}
