@@ -9,6 +9,7 @@ type Query {
     orderBy: UserOrderByInput
   ): [User!]!
   posts(query: String): [Post!]!
+  myPosts(query: String): [Post!]!
   comments(query: String): [Comment!]!
   me: User!
   post(id: ID!): Post!
