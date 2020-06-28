@@ -16,6 +16,10 @@ const Query = {
   },
   posts(parent, args, { prisma }, info) {
     const opArgs = {
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy,
       where: {
         published: true,
       },
@@ -34,6 +38,10 @@ const Query = {
     const userId = getUserId(request)
 
     const opArgs = {
+      first: args.first,
+      skip: args.skip,
+      after: args.after,
+      orderBy: args.orderBy,
       where: {
         author: {
           id: userId,
