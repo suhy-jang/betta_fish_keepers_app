@@ -15,12 +15,16 @@ type Pinned {
   id: ID! @id
   user: User! @relation(link: INLINE, name: "PinnedToUser")
   post: Post! @relation(link: INLINE, name: "PinnedToPost")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Featured {
   id: ID! @id
   user: User! @relation(link: INLINE, name: "FeaturedToUser")
   post: Post! @relation(link: INLINE, name: "FeaturedToPost")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Post {

@@ -15,18 +15,15 @@ Create the backend for a Betta-fish-keepers community. All of the functionality 
   - Field validation via Prisma
 - Update posts
   - Owner only
+  - Enable / Disable comments
   - Validation on update
 - Delete post
-  - Owner only
-- Enable / Disable comments
   - Owner only
 
 ### Comments
 
-- List all comments for a post
+- List all comments in general, for a post
   - Pagination, Keyword-search, etc
-- List all comments in general
-  - Keyword-search
 - Create a comment
   - Authenticated users only
 - Update comment
@@ -53,12 +50,11 @@ Create the backend for a Betta-fish-keepers community. All of the functionality 
   - Route to get the currently logged in user (via token)
 - Update user info, Delete user
   - Authenticated user only
-- User CRUD
-  - Admin only
-- List created, pinned posts / featured post for an user
+- Users index
+  - Allow public search with hidden email
+- List created posts, pinned posts, featured post for each user
   - featured post is written by same user and should be only one
   - pinned posts are written by anyone and the list can be up to 6
-- Users can only be made admin by updating the database field manually
 
 ## Security
 
