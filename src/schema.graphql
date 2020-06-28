@@ -31,8 +31,10 @@ type Mutation {
   deleteComment(id: ID!): Comment!
 }
 
-# type Subscription {
-# }
+type Subscription {
+  post: PostSubscriptionPayload!
+  comment: CommentSubscriptionPayload!
+}
 
 type AuthPayload {
   token: String!
@@ -131,4 +133,14 @@ enum MutationType {
   CREATED
   DELETED
   UPDATED
+}
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  node: Post
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  node: Comment
 }

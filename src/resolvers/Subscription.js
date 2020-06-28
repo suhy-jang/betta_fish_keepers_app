@@ -1,5 +1,36 @@
 import getUserId from '../utils/getUserId'
 
-const Subscription = {}
+const Subscription = {
+  post: {
+    subscribe(parent, args, { prisma }, info) {
+      return prisma.subscription.post(
+        {
+          where: {
+            node: {
+              published: true,
+            },
+          },
+        },
+        info,
+      )
+    },
+  },
+  comment: {
+    subscribe(parent, args, { prisma }, info) {
+      return prisma.subscription.comment(
+        {
+          where: {
+            node: {
+              post: {
+                id: args.postId,
+              },
+            },
+          },
+        },
+        info,
+      )
+    },
+  },
+}
 
 export { Subscription as default }
