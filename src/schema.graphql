@@ -30,6 +30,7 @@ type Query {
     orderBy: CommentOrderByInput
   ): [Comment!]!
   me: User!
+  user(id: ID!): User!
   post(id: ID!): Post!
 }
 
