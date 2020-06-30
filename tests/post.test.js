@@ -5,6 +5,7 @@ import prisma from '../src/prisma'
 import seedDatabase, {
   userOne,
   userTwo,
+  postCreate,
   postOne,
   postTwo,
   postThree,
@@ -32,7 +33,28 @@ test('Should expose published posts', async () => {
   expect(response.data.posts[1].published).toBe(true)
 })
 
-test('Should create multiple pinned post', async () => {
+test('Should not create multiple pinned post for same post', async () => {
+  const client = getClient(userTwo.jwt)
+  const variables = {
+    id: postOne.post.id,
+  }
+
+  expect(
+    await client.mutate({
+      mutation: createPinnedPost,
+      variables,
+    }),
+  ).toHaveProperty('data.createPinned.id')
+
+  await expect(
+    client.mutate({
+      mutation: createPinnedPost,
+      variables,
+    }),
+  ).rejects.toThrow()
+})
+
+test('Should create multiple pinned post for different posts', async () => {
   let client = getClient(userTwo.jwt)
   const variables = {
     id: postOne.post.id,
