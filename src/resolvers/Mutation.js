@@ -162,20 +162,20 @@ const Mutation = {
   async createPinned(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
 
-    const pinGazers = await prisma.query.pinneds(
+    const pinnedPosts = await prisma.query.pinneds(
       {
         where: {
-          post: {
-            id: args.id,
+          user: {
+            id: userId,
           },
         },
       },
-      `{ user { id }}`,
+      `{ post { id } }`,
     )
 
-    const pinExists = pinGazers.some(e => e.user.id === userId)
+    const pinExists = pinnedPosts.some(e => e.post.id === args.id)
 
-    if (pinGazers.length >= 6 || pinExists) {
+    if (pinnedPosts.length >= 6 || pinExists) {
       throw new Error('Unable to pin post')
     }
 
