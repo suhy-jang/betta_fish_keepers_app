@@ -24,6 +24,16 @@ const userTwo = {
   jwt: undefined,
 }
 
+const userThree = {
+  input: {
+    name: 'Maurice Moss',
+    email: 'moss@example.org',
+    password: bcrypt.hashSync('foobar123'),
+  },
+  user: undefined,
+  jwt: undefined,
+}
+
 const postOne = {
   input: {
     title: 'How cold is too cold for a betta fish?',
@@ -54,6 +64,20 @@ const postThree = {
   post: undefined,
 }
 
+const commentOne = {
+  input: {
+    text: 'You have to check the water condition.',
+  },
+  comment: undefined,
+}
+
+const commentTwo = {
+  input: {
+    text: "Above 23°C, that's fine.",
+  },
+  comment: undefined,
+}
+
 const seedDatabase = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL *= 10
 
@@ -74,6 +98,16 @@ const seedDatabase = async () => {
   })
 
   userTwo.jwt = jwt.sign({ userId: userTwo.user.id }, process.env.JWT_SECRET)
+
+  // Create user three
+  userThree.user = await prisma.mutation.createUser({
+    data: userThree.input,
+  })
+
+  userThree.jwt = jwt.sign(
+    { userId: userThree.user.id },
+    process.env.JWT_SECRET,
+  )
 
   // Create post one
   postOne.post = await prisma.mutation.createPost({
@@ -110,13 +144,49 @@ const seedDatabase = async () => {
       },
     },
   })
+
+  // Create comment one
+  commentOne.comment = await prisma.mutation.createComment({
+    data: {
+      ...commentOne.input,
+      author: {
+        connect: {
+          id: userOne.user.id,
+        },
+      },
+      post: {
+        connect: {
+          id: postThree.post.id,
+        },
+      },
+    },
+  })
+  // Create comment two
+  commentTwo.comment = await prisma.mutation.createComment({
+    data: {
+      ...commentTwo.input,
+      author: {
+        connect: {
+          id: userTwo.user.id,
+        },
+      },
+      post: {
+        connect: {
+          id: postOne.post.id,
+        },
+      },
+    },
+  })
 }
 
 export {
   seedDatabase as default,
   userOne,
   userTwo,
+  userThree,
   postOne,
   postTwo,
   postThree,
+  commentOne,
+  commentTwo,
 }
