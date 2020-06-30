@@ -1,0 +1,9 @@
+# prisma service
+https://app.prisma.io/: create a prisma service, create heroku endpoint
+$ prisma deploy -e ../config/prod.env
+
+# heroku config
+$ heroku create <APP_NAME>
+$ heroku config:set PRISMA_ENDPOINT=xxx PRISMA_SECRET=xxx JWT_SECRET=xxx
+$ heroku config
+$ git push heroku master
