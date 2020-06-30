@@ -170,7 +170,7 @@ const Mutation = {
           },
         },
       },
-      info,
+      `{ user { id }}`,
     )
 
     const pinExists = pinGazers.some(e => e.user.id === userId)
