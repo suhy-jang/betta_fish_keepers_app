@@ -43,4 +43,39 @@ const getProfile = gql`
   }
 `
 
-export { createUser, getUsers, login, getProfile }
+const getPosts = gql`
+  query {
+    posts {
+      id
+      title
+      body
+      published
+    }
+  }
+`
+
+const createPinnedPost = gql`
+  mutation($id: ID!) {
+    createPinned(id: $id) {
+      id
+    }
+  }
+`
+
+const createFeaturedPost = gql`
+  mutation($id: ID!) {
+    createFeatured(id: $id) {
+      id
+    }
+  }
+`
+
+export {
+  createUser,
+  getUsers,
+  login,
+  getProfile,
+  getPosts,
+  createPinnedPost,
+  createFeaturedPost,
+}

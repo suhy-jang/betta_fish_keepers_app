@@ -30,14 +30,6 @@ test('Should create a new user', async () => {
   expect(exists).toBe(true)
 })
 
-test('Should expose public author profiles', async () => {
-  const response = await client.query({ query: getUsers })
-
-  expect(response.data.users.length).toBe(2)
-  expect(response.data.users[0].email).toBe(null)
-  expect(response.data.users[0].name).toBe('Jen')
-})
-
 test('Should not login with bad credentials', async () => {
   const variables = {
     data: {
@@ -67,4 +59,12 @@ test('Should fetch user profile', async () => {
   expect(data.me.id).toBe(userOne.user.id)
   expect(data.me.name).toBe(userOne.user.name)
   expect(data.me.email).toBe(userOne.user.email)
+})
+
+test('Should expose public author profiles', async () => {
+  const response = await client.query({ query: getUsers })
+
+  expect(response.data.users.length).toBe(2)
+  expect(response.data.users[0].email).toBe(null)
+  expect(response.data.users[0].name).toBe('Jen Barber')
 })

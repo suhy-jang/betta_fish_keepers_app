@@ -6,7 +6,7 @@ import prisma from '../../src/prisma'
 
 const userOne = {
   input: {
-    name: 'Jen',
+    name: 'Jen Barber',
     email: 'jen@example.org',
     password: bcrypt.hashSync('foobar123'),
   },
@@ -16,18 +16,49 @@ const userOne = {
 
 const userTwo = {
   input: {
-    name: 'Ram',
-    email: 'ram@example.org',
+    name: 'Roy Trenneman',
+    email: 'roy@example.org',
     password: bcrypt.hashSync('foobar123'),
   },
   user: undefined,
   jwt: undefined,
 }
 
+const postOne = {
+  input: {
+    title: 'How cold is too cold for a betta fish?',
+    body: 'Winter is coming. I worry so much.',
+    published: true,
+    allowComments: true,
+  },
+  post: undefined,
+}
+
+const postTwo = {
+  input: {
+    title: 'Here are tips how you make your betta happy',
+    body: '1. xxx    2. xxx   3. xxx',
+    published: true,
+    allowComments: false,
+  },
+  post: undefined,
+}
+
+const postThree = {
+  input: {
+    title: 'Does my betta get sick?',
+    body: "He doesn't swim at all",
+    published: false,
+    allowComments: true,
+  },
+  post: undefined,
+}
+
 const seedDatabase = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL *= 10
 
   // Delete test data
+  await prisma.mutation.deleteManyPosts()
   await prisma.mutation.deleteManyUsers()
 
   // Create user one
@@ -43,6 +74,49 @@ const seedDatabase = async () => {
   })
 
   userTwo.jwt = jwt.sign({ userId: userTwo.user.id }, process.env.JWT_SECRET)
+
+  // Create post one
+  postOne.post = await prisma.mutation.createPost({
+    data: {
+      ...postOne.input,
+      author: {
+        connect: {
+          id: userOne.user.id,
+        },
+      },
+    },
+  })
+
+  // Create post two
+  postTwo.post = await prisma.mutation.createPost({
+    data: {
+      ...postTwo.input,
+      author: {
+        connect: {
+          id: userTwo.user.id,
+        },
+      },
+    },
+  })
+
+  // Create post three
+  postThree.post = await prisma.mutation.createPost({
+    data: {
+      ...postThree.input,
+      author: {
+        connect: {
+          id: userTwo.user.id,
+        },
+      },
+    },
+  })
 }
 
-export { seedDatabase as default, userOne, userTwo }
+export {
+  seedDatabase as default,
+  userOne,
+  userTwo,
+  postOne,
+  postTwo,
+  postThree,
+}
