@@ -1,6 +1,6 @@
 # Betta-fish-keepers Backend API Specifications
 
-Create the backend for a Betta-fish-keepers community. All of the functionality below needs to be fully implmented in this project.
+Create the backend for a Betta-fish-keepers community. All of the functionality below needs to be fully implemented in this project.
 
 ### Posts
 
@@ -10,6 +10,7 @@ Create the backend for a Betta-fish-keepers community. All of the functionality 
   - Limit number of results
   - Order by fields
 - Get single post
+  - Author email should be hidden for the other users
 - Create new post
   - Authenticated users only
   - Field validation via Prisma
@@ -34,27 +35,24 @@ Create the backend for a Betta-fish-keepers community. All of the functionality 
 
 ### Users & Authentication
 
-- Authentication will be done using JWT/cookies
-  - JWT and cookie should expire in 24 hours
+- Authentication will be done using JWT
+  - JWT should expire in 24 hours
 - User registration
-  - Register as a "user"
-  - Once registered, a token will be sent along with a cookie (token = xxx)
+  - Once registered, a token will be sent along with user info
   - Passwords must be hashed
 - User login
   - User can login with email and password
   - Plain text password will compare with stored hashed password
-  - Once logged in, a token will be sent along with a cookie (token = xxx)
-- User logout
-  - Cookie will be sent to set token = none
-- Get user
-  - Route to get the currently logged in user (via token)
+  - Once logged in, a token will be sent along with user info
+- Get me
+  - Get info of currently logged in user (via token)
 - Update user info, Delete user
   - Authenticated user only
 - Users index
-  - Allow public search with hidden email
+  - Allow public search by name
 - List created posts, pinned posts, featured post for each user
-  - featured post is written by same user and should be only one
-  - pinned posts are written by anyone and the list can be up to 6
+  - Post author can feature a post and should be only one
+  - Every user can have any pinned posts up to 6
 
 ## Security
 
@@ -76,16 +74,15 @@ Create the backend for a Betta-fish-keepers community. All of the functionality 
 
 ## Deployment (Heroku)
 
-- Push to Github
-- Clone repo on to server
+- Create dev, prod server
+- Create a new heroku app for Graphql playground
 
 ## Code Related Suggestions
 
 - NPM scripts for dev and production env
 - Config file for important constants
-- Use controller methods with documented descriptions/routes
-- Error handling middleware
-- Authentication middleware for protecting routes and setting user roles
+- Use query, mutation, subscription methods with documented descriptions
+- Authentication method to give permission
 - Validation using Prisma and no external libraries
-- Use async/await (create fragment to clean up controller methods)
-- Create a database seeder to import and destroy data
+- Use async/await for prisma CRUD
+- Use resolver using fragment to clean up query methods
