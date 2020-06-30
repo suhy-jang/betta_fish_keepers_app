@@ -12,13 +12,13 @@ import seedDatabase, {
 } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import {
-  createUser,
-  getUsers,
-  login,
-  getProfile,
   getPosts,
   createPinnedPost,
   createFeaturedPost,
+  myPosts,
+  updatePost,
+  createPost,
+  deletePost,
 } from './utils/operations'
 
 const client = getClient()
@@ -31,6 +31,58 @@ test('Should expose published posts', async () => {
   expect(response.data.posts.length).toBe(2)
   expect(response.data.posts[0].published).toBe(true)
   expect(response.data.posts[1].published).toBe(true)
+})
+
+test('Should fetch users posts', async () => {
+  const client = getClient(userOne.jwt)
+  const { data } = await client.query({ query: myPosts })
+  expect(data.myPosts.length).toBe(1)
+})
+
+test('Should update own post', async () => {
+  const client = getClient(userTwo.jwt)
+  const variables = {
+    id: postThree.post.id,
+    data: { published: true },
+  }
+  const { data } = await client.mutate({
+    mutation: updatePost,
+    variables,
+  })
+
+  const exists = await prisma.exists.Post({
+    id: postThree.post.id,
+    published: true,
+  })
+  expect(data).toHaveProperty('updatePost')
+  expect(data.updatePost.published).toBe(true)
+  expect(exists).toBe(true)
+})
+
+test('Should create a new post', async () => {
+  const client = getClient(userOne.jwt)
+  const variables = {
+    data: {
+      title: 'Why my betta fish is blowing bubbles',
+      body: '',
+      published: true,
+      allowComments: true,
+    },
+  }
+  const { data } = await client.mutate({ mutation: createPost, variables })
+  expect(data).toHaveProperty('createPost')
+  expect(data.createPost).toMatchObject(variables.data)
+})
+
+test('Should delete a post', async () => {
+  const client = getClient(userTwo.jwt)
+  const variables = {
+    id: postTwo.post.id,
+  }
+  const { data } = await client.mutate({ mutation: deletePost, variables })
+  expect(data).toHaveProperty('deletePost')
+  const exists = await prisma.exists.Post({ id: postTwo.post.id })
+  expect(exists).toBe(false)
 })
 
 test('Should not create multiple pinned post for same post', async () => {

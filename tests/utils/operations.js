@@ -70,6 +70,59 @@ const createFeaturedPost = gql`
   }
 `
 
+const myPosts = gql`
+  query {
+    myPosts {
+      id
+      title
+      body
+      published
+      allowComments
+      pinGazers {
+        user {
+          id
+          name
+        }
+      }
+      featuredBy {
+        id
+      }
+    }
+  }
+`
+
+const updatePost = gql`
+  mutation($id: ID!, $data: UpdatePostInput!) {
+    updatePost(id: $id, data: $data) {
+      id
+      title
+      body
+      published
+      allowComments
+    }
+  }
+`
+
+const createPost = gql`
+  mutation($data: CreatePostInput!) {
+    createPost(data: $data) {
+      id
+      title
+      body
+      published
+      allowComments
+    }
+  }
+`
+
+const deletePost = gql`
+  mutation($id: ID!) {
+    deletePost(id: $id) {
+      id
+    }
+  }
+`
+
 export {
   createUser,
   getUsers,
@@ -78,4 +131,8 @@ export {
   getPosts,
   createPinnedPost,
   createFeaturedPost,
+  myPosts,
+  updatePost,
+  createPost,
+  deletePost,
 }

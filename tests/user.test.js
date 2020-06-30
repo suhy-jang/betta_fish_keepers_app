@@ -23,6 +23,8 @@ test('Should create a new user', async () => {
     variables,
   })
 
+  expect(response).toHaveProperty('data.createUser')
+
   const exists = await prisma.exists.User({
     id: response.data.createUser.user.id,
   })
@@ -56,15 +58,17 @@ test('Should not signup user with invalid password', async () => {
 test('Should fetch user profile', async () => {
   const client = getClient(userOne.jwt)
   const { data } = await client.query({ query: getProfile })
+  expect(data).toHaveProperty('me')
   expect(data.me.id).toBe(userOne.user.id)
   expect(data.me.name).toBe(userOne.user.name)
   expect(data.me.email).toBe(userOne.user.email)
 })
 
 test('Should expose public author profiles', async () => {
-  const response = await client.query({ query: getUsers })
+  const { data } = await client.query({ query: getUsers })
 
-  expect(response.data.users.length).toBe(2)
-  expect(response.data.users[0].email).toBe(null)
-  expect(response.data.users[0].name).toBe('Jen Barber')
+  expect(data).toHaveProperty('users')
+  expect(data.users.length).toBe(2)
+  expect(data.users[0].email).toBe(null)
+  expect(data.users[0].name).toBe('Jen Barber')
 })
