@@ -54,16 +54,6 @@ Create the backend for a Betta-fish-keepers community. All of the functionality 
   - Post author can feature a post and should be only one
   - Every user can have any pinned posts up to 6
 
-## Security
-
-- Encrypt passwords and reset tokens
-- Prevent cross site scripting - XSS
-- Prevent NoSQL injections
-- Add a rate limit for requests of 100 requests per 10 minutes
-- Protect against http param polution
-- Add headers for security (helmet)
-- Use cors to make API public (for now)
-
 ## Test
 
 - Test with jest
