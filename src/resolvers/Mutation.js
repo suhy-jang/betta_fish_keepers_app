@@ -15,15 +15,12 @@ const Mutation = {
       throw new Error('Email already taken.')
     }
 
-    const user = await prisma.mutation.createUser(
-      {
-        data: {
-          ...args.data,
-          password,
-        },
+    const user = await prisma.mutation.createUser({
+      data: {
+        ...args.data,
+        password,
       },
-      info,
-    )
+    })
 
     return {
       user,
@@ -165,19 +162,21 @@ const Mutation = {
   async createPinned(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
 
-    const [pinExists] = await prisma.query.pinneds({
-      where: {
-        user: {
-          id: userId,
-        },
-        post: {
-          id: args.id,
+    const pinGazers = await prisma.query.pinneds(
+      {
+        where: {
+          post: {
+            id: args.id,
+          },
         },
       },
-    })
+      info,
+    )
 
-    if (pinExists) {
-      throw new Error('Unable to create pinned post')
+    const pinExists = pinGazers.some(e => e.user.id === userId)
+
+    if (pinGazers.length >= 6 || pinExists) {
+      throw new Error('Unable to pin post')
     }
 
     return prisma.mutation.createPinned(
@@ -213,7 +212,7 @@ const Mutation = {
     })
 
     if (!pinExists) {
-      throw new Error('Unable to delete pinned post')
+      throw new Error('Unable to unpin post')
     }
 
     return prisma.mutation.deletePinned(
@@ -246,7 +245,7 @@ const Mutation = {
     })
 
     if (featureExists || !postExists) {
-      throw new Error('Unable to create featured post')
+      throw new Error('Unable to feature post')
     }
 
     return prisma.mutation.createFeatured(
@@ -288,7 +287,7 @@ const Mutation = {
     })
 
     if (!featureExists || !postExists) {
-      throw new Error('Unable to delete featured post')
+      throw new Error('Unable to unfeature post')
     }
 
     return prisma.mutation.deleteFeatured(
@@ -359,10 +358,23 @@ const Mutation = {
   async deleteComment(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
 
-    const commentExists = await prisma.exists.Comment({
-      id: args.id,
-      author: {
-        id: userId,
+    const [commentExists] = await prisma.query.comments({
+      where: {
+        id: args.id,
+        OR: [
+          {
+            author: {
+              id: userId,
+            },
+          },
+          {
+            post: {
+              author: {
+                id: userId,
+              },
+            },
+          },
+        ],
       },
     })
 
