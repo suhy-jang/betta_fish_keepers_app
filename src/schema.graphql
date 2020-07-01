@@ -53,7 +53,7 @@ type Mutation {
 
 type Subscription {
   post: PostSubscriptionPayload!
-  comment: CommentSubscriptionPayload!
+  comment(postId: ID!): CommentSubscriptionPayload!
   myPost: PostSubscriptionPayload!
 }
 
