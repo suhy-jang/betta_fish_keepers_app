@@ -2,14 +2,7 @@ import 'core-js/stable'
 import 'cross-fetch/polyfill'
 import 'regenerator-runtime/runtime'
 import prisma from '../src/prisma'
-import seedDatabase, {
-  userOne,
-  userTwo,
-  postCreate,
-  postOne,
-  postTwo,
-  postThree,
-} from './utils/seedDatabase'
+import seedDatabase, { userOne, userTwo, postOne } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import {
   getPosts,
@@ -40,9 +33,9 @@ test('Should fetch users posts', async () => {
 })
 
 test('Should update own post', async () => {
-  const client = getClient(userTwo.jwt)
+  const client = getClient(userOne.jwt)
   const variables = {
-    id: postThree.post.id,
+    id: postOne.post.id,
     data: { published: true },
   }
   const { data } = await client.mutate({
@@ -51,7 +44,7 @@ test('Should update own post', async () => {
   })
 
   const exists = await prisma.exists.Post({
-    id: postThree.post.id,
+    id: postOne.post.id,
     published: true,
   })
   expect(data).toHaveProperty('updatePost')
@@ -75,13 +68,13 @@ test('Should create a new post', async () => {
 })
 
 test('Should delete a post', async () => {
-  const client = getClient(userTwo.jwt)
+  const client = getClient(userOne.jwt)
   const variables = {
-    id: postTwo.post.id,
+    id: postOne.post.id,
   }
   const { data } = await client.mutate({ mutation: deletePost, variables })
   expect(data).toHaveProperty('deletePost')
-  const exists = await prisma.exists.Post({ id: postTwo.post.id })
+  const exists = await prisma.exists.Post({ id: postOne.post.id })
   expect(exists).toBe(false)
 })
 
