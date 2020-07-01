@@ -54,16 +54,6 @@ const postTwo = {
   post: undefined,
 }
 
-const postThree = {
-  input: {
-    title: 'Does my betta get sick?',
-    body: "He doesn't swim at all",
-    published: false,
-    allowComments: true,
-  },
-  post: undefined,
-}
-
 const commentOne = {
   input: {
     text: 'You have to check the water condition.',
@@ -82,6 +72,7 @@ const seedDatabase = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL *= 10
 
   // Delete test data
+  await prisma.mutation.deleteManyComments()
   await prisma.mutation.deleteManyPosts()
   await prisma.mutation.deleteManyUsers()
 
@@ -133,30 +124,18 @@ const seedDatabase = async () => {
     },
   })
 
-  // Create post three
-  postThree.post = await prisma.mutation.createPost({
-    data: {
-      ...postThree.input,
-      author: {
-        connect: {
-          id: userTwo.user.id,
-        },
-      },
-    },
-  })
-
   // Create comment one
   commentOne.comment = await prisma.mutation.createComment({
     data: {
       ...commentOne.input,
       author: {
         connect: {
-          id: userOne.user.id,
+          id: userThree.user.id,
         },
       },
       post: {
         connect: {
-          id: postThree.post.id,
+          id: postTwo.post.id,
         },
       },
     },
@@ -186,7 +165,6 @@ export {
   userThree,
   postOne,
   postTwo,
-  postThree,
   commentOne,
   commentTwo,
 }
