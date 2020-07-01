@@ -24,7 +24,7 @@ $ npm install
 
 > Create server
 
-Compose schema on docker, and deploy
+Compose data-model on docker, and deploy
 
 ```
 $ cd prisma
@@ -36,8 +36,6 @@ $ cd ..
 
 > Get schema
 
-get schema
-
 ```
 $ npm run get-schema
 ```
@@ -45,6 +43,7 @@ $ npm run get-schema
 > Test your app
 
 To check downloaded app runs properly, you can run the test.
+(If your filesystem is too slow, you can test each method in each time)
 
 ```
 $ npm run test
