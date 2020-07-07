@@ -30,6 +30,16 @@
   color: $primary-color;
 }
 
+.round-img {
+  border-radius: 50%;
+}
+
+.line {
+  height: 1px;
+  background: #ccc;
+  margin: 1.5rem 0;
+}
+
 // Backgrounds
 .bg {
   &-primary {
@@ -119,6 +129,38 @@
   }
 
   &.alert-danger {
+    @include set-background($danger-color);
+  }
+}
+
+// Badges
+.badge {
+  font-size: .8rem;
+  padding: .3rem;
+
+  &:first-child {
+    text-align: center;
+  }
+
+  .round-img {
+    width: 30px;
+  }
+
+  @include set-background($light-color);
+
+  &.badge-primary {
+    @include set-background($primary-color);
+  }
+
+  &.badge-dark {
+    @include set-background($dark-color);
+  }
+
+  &.badge-success {
+    @include set-background($success-color);
+  }
+
+  &.badge-danger {
     @include set-background($danger-color);
   }
 }

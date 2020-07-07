@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway&display=swap">
+    <link rel="stylesheet" href="css/style.min.css" />
+    <title>Welcome to Betta Fish Keepers Community</title>
+  </head>
+  <body>
+    <nav class="navbar bg-dark">
+      <h1>
+        <a href="dashboard.html">
+          <i class="fas fa-water"></i> Betta Fish Keepers Community
+        </a>
+      </h1>
+      <ul>
+        <li>
+          <form name="search-form">
+            <div class="search-form">
+              <span class="form-control-wrap">
+                <input type="text" name="search" id="search" size="40" class="form-control" placeholder="search" />
+              </span>
+              <button type="submit" class="form-control submit">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </form>
+        </li>
+        <li><a href="posts.html">Posts</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+    <section class="container">
+      <p class="lead">
+        <i class="fas fa-search"></i> Search: "all"
+      </p>
+      <div class="search-grid my-1">
+        <div class="search-users">
+          <h2 class="text-primary">
+            <i class="fas fa-user"></i>
+            Betta Keepers
+          </h2>
+          <div class="user bg-light">
+            <img class="round-img" src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200" alt="">
+            <div>
+              <h2>John Doe</h2>
+              <a href="profile.html" class="btn btn-primary">
+                View profile
+              </a>
+            </div>
+
+            <ul>
+              <li class="text-primary">
+                <i class="fas fa-pen"></i> posts: 10
+              </li>
+            </ul>
+          </div>
+          <div class="user bg-light">
+            <img class="round-img" src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200" alt="">
+            <div>
+              <h2>John Doe</h2>
+              <a href="profile.html" class="btn btn-primary">
+                View profile
+              </a>
+            </div>
+            <ul>
+              <li class="text-primary">
+                <i class="fas fa-pen"></i> posts: 10
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="search-posts">
+          <h2 class="text-primary">
+            <i class="fas fa-pen"></i>
+            Posts
+          </h2>
+          <div class="post my-1 p-1 bg-light">
+            <div>
+              <h4><a href="#">Post Two</a></h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum architecto ullam at beatae praesentium, nesciunt asperiores consequuntur dolorum ducimus, rerum!</p>
+            </div>
+            <div>
+              <ul>
+                <li class="badge badge-primary">
+                  Pins: 3
+                </li>
+                <li class="badge badge-light">
+                  <img class="round-img" src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200" alt="">
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
