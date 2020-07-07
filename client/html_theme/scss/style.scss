@@ -150,7 +150,7 @@ img {
   }
 }
 
-// Post list
+// Post
 .post {
   display: flex;
 
@@ -203,5 +203,45 @@ img {
 
   .profile-posts {
     grid-area: posts;
+  }
+}
+
+// Posts Page
+.post-form-header {
+  padding: .5rem;
+}
+
+.posts .post,
+.comments .post {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 2rem;
+  align-items: center;
+
+  & > div:first-child {
+    text-align: center;
+  }
+
+  img {
+    width: 150px;
+  }
+}
+
+.search-grid .pin,
+.profile-grid .pin,
+.posts .pin {
+  font: inherit;
+  pointer-events: none;
+  padding: .7rem;
+  width: 7.5rem;
+  text-align: center;
+}
+
+.post-top {
+  display: flex;
+  justify-content: space-between;
+
+  .buttons {
+    display: inline-block;
   }
 }

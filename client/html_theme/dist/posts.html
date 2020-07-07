@@ -18,7 +18,7 @@
     <nav class="navbar bg-dark">
       <h1>
         <a href="posts.html">
-          <i class="fas fa-water"></i> Betta Fish Keepers Community
+          <i class="fas fa-water"></i> Betta Fish Keepers <span class="hide-sm">Community</span>
         </a>
       </h1>
       <ul>
@@ -45,19 +45,49 @@
         <li>
           <a href="login.html">
             <i class="fas fa-sign-out-alt"></i>
-            <span class="hide-sm"></span>
-            Logout
+            <span class="hide-sm">Logout</span>
           </a>
         </li>
       </ul>
     </nav>
     <section class="container">
       <h1 class="large text-primary">
-        HEADING
+        Posts
       </h1>
       <p class="lead">
-        <i class="fas fa-user"></i> TEXT
+        <i class="fas fa-user"></i> Welcome to the community
       </p>
+
+      <div class="post-form">
+        <div class="post-form-header bg-primary">
+          <h3>Say Something...</h3>
+        </div>
+        <form class="form my-1">
+          <textarea cols="30" rows="5" placeholder="Create a post"></textarea>
+          <input type="submit" value="Submit" class="btn btn-dark my-1">
+        </form>
+        <div class="posts">
+          <div class="post bg-white my-1">
+            <div>
+              <a href="profile.html">
+                <img class="round-img my-1" src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200" alt="">
+                <h4>John Doe</h4>
+              </a>
+            </div>
+            <div>
+              <p class="my-1">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa similique laboriosam aspernatur quaerat earum placeat reprehenderit neque nam hic commodi quis adipisci perspiciatis alias expedita dolores ratione, numquam in voluptatem.
+              </p>
+              <button class="btn btn-light pin">
+                <i class="fas fa-thumbtack"></i> 10
+              </button>
+              <a href="post.html" class="btn btn-primary">
+                Discussion
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </body>
 </html>
