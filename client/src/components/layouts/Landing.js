@@ -1,24 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const Landing = props => {
   return (
-    <section class="landing">
-      <div class="dark-overlay">
-        <div class="landing-inner">
-          <h1 class="x-large">
-            Betta Fish Keepers <span class="hide-sm">Community</span>
+    <section className="landing">
+      <div className="dark-overlay">
+        <div className="landing-inner">
+          <h1 className="x-large">
+            Betta Fish Keepers <span className="hide-sm">Community</span>
           </h1>
-          <p class="lead">
+          <p className="lead">
             Share your tips and get help from other Betta keepers!
           </p>
-          <div class="buttons">
-            <a href="register.html" class="btn btn-dark">
+          <div className="buttons">
+            <Link to="/register" className="btn btn-dark">
               Sign Up
-            </a>
-            <a href="login.html" class="btn btn-dark">
+            </Link>
+            <Link to="/login" className="btn btn-dark">
               Login
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,31 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const NavBar = props => {
   return (
-    <nav class="navbar bg-dark">
+    <nav className="navbar bg-dark">
       <h1>
-        <a href="posts.html">
-          <i class="fas fa-water"></i> Betta Fish Keepers{' '}
-          <span class="hide-sm">Community</span>
-        </a>
+        <Link to="/posts">
+          <i className="fas fa-water" /> Betta Fish Keepers{' '}
+          <span className="hide-sm">Community</span>
+        </Link>
       </h1>
       <ul>
         <li>
           <form name="search-form">
-            <div class="search-form">
-              <span class="form-control-wrap">
+            <div className="search-form">
+              <span className="form-control-wrap">
                 <input
                   type="text"
                   name="search"
                   id="search"
                   size="40"
-                  class="form-control"
+                  className="form-control"
                   placeholder="search"
                 />
               </span>
-              <button type="submit" class="form-control submit">
-                <i class="fas fa-chevron-right"></i>
+              <button type="submit" className="form-control submit">
+                <i className="fas fa-chevron-right"></i>
               </button>
             </div>
           </form>
@@ -34,10 +35,10 @@ const NavBar = props => {
           <a href="posts.html">Posts</a>
         </li>
         <li>
-          <a href="register.html">Register</a>
+          <Link to="/register">Register</Link>
         </li>
         <li>
-          <a href="login.html">Login</a>
+          <Link to="/login">Login</Link>
         </li>
       </ul>
     </nav>
