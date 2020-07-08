@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAILURE } from '../actions/types'
+import { REGISTER_SUCCESS, REGISTER_FAILURE } from '../utils/types'
 
 const initialState = {
   token: null,

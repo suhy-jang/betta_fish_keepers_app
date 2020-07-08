@@ -41,7 +41,7 @@ const Login = props => {
           <input
             type="password"
             placeholder="Password"
-            minlength="6"
+            minLength="6"
             name="password"
             value={password}
             onChange={e => onChange(e)}
