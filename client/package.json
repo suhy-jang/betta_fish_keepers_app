@@ -42,5 +42,6 @@
   },
   "devDependencies": {
     "babel-jest": "^24.9.0"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
