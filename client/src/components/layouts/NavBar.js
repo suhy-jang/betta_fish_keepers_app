@@ -26,7 +26,7 @@ const NavBar = props => {
                 />
               </span>
               <button type="submit" className="form-control submit">
-                <i className="fas fa-chevron-right"></i>
+                <i className="fas fa-chevron-right" />
               </button>
             </div>
           </form>
