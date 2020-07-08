@@ -24,6 +24,7 @@
     "bcryptjs": "^2.4.3",
     "core-js": "^3.6.5",
     "cross-fetch": "^3.0.5",
+    "express": "^4.17.1",
     "graphql": "^14.0.2",
     "graphql-cli": "^3.0.14",
     "graphql-yoga": "^1.18.3",
