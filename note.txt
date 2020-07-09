@@ -9,5 +9,7 @@ $ heroku config
 $ git push heroku master
 
 # to-do list
-- avatar as gravatar at backend
+- avatar as gravatar at backend ?? or should I remove image..
 - posts title, updatedat style
+
+- login method to move some feature

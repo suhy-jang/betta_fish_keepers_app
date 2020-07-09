@@ -7,6 +7,7 @@ import Login from './components/auth/Login'
 import Alert from './components/layouts/Alert'
 import UpdateUser from './components/auth/UpdateUser'
 import Posts from './components/posts/Posts'
+import Post from './components/post/Post'
 import PrivateRoute from './components/routing/PrivateRoute'
 import { Provider } from 'react-redux'
 import { loadUser } from './actions/auth'
@@ -31,7 +32,12 @@ const App = () => {
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/posts" component={Posts} />
-                <PrivateRoute exact path="/updateUserInfo" component={UpdateUser} />
+                <Route exact path="/posts/:id" component={Post} />
+                <PrivateRoute
+                  exact
+                  path="/updateUserInfo"
+                  component={UpdateUser}
+                />
               </Switch>
             </section>
           </Switch>

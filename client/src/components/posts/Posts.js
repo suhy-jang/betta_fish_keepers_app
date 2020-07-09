@@ -38,11 +38,11 @@ const Posts = ({ post: { posts, loading }, getPosts }) => {
         <button className="btn btn-light pin">
           <i className="fas fa-thumbtack"></i> {pinGazers.length}
         </button>
-        <a href="post.html" className="btn btn-primary">
+        <Link to={`/posts/${id}`} className="btn btn-primary">
           Discussion({comments.length})
-        </a>
+        </Link>
         <span>
-          Updated at <Moment format="YYYY/MM/DD">{updatedAt}</Moment>
+          Posted on <Moment format="YYYY/MM/DD">{createdAt}</Moment>
         </span>
       </div>
     </>

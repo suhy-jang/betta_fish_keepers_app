@@ -50,18 +50,12 @@ const gqlGetPosts = gql`
       id
       title
       body
-      allowComments
       author {
         id
         name
       }
       comments {
         id
-        text
-        author {
-          id
-          name
-        }
       }
       pinGazers {
         user {
@@ -78,4 +72,47 @@ const gqlGetPosts = gql`
   }
 `
 
-export { gqlCreateUser, gqlUpdateUser, gqlGetMe, gqlLogin, gqlGetPosts }
+const gqlGetPost = gql`
+  query($id: ID!) {
+    post(id: $id) {
+      id
+      title
+      body
+      allowComments
+      author {
+        id
+        name
+      }
+      comments {
+        id
+        text
+        author {
+          id
+          name
+        }
+        createdAt
+        updatedAt
+      }
+      pinGazers {
+        user {
+          id
+          name
+        }
+      }
+      featuredBy {
+        id
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export {
+  gqlCreateUser,
+  gqlUpdateUser,
+  gqlGetMe,
+  gqlLogin,
+  gqlGetPosts,
+  gqlGetPost,
+}
