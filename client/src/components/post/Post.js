@@ -14,11 +14,11 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
     <>
       <div>
         <a href="profile.html">
-          <img
-            className="round-img"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-            alt=""
-          />
+          {comment.author.avatar ? (
+            <img src={comment.author.avatar} alt="" />
+          ) : (
+            <i className="fas fa-user" />
+          )}
           <h4>{comment.author.name}</h4>
         </a>
       </div>
@@ -51,11 +51,11 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
       <div className="post bg-white p-1 my-1">
         <div>
           <a href="profile.html">
-            <img
-              className="round-img"
-              src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-              alt=""
-            />
+            {post.author.avatar ? (
+              <img src={post.author.avatar} alt="" />
+            ) : (
+              <i className="fas fa-user" />
+            )}
             <h4>{post.author.name}</h4>
           </a>
         </div>

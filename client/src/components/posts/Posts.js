@@ -25,10 +25,11 @@ const Posts = ({ post: { posts, loading }, getPosts }) => {
     <>
       <div>
         <Link to="/profile">
-          <img
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-            alt=""
-          />
+          {author.avatar ? (
+            <img src={author.avatar} alt="" />
+          ) : (
+            <i className="fas fa-user" />
+          )}
           <h4>{author.name}</h4>
         </Link>
       </div>
