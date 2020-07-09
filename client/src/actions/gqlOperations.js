@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const createUser = gql`
+const gqlCreateUser = gql`
   mutation($data: CreateUserInput!) {
     createUser(data: $data) {
       token
@@ -12,7 +12,7 @@ const createUser = gql`
   }
 `
 
-const getMe = gql`
+const gqlGetMe = gql`
   query {
     me {
       id
@@ -22,7 +22,19 @@ const getMe = gql`
   }
 `
 
-const getPosts = gql`
+const gqlLogin = gql`
+  mutation($data: LoginUserInput!) {
+    login(data: $data) {
+      token
+      user {
+        id
+        name
+      }
+    }
+  }
+`
+
+const gqlGetPosts = gql`
   query {
     posts {
       id
@@ -32,4 +44,4 @@ const getPosts = gql`
   }
 `
 
-export { createUser, getMe, getPosts }
+export { gqlCreateUser, gqlGetMe, gqlLogin, gqlGetPosts }

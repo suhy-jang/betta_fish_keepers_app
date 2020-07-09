@@ -1,8 +1,11 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { login } from '../../actions/auth'
+import { setAlert } from '../../actions/alert'
 
-const Login = props => {
+const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -17,7 +20,11 @@ const Login = props => {
 
   const onSubmit = e => {
     e.preventDefault()
-    console.log('Success at login')
+    login(email, password)
+  }
+
+  if (isAuthenticated) {
+    return <Redirect to="/posts" />
   }
 
   return (
@@ -34,18 +41,15 @@ const Login = props => {
             name="email"
             value={email}
             onChange={e => onChange(e)}
-            required
           />
         </div>
         <div className="form-group">
           <input
             type="password"
             placeholder="Password"
-            minLength="6"
             name="password"
             value={password}
             onChange={e => onChange(e)}
-            required
           />
         </div>
         <input type="submit" value="Login" className="btn btn-primary" />
@@ -57,6 +61,13 @@ const Login = props => {
   )
 }
 
-Login.propTypes = {}
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+}
 
-export default Login
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+})
+
+export default connect(mapStateToProps, { login })(Login)

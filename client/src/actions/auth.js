@@ -5,9 +5,11 @@ import {
   REGISTER_FAILURE,
   USER_LOADED,
   AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
 } from '../utils/types'
 import setAuthToken from '../utils/setAuthToken'
-import { createUser, getMe } from './gqlOperations'
+import { gqlCreateUser, gqlGetMe, gqlLogin } from './gqlOperations'
 
 // Load User
 export const loadUser = () => async dispatch => {
@@ -15,24 +17,20 @@ export const loadUser = () => async dispatch => {
     setAuthToken(localStorage.token)
   }
 
-  try {
-    const res = await axios.post('/graphql', { query: getMe })
+  const res = await axios.post('/graphql', { query: gqlGetMe })
 
-    if (!res.data.data) {
-      dispatch({
-        type: AUTH_ERROR,
-      })
-    }
+  const {
+    data: { data },
+  } = res
 
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data.data.me,
-    })
-  } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    })
+  if (!data) {
+    return dispatch({ type: AUTH_ERROR })
   }
+
+  dispatch({
+    type: USER_LOADED,
+    payload: data.me,
+  })
 }
 
 // Register User
@@ -51,26 +49,68 @@ export const register = ({ name, email, password }) => async dispatch => {
     },
   }
 
-  try {
-    const res = await axios.post(
-      '/graphql',
-      { query: createUser, variables },
-      config,
-    )
+  const res = await axios.post(
+    '/graphql',
+    { query: gqlCreateUser, variables },
+    config,
+  )
 
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data.data.createUser,
-    })
+  const {
+    data: { data, errors },
+  } = res
 
-    dispatch(loadUser())
-  } catch (err) {
-    const errors = err.response.data.errors
-
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
-    }
-
-    dispatch({ type: REGISTER_FAILURE })
+  if (!data) {
+    errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+    return dispatch({ type: REGISTER_FAILURE })
   }
+
+  dispatch({
+    type: REGISTER_SUCCESS,
+    payload: data.createUser,
+  })
+
+  dispatch(loadUser())
+}
+
+// Login User
+export const login = (email, password) => async dispatch => {
+  if (!email || !password) {
+    const msg = !email ? 'email' : 'password'
+    return dispatch(setAlert(`Enter your ${msg}!`, 'danger'))
+  }
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    data: {
+      email,
+      password,
+    },
+  }
+
+  const res = await axios.post(
+    '/graphql',
+    { query: gqlLogin, variables },
+    config,
+  )
+
+  const {
+    data: { data, errors },
+  } = res
+
+  if (!data) {
+    errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+    return dispatch({ type: LOGIN_FAILURE })
+  }
+
+  dispatch({
+    type: LOGIN_SUCCESS,
+    payload: data.login,
+  })
+
+  dispatch(loadUser())
 }
