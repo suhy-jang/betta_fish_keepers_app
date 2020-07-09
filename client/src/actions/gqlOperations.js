@@ -4,11 +4,6 @@ const gqlCreateUser = gql`
   mutation($data: CreateUserInput!) {
     createUser(data: $data) {
       token
-      user {
-        id
-        name
-        avatar
-      }
     }
   }
 `
@@ -19,6 +14,7 @@ const gqlUpdateUser = gql`
       id
       name
       email
+      avatar
     }
   }
 `
@@ -29,6 +25,7 @@ const gqlGetMe = gql`
       id
       name
       email
+      avatar
     }
   }
 `
@@ -37,10 +34,6 @@ const gqlLogin = gql`
   mutation($data: LoginUserInput!) {
     login(data: $data) {
       token
-      user {
-        id
-        name
-      }
     }
   }
 `
@@ -54,6 +47,7 @@ const gqlGetPosts = gql`
       author {
         id
         name
+        avatar
       }
       comments {
         id
@@ -62,6 +56,7 @@ const gqlGetPosts = gql`
         user {
           id
           name
+          avatar
         }
       }
       featuredBy {
@@ -83,6 +78,7 @@ const gqlGetPost = gql`
       author {
         id
         name
+        avatar
       }
       comments {
         id
@@ -90,6 +86,7 @@ const gqlGetPost = gql`
         author {
           id
           name
+          avatar
         }
         createdAt
         updatedAt
@@ -98,6 +95,7 @@ const gqlGetPost = gql`
         user {
           id
           name
+          avatar
         }
       }
       featuredBy {
