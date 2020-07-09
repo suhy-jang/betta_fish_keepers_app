@@ -15,7 +15,6 @@ import {
   gqlCreateUser,
   gqlUpdateUser,
   gqlGetMe,
-  gqlGetPosts,
   gqlLogin,
 } from './gqlOperations'
 
