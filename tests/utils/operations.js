@@ -8,6 +8,7 @@ const createUser = gql`
         id
         name
         email
+        avatar
       }
     }
   }
