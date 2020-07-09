@@ -1,8 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { logout } from '../../actions/auth'
 
-const NavBar = props => {
+const NavBar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const guestLinks = (
+    <>
+      <li>
+        <Link to="/register">Register</Link>
+      </li>
+      <li>
+        <Link to="/login">Login</Link>
+      </li>
+    </>
+  )
+
+  const authLinks = (
+    <>
+      <li>
+        <a onClick={logout} href="/">
+          <i class="fas fa-sign-out-alert" />{' '}
+          <span class="hide-sm">Logout</span>
+        </a>
+      </li>
+    </>
+  )
+
   return (
     <nav className="navbar bg-dark">
       <h1>
@@ -32,19 +56,21 @@ const NavBar = props => {
           </form>
         </li>
         <li>
-          <a href="posts.html">Posts</a>
+          <Link to="/posts">Posts</Link>
         </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
+        {!loading && isAuthenticated ? authLinks : guestLinks}
       </ul>
     </nav>
   )
 }
 
-NavBar.propTypes = {}
+NavBar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
+}
 
-export default NavBar
+const mapStateToProps = state => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps, { logout })(NavBar)

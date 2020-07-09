@@ -7,6 +7,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGOUT,
 } from '../utils/types'
 import setAuthToken from '../utils/setAuthToken'
 import { gqlCreateUser, gqlGetMe, gqlLogin } from './gqlOperations'
@@ -114,3 +115,6 @@ export const login = (email, password) => async dispatch => {
 
   dispatch(loadUser())
 }
+
+// Logout
+export const logout = () => dispatch => dispatch({ type: LOGOUT })
