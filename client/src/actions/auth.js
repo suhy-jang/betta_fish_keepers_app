@@ -76,7 +76,7 @@ export const register = ({ name, email, password }) => async dispatch => {
     payload: data.createUser,
   })
 
-  dispatch(setAlert('Successfully updated user info', 'danger'))
+  dispatch(setAlert('Successfully sign up', 'success'))
   dispatch(loadUser())
 }
 
@@ -111,6 +111,7 @@ export const updateUser = (formData, history, redirectTo) => async dispatch => {
     payload: data.updateUser,
   })
 
+  dispatch(setAlert('Successfully updated user info', 'danger'))
   dispatch(loadUser())
 
   if (history) {
@@ -120,11 +121,6 @@ export const updateUser = (formData, history, redirectTo) => async dispatch => {
 
 // Login User
 export const login = (email, password) => async dispatch => {
-  if (!email || !password) {
-    const msg = !email ? 'email' : 'password'
-    return dispatch(setAlert(`Enter your ${msg}!`, 'danger'))
-  }
-
   const config = {
     headers: {
       'Content-Type': 'application/json',

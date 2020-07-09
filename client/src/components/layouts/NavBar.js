@@ -19,6 +19,9 @@ const NavBar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <>
       <li>
+        <a href="#">Profile</a>
+      </li>
+      <li>
         <a onClick={logout} href="/">
           <i className="fas fa-sign-out-alert" />{' '}
           <span className="hide-sm">Logout</span>
@@ -30,7 +33,7 @@ const NavBar = ({ auth: { isAuthenticated, loading }, logout }) => {
   return (
     <nav className="navbar bg-dark">
       <h1>
-        <Link to="/posts">
+        <Link to="/">
           <i className="fas fa-water" /> Betta Fish Keepers{' '}
           <span className="hide-sm">Community</span>
         </Link>

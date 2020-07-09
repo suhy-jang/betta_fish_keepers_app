@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
+import { setAlert } from '../../actions/alert'
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -19,11 +20,15 @@ const Login = ({ login, isAuthenticated }) => {
 
   const onSubmit = e => {
     e.preventDefault()
+    if (!email || !password) {
+      const msg = !email ? 'email' : 'password'
+      return setAlert(`Enter your ${msg}!`, 'danger')
+    }
     login(email, password)
   }
 
   if (isAuthenticated) {
-    return <Redirect to="/posts" />
+    return <Redirect to="/" />
   }
 
   return (
