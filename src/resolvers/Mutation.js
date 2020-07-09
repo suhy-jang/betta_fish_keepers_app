@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import getUserId from '../utils/getUserId'
 import { generateToken } from '../utils/jwtToken'
 import hashPassword from '../utils/hashPassword'
+const gravatar = require('gravatar')
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
@@ -15,10 +16,17 @@ const Mutation = {
       throw new Error('Email already taken.')
     }
 
+    const avatar = gravatar.url(args.data.email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm',
+    })
+
     const user = await prisma.mutation.createUser({
       data: {
         ...args.data,
         password,
+        avatar,
       },
     })
 

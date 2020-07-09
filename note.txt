@@ -13,3 +13,4 @@ $ git push heroku master
 - posts title, createdAt style
 
 - profile, search-results page
+- server error handling
