@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
+  UPDATE_USER,
 } from '../utils/types'
 
 const initialState = {
@@ -20,8 +21,10 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case USER_LOADED:
+      const token = localStorage.getItem('token')
       return {
         ...state,
+        token,
         isAuthenticated: true,
         loading: false,
         user: payload,
@@ -35,6 +38,12 @@ export default function(state = initialState, action) {
         isAuthenticated: true,
         loading: false,
         user: payload.user,
+      }
+    case UPDATE_USER:
+      return {
+        ...state,
+        loading: false,
+        user: payload,
       }
     case AUTH_ERROR:
     case REGISTER_FAILURE:

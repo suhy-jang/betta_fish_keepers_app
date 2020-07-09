@@ -12,6 +12,16 @@ const gqlCreateUser = gql`
   }
 `
 
+const gqlUpdateUser = gql`
+  mutation($data: UpdateUserInput!) {
+    updateUser(data: $data) {
+      id
+      name
+      email
+    }
+  }
+`
+
 const gqlGetMe = gql`
   query {
     me {
@@ -44,4 +54,4 @@ const gqlGetPosts = gql`
   }
 `
 
-export { gqlCreateUser, gqlGetMe, gqlLogin, gqlGetPosts }
+export { gqlCreateUser, gqlUpdateUser, gqlGetMe, gqlLogin, gqlGetPosts }

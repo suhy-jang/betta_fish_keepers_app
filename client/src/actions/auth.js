@@ -8,9 +8,16 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
+  UPDATE_USER,
 } from '../utils/types'
 import setAuthToken from '../utils/setAuthToken'
-import { gqlCreateUser, gqlGetMe, gqlLogin } from './gqlOperations'
+import {
+  gqlCreateUser,
+  gqlUpdateUser,
+  gqlGetMe,
+  gqlGetPosts,
+  gqlLogin,
+} from './gqlOperations'
 
 // Load User
 export const loadUser = () => async dispatch => {
@@ -70,7 +77,46 @@ export const register = ({ name, email, password }) => async dispatch => {
     payload: data.createUser,
   })
 
+  dispatch(setAlert('Successfully updated user info', 'danger'))
   dispatch(loadUser())
+}
+
+// Update User
+export const updateUser = (formData, history, redirectTo) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    data: formData,
+  }
+
+  const res = await axios.post(
+    '/graphql',
+    { query: gqlUpdateUser, variables },
+    config,
+  )
+
+  const {
+    data: { data, errors },
+  } = res
+
+  if (!data) {
+    return errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+  }
+
+  dispatch({
+    type: UPDATE_USER,
+    payload: data.updateUser,
+  })
+
+  dispatch(loadUser())
+
+  if (history) {
+    history.push(redirectTo)
+  }
 }
 
 // Login User
