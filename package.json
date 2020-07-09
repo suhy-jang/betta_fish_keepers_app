@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist",
     "heroku-postbuild": "babel src --out-dir dist --copy-files && NPM_CONFIG_PRODUCTION=false && npm install --prefix client && npm run build --prefix client",
-    "server": "env-cmd -f ./config/dev.env nodemon src --ext js,graphql --exec babel-node",
+    "server": "env-cmd -f ./config/dev.env nodemon src --ext js,graphql --exec babel-node --ignore client",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand --notify",

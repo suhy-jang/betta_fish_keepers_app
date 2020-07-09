@@ -15,7 +15,7 @@ const opts = {
   tracing: true,
   playground: '/graphql/playground',
   cors: {
-    origin: [host + ':3000'],
+    origin: [`host:${port}`],
   },
 }
 
