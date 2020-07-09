@@ -7,3 +7,7 @@ $ heroku create <APP_NAME>
 $ heroku config:set PRISMA_ENDPOINT=xxx PRISMA_SECRET=xxx JWT_SECRET=xxx
 $ heroku config
 $ git push heroku master
+
+# to-do list
+- avatar as gravatar at backend
+- posts title, updatedat style

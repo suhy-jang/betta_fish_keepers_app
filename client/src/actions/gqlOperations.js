@@ -50,6 +50,30 @@ const gqlGetPosts = gql`
       id
       title
       body
+      allowComments
+      author {
+        id
+        name
+      }
+      comments {
+        id
+        text
+        author {
+          id
+          name
+        }
+      }
+      pinGazers {
+        user {
+          id
+          name
+        }
+      }
+      featuredBy {
+        id
+      }
+      createdAt
+      updatedAt
     }
   }
 `
