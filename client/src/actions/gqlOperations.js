@@ -12,6 +12,16 @@ const createUser = gql`
   }
 `
 
+const getMe = gql`
+  query {
+    me {
+      id
+      name
+      email
+    }
+  }
+`
+
 const getPosts = gql`
   query {
     posts {
@@ -22,4 +32,4 @@ const getPosts = gql`
   }
 `
 
-export { createUser, getPosts }
+export { createUser, getMe, getPosts }
