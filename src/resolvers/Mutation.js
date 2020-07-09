@@ -72,6 +72,14 @@ const Mutation = {
       args.data.password = await hashPassword(args.data.password)
     }
 
+    if (args.data.email) {
+      args.data.avatar = gravatar.url(args.data.email, {
+        s: '200',
+        r: 'pg',
+        d: 'mm',
+      })
+    }
+
     return prisma.mutation.updateUser(
       {
         where: { id: userId },

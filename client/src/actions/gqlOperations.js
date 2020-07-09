@@ -7,6 +7,7 @@ const gqlCreateUser = gql`
       user {
         id
         name
+        avatar
       }
     }
   }
