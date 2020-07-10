@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { gqlGetPosts, gqlGetPost } from './gqlOperations'
+import { gqlGetPosts, gqlGetSinglePost } from './gqlOperations'
 import { GET_POSTS, POST_ERROR, GET_POST } from '../utils/types'
 
 // Get posts
@@ -39,7 +39,7 @@ export const getPost = id => async dispatch => {
   try {
     const res = await axios.post(
       '/graphql',
-      { query: gqlGetPost, variables },
+      { query: gqlGetSinglePost, variables },
       config,
     )
 

@@ -6,6 +6,7 @@ const setAuthToken = token => {
   } else {
     delete axios.defaults.headers.common['authorization']
   }
+  // axios.defaults.baseURL = 'http://localhost:4000'
 }
 
 export { setAuthToken as default }

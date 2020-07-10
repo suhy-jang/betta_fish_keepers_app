@@ -38,37 +38,44 @@ const gqlLogin = gql`
   }
 `
 
-const gqlGetPosts = gql`
-  query {
-    posts {
+const FRAGMENT_POST_FIELDS = gql`
+  fragment postData on Post {
+    id
+    title
+    body
+    author {
       id
-      title
-      body
-      author {
+      name
+      avatar
+    }
+    comments {
+      id
+    }
+    pinGazers {
+      user {
         id
         name
         avatar
       }
-      comments {
-        id
-      }
-      pinGazers {
-        user {
-          id
-          name
-          avatar
-        }
-      }
-      featuredBy {
-        id
-      }
-      createdAt
-      updatedAt
     }
+    featuredBy {
+      id
+    }
+    createdAt
+    updatedAt
   }
 `
 
-const gqlGetPost = gql`
+const gqlGetPosts = gql`
+  query {
+    posts {
+      ...postData
+    }
+  }
+  ${FRAGMENT_POST_FIELDS}
+`
+
+const gqlGetSinglePost = gql`
   query($id: ID!) {
     post(id: $id) {
       id
@@ -107,11 +114,36 @@ const gqlGetPost = gql`
   }
 `
 
+const gqlGetUser = gql`
+  query($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      avatar
+      pinnedPosts {
+        post {
+          ...postData
+        }
+      }
+      featuredPost {
+        post {
+          ...postData
+        }
+      }
+      posts {
+        ...postData
+      }
+    }
+  }
+  ${FRAGMENT_POST_FIELDS}
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
   gqlGetMe,
   gqlLogin,
   gqlGetPosts,
-  gqlGetPost,
+  gqlGetSinglePost,
+  gqlGetUser,
 }

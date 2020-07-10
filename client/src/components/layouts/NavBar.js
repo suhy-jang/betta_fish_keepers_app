@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../actions/auth'
 
-const NavBar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const guestLinks = (
     <>
       <li>
@@ -16,10 +16,12 @@ const NavBar = ({ auth: { isAuthenticated, loading }, logout }) => {
     </>
   )
 
+  const profileId = user ? user.id : ''
+
   const authLinks = (
     <>
       <li>
-        <Link to="/profile">Profile</Link>
+        <Link to={`/profile/${profileId}`}>Profile</Link>
       </li>
       <li>
         <a onClick={logout} href="/">

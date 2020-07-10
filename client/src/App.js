@@ -8,6 +8,7 @@ import Alert from './components/layouts/Alert'
 import UpdateUser from './components/auth/UpdateUser'
 import Posts from './components/posts/Posts'
 import Post from './components/post/Post'
+import Profile from './components/profile/Profile'
 import PrivateRoute from './components/routing/PrivateRoute'
 import { Provider } from 'react-redux'
 import { loadUser } from './actions/auth'
@@ -38,6 +39,7 @@ const App = () => {
                   path="/updateUserInfo"
                   component={UpdateUser}
                 />
+                <PrivateRoute exact path="/profile/:id" component={Profile} />
               </Switch>
             </section>
           </Switch>
