@@ -11,9 +11,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
     getPost(match.params.id)
   }, [getPost, match.params.id])
 
-  return loading || !post ? (
-    <div>loading...</div>
-  ) : (
+  return (
     <>
       <div className="post-top">
         <a href="/posts" className="btn">

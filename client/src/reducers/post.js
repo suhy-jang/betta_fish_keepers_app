@@ -2,7 +2,15 @@ import { GET_POSTS, GET_POST, POST_ERROR } from '../utils/types'
 
 const initialState = {
   posts: [],
-  post: null,
+  post: {
+    pinGazers: [],
+    author: {
+      name: null,
+      avatar: null,
+    },
+    createdAt: null,
+    comments: [],
+  },
   loading: true,
   error: {},
 }

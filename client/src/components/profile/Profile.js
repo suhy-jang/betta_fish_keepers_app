@@ -16,17 +16,6 @@ const Profile = ({
     getProfile(match.params.id)
   }, [getProfile, match.params.id])
 
-  if (!profile) {
-    profile = {
-      id: null,
-      name: null,
-      avatar: null,
-      featuredPost: null,
-      pinnedPosts: null,
-      posts: null,
-    }
-  }
-
   return (
     <>
       <a href="/" className="btn">

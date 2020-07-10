@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { GET_PROFILE, PROFILE_ERROR } from '../utils/types'
+import { PROFILE_LOADING, GET_PROFILE, PROFILE_ERROR } from '../utils/types'
 import { gqlGetProfile } from './gqlOperations'
 
 // Load Profile
@@ -12,7 +12,7 @@ export const getProfile = id => async dispatch => {
   }
 
   const variables = { id }
-  dispatch({ type: GET_PROFILE, payload: null })
+  dispatch({ type: PROFILE_LOADING })
 
   try {
     const res = await axios.post(

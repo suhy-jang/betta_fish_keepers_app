@@ -9,7 +9,7 @@ $ heroku config
 $ git push heroku master
 
 # to-do list
-- posts title, createdAt style
+- go back button -> go home icon
+- posts title, createdAt style + post page title issue
 - call server error handling
 - createPost
-- search posts

@@ -9,9 +9,7 @@ const Posts = ({ post: { posts, loading }, getPosts }) => {
     getPosts()
   }, [getPosts])
 
-  return loading ? (
-    <div>loading...</div>
-  ) : (
+  return (
     <Fragment>
       <h1 className="large text-primary">Posts</h1>
       <p className="lead">
