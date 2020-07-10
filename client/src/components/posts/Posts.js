@@ -1,53 +1,13 @@
 import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Moment from 'react-moment'
+import Post from './Post'
 import { getPosts } from '../../actions/post'
 
 const Posts = ({ post: { posts, loading }, getPosts }) => {
   useEffect(() => {
     getPosts()
   }, [getPosts])
-
-  const renderPost = ({
-    id,
-    title,
-    body,
-    allowComments,
-    author,
-    comments,
-    pinGazers,
-    featured,
-    createdAt,
-    updatedAt,
-  }) => (
-    <>
-      <div>
-        <Link to="/profile">
-          {author.avatar ? (
-            <img src={author.avatar} alt="" />
-          ) : (
-            <i className="fas fa-user" />
-          )}
-          <h4>{author.name}</h4>
-        </Link>
-      </div>
-      <div>
-        <div>{title}</div>
-        <p className="my-1">{body}</p>
-        <button className="btn btn-light pin">
-          <i className="fas fa-thumbtack"></i> {pinGazers.length}
-        </button>
-        <Link to={`/posts/${id}`} className="btn btn-primary">
-          Discussion({comments.length})
-        </Link>
-        <span>
-          Posted on <Moment format="YYYY/MM/DD">{createdAt}</Moment>
-        </span>
-      </div>
-    </>
-  )
 
   return loading ? (
     <div>loading...</div>
@@ -68,9 +28,7 @@ const Posts = ({ post: { posts, loading }, getPosts }) => {
         </form>
         <div className="posts">
           {posts.map(post => (
-            <div key={post.id} className="post bg-white my-1">
-              {renderPost(post)}
-            </div>
+            <Post key={post.id} post={post} />
           ))}
         </div>
       </div>
