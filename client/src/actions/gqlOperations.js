@@ -78,15 +78,8 @@ const gqlGetPosts = gql`
 const gqlGetSinglePost = gql`
   query($id: ID!) {
     post(id: $id) {
-      id
-      title
-      body
+      ...postData
       allowComments
-      author {
-        id
-        name
-        avatar
-      }
       comments {
         id
         text
@@ -98,20 +91,9 @@ const gqlGetSinglePost = gql`
         createdAt
         updatedAt
       }
-      pinGazers {
-        user {
-          id
-          name
-          avatar
-        }
-      }
-      featuredBy {
-        id
-      }
-      createdAt
-      updatedAt
     }
   }
+  ${FRAGMENT_POST_FIELDS}
 `
 
 const gqlGetUser = gql`
@@ -138,6 +120,19 @@ const gqlGetUser = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
+const gqlSearchUsers = gql`
+  query($query: String!) {
+    users(query: $query) {
+      id
+      name
+      avatar
+      posts {
+        id
+      }
+    }
+  }
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
@@ -146,4 +141,5 @@ export {
   gqlGetPosts,
   gqlGetSinglePost,
   gqlGetUser,
+  gqlSearchUsers,
 }

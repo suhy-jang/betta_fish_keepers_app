@@ -516,8 +516,7 @@ img {
 .comments .post > div:first-child {
   text-align: center;
 }
-.posts .post img,
-.comments .post img {
+.post img {
   width: 150px;
 }
 

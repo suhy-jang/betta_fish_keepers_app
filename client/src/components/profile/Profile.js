@@ -4,16 +4,13 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Avatar from '../avatar/Avatar'
 import Post from './Post'
+import PrivateLink from './PrivateLink'
 import { getProfile } from '../../actions/user'
 
 const Profile = ({ user: { loading, user }, getProfile, match }) => {
   useEffect(() => {
     getProfile(match.params.id)
   }, [getProfile, match.params.id])
-
-  const onClick = e => {
-    console.log('delete account')
-  }
 
   return !loading && user ? (
     <>
@@ -48,14 +45,7 @@ const Profile = ({ user: { loading, user }, getProfile, match }) => {
           {user.posts &&
             user.posts.map(post => <Post key={post.id} post={post} />)}
         </div>
-        <div className="profile-update">
-          <a href="/updateUserInfo" className="btn btn-light">
-            <i className="fas fa-user-circle text-primary" /> Edit Info
-          </a>
-          <button className="btn btn-danger" onClick={e => onClick(e)}>
-            <i className="fas fa-user-minus" /> Delete My Account
-          </button>
-        </div>
+        <PrivateLink user={user} />
       </div>
     </>
   ) : (

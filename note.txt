@@ -12,4 +12,4 @@ $ git push heroku master
 - posts title, createdAt style
 - call server error handling
 
-- createPost, profile, search-results page
+- createPost, search-results page
