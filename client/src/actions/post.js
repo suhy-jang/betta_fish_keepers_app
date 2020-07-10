@@ -59,7 +59,7 @@ export const getPost = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: err,
+      payload: { msg: err.statusText, status: err.status },
     })
   }
 }

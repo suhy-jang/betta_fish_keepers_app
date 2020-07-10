@@ -32,6 +32,9 @@ export const getProfile = id => async dispatch => {
 
     dispatch({ type: GET_PROFILE, payload: data.user })
   } catch (err) {
-    dispatch({ type: PROFILE_ERROR })
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.statusText, status: err.status },
+    })
   }
 }
