@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom'
 const Post = ({ post }) =>
   post && (
     <div className="post bg-white my-1 p-1">
-      <div>
-        <h4>
+      <div className="p-1">
+        <h4 className="post-title">
           <Link to={`/posts/${post.id}`}>{post.title}</Link>
         </h4>
         <p>{post.body}</p>
       </div>
-      <div>
+      <div className="p-1">
         <div className="btn btn-light pin">
           <i className="fas fa-thumbtack" /> {post.pinGazers.length}
         </div>

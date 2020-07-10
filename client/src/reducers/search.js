@@ -9,7 +9,7 @@ const initialState = {
   query: '',
   profiles: [],
   posts: [],
-  loading: true,
+  loading: false,
   error: {},
 }
 

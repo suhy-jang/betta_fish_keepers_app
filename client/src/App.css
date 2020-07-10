@@ -505,6 +505,7 @@ img {
   padding: 0.5rem;
 }
 
+.post-page .post,
 .posts .post,
 .comments .post {
   display: grid;
@@ -518,6 +519,24 @@ img {
 }
 .post img {
   width: 150px;
+}
+
+.post .post-title {
+  color: #888;
+  font-size: 1.2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.post .post-title a {
+  color: #888;
+}
+
+.post .post-date {
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 .search-grid .pin,

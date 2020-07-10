@@ -12,4 +12,4 @@ $ git push heroku master
 - pin, feature post
 - createPost
 - go back button -> go home icon
-- posts title, createdAt style + post page title issue
+- post button style

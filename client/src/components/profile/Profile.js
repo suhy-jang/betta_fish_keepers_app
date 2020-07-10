@@ -8,7 +8,7 @@ import { getProfile } from '../../actions/profile'
 
 const Profile = ({
   profile: { loading, profile },
-  user,
+  auth: { user },
   getProfile,
   match,
 }) => {
@@ -61,7 +61,7 @@ Profile.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  user: state.auth.user,
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { getProfile })(Profile)

@@ -11,7 +11,7 @@ const initialState = {
     createdAt: null,
     comments: [],
   },
-  loading: true,
+  loading: false,
   error: {},
 }
 

@@ -12,7 +12,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
   }, [getPost, match.params.id])
 
   return (
-    <>
+    <div className="post-page">
       <div className="post-top">
         <a href="/posts" className="btn">
           Back To Posts
@@ -33,9 +33,14 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
             <h4>{post.author.name}</h4>
           </a>
         </div>
-        <p className="my-1">{post.body}</p>
         <div>
-          Posted on <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
+          <div className="post-title">{post.title}</div>
+          <p className="my-1">{post.body}</p>
+          {post.createdAt && (
+            <div className="post-date">
+              Posted on <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
+            </div>
+          )}
         </div>
       </div>
 
@@ -60,7 +65,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
           <Comment key={comment.id} comment={comment} />
         ))}
       </div>
-    </>
+    </div>
   )
 }
 

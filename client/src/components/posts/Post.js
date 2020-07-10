@@ -13,8 +13,8 @@ const Post = ({ post }) => {
           <h4>{post.author.name}</h4>
         </Link>
       </div>
-      <div>
-        <div>{post.title}</div>
+      <div className="p-1">
+        <div className="post-title">{post.title}</div>
         <p className="my-1">{post.body}</p>
         <button className="btn btn-light pin">
           <i className="fas fa-thumbtack" /> {post.pinGazers.length}
@@ -22,7 +22,7 @@ const Post = ({ post }) => {
         <Link to={`/posts/${post.id}`} className="btn btn-primary">
           Discussion ({post.comments.length})
         </Link>
-        <span>
+        <span className="post-date">
           Posted on <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
         </span>
       </div>
