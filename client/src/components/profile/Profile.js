@@ -19,7 +19,7 @@ const Profile = ({
   return (
     <>
       <a href="/" className="btn">
-        Go Back
+        <i class="fas fa-home" />
       </a>
       <div className="profile-grid my-1">
         <div className="profile-top bg-primary p-2">

@@ -14,8 +14,8 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
   return (
     <div className="post-page">
       <div className="post-top">
-        <a href="/posts" className="btn">
-          Back To Posts
+        <a href="/" className="btn">
+          <i class="fas fa-home" />
         </a>
         <div className="buttons">
           <button className="btn btn-light pin">

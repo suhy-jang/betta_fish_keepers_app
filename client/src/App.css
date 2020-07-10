@@ -96,6 +96,18 @@
   margin-bottom: 3rem;
 }
 
+.w-100 {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
 /* Text Styles */
 .x-large {
   font-size: 4rem;
@@ -545,8 +557,6 @@ img {
   font: inherit;
   pointer-events: none;
   padding: 0.7rem;
-  width: 7.5rem;
-  text-align: center;
 }
 
 .post-top {

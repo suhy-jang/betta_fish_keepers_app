@@ -18,7 +18,10 @@ export default function(state = initialState, action) {
 
   switch (type) {
     case PROFILE_LOADING:
-      return initialState
+      return {
+        ...initialState,
+        loading: true,
+      }
     case GET_PROFILE:
       return {
         ...state,

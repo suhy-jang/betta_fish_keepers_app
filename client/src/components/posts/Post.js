@@ -19,7 +19,10 @@ const Post = ({ post }) => {
         <button className="btn btn-light pin">
           <i className="fas fa-thumbtack" /> {post.pinGazers.length}
         </button>
-        <Link to={`/posts/${post.id}`} className="btn btn-primary">
+        <Link
+          to={`/posts/${post.id}`}
+          className="btn btn-primary cursor-pointer"
+        >
           Discussion ({post.comments.length})
         </Link>
         <span className="post-date">

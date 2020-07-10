@@ -11,5 +11,3 @@ $ git push heroku master
 # to-do list
 - pin, feature post
 - createPost
-- go back button -> go home icon
-- post button style
