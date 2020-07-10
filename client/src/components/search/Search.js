@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Post from '../profile/Post'
-import User from './User'
+import Profile from './Profile'
 
-const Search = ({ user: { users, loading }, location }) => {
+const Search = ({ profile: { profiles, loading } }) => {
   const posts = [
     {
       id: '1',
@@ -31,8 +30,8 @@ const Search = ({ user: { users, loading }, location }) => {
           <h2 className="text-primary">
             <i className="fas fa-user"></i>
           </h2>
-          {users.map(user => (
-            <User key={user.id} user={user} />
+          {profiles.map(profile => (
+            <Profile key={profile.id} profile={profile} />
           ))}
         </div>
         <div className="search-posts">
@@ -49,10 +48,12 @@ const Search = ({ user: { users, loading }, location }) => {
   )
 }
 
-Search.propTypes = {}
+Search.propTypes = {
+  profile: PropTypes.object.isRequired,
+}
 
 const mapStateToProps = state => ({
-  user: state.user,
+  profile: state.profile,
 })
 
 export default connect(mapStateToProps)(Search)

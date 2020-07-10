@@ -96,7 +96,7 @@ const gqlGetSinglePost = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlGetUser = gql`
+const gqlGetProfile = gql`
   query($id: ID!) {
     user(id: $id) {
       id
@@ -120,7 +120,7 @@ const gqlGetUser = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlSearchUsers = gql`
+const gqlSearchProfiles = gql`
   query($query: String!) {
     users(query: $query) {
       id
@@ -140,6 +140,6 @@ export {
   gqlLogin,
   gqlGetPosts,
   gqlGetSinglePost,
-  gqlGetUser,
-  gqlSearchUsers,
+  gqlGetProfile,
+  gqlSearchProfiles,
 }

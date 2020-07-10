@@ -1,13 +1,8 @@
-import {
-  PROFILE_SUCCESS,
-  PROFILE_FAILURE,
-  USER_SUCCESS,
-  USER_ERROR,
-} from '../utils/types'
+import { GET_PROFILES, GET_PROFILE, PROFILE_ERROR } from '../utils/types'
 
 const initialState = {
-  users: [],
-  user: null,
+  profiles: [],
+  profile: null,
   loading: true,
   error: {},
 }
@@ -16,29 +11,23 @@ export default function(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
-    case USER_SUCCESS:
+    case GET_PROFILES:
       return {
         ...state,
         loading: false,
-        users: payload,
+        profiles: payload,
       }
-    case PROFILE_SUCCESS:
+    case GET_PROFILE:
       return {
         ...state,
         loading: false,
-        user: payload,
+        profile: payload,
       }
-    case USER_ERROR:
+    case PROFILE_ERROR:
       return {
         ...state,
         loading: false,
-        users: [],
-      }
-    case PROFILE_FAILURE:
-      return {
-        ...state,
         error: payload,
-        loading: false,
       }
     default:
       return state

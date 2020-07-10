@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../actions/auth'
-import { searchUsers } from '../../actions/user'
 import SearchBar from './SearchBar'
 
 const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {

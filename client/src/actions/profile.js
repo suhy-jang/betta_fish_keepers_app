@@ -1,14 +1,9 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import {
-  PROFILE_SUCCESS,
-  PROFILE_FAILURE,
-  USER_SUCCESS,
-  USER_ERROR,
-} from '../utils/types'
-import { gqlGetUser, gqlSearchUsers } from './gqlOperations'
+import { GET_PROFILES, GET_PROFILE, PROFILE_ERROR } from '../utils/types'
+import { gqlGetProfile, gqlSearchProfiles } from './gqlOperations'
 
-// Load Certain User
+// Load Profile
 export const getProfile = id => async dispatch => {
   const config = {
     headers: {
@@ -21,7 +16,7 @@ export const getProfile = id => async dispatch => {
   try {
     const res = await axios.post(
       '/graphql',
-      { query: gqlGetUser, variables },
+      { query: gqlGetProfile, variables },
       config,
     )
 
@@ -31,19 +26,23 @@ export const getProfile = id => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: PROFILE_FAILURE })
+      return dispatch({ type: PROFILE_ERROR })
     }
 
     dispatch({
-      type: PROFILE_SUCCESS,
+      type: GET_PROFILE,
       payload: data.user,
     })
   } catch (err) {
-    dispatch({ type: PROFILE_FAILURE })
+    dispatch({ type: PROFILE_ERROR })
   }
 }
 
-export const searchUsers = (query, history, redirectTo) => async dispatch => {
+export const searchProfiles = (
+  query,
+  history,
+  redirectTo,
+) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -55,7 +54,7 @@ export const searchUsers = (query, history, redirectTo) => async dispatch => {
   try {
     const res = await axios.post(
       '/graphql',
-      { query: gqlSearchUsers, variables },
+      { query: gqlSearchProfiles, variables },
       config,
     )
 
@@ -65,13 +64,13 @@ export const searchUsers = (query, history, redirectTo) => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: USER_ERROR })
+      return dispatch({ type: PROFILE_ERROR })
     }
-    dispatch({ type: USER_SUCCESS, payload: data.users })
+    dispatch({ type: GET_PROFILES, payload: data.users })
     history.push(redirectTo)
   } catch (err) {
     dispatch({
-      type: USER_ERROR,
+      type: PROFILE_ERROR,
       payload: { msg: err.statusText, status: err.status },
     })
   }

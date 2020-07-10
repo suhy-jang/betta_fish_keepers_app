@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter, Redirect } from 'react-router-dom'
-import { searchUsers } from '../../actions/user'
+import { withRouter } from 'react-router-dom'
+import { searchProfiles } from '../../actions/profile'
 import { setAlert } from '../../actions/alert'
 import { connect } from 'react-redux'
 
-const SearchBar = ({ searchUsers, history }) => {
+const SearchBar = ({ searchProfiles, history }) => {
   const [query, setQuery] = useState('')
 
   const onChange = e => {
@@ -15,8 +15,7 @@ const SearchBar = ({ searchUsers, history }) => {
   const onSubmit = e => {
     e.preventDefault()
     if (query.length > 0) {
-      console.log(query)
-      searchUsers(query, history, `/search`)
+      searchProfiles(query, history, `/search`)
     } else {
       setAlert("Don't leave a blank form", 'danger')
     }
@@ -48,7 +47,7 @@ const SearchBar = ({ searchUsers, history }) => {
 }
 
 SearchBar.propTypes = {
-  searchUsers: PropTypes.func.isRequired,
+  searchProfiles: PropTypes.func.isRequired,
 }
 
-export default connect(null, { searchUsers })(withRouter(SearchBar))
+export default connect(null, { searchProfiles })(withRouter(SearchBar))

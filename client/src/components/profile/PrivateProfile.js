@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const PrivateLink = props => {
+const PrivateProfile = ({ user }) => {
   const onClick = e => {
-    console.log('delete account')
+    console.log('delete account', user.id)
   }
   return (
     <div className="profile-update">
@@ -17,6 +18,12 @@ const PrivateLink = props => {
   )
 }
 
-PrivateLink.propTypes = {}
+PrivateProfile.propTypes = {
+  post: PropTypes.object.isRequired,
+}
 
-export default PrivateLink
+const mapStateToProps = state => ({
+  user: state.auth.user,
+})
+
+export default connect(mapStateToProps)(PrivateProfile)
