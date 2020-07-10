@@ -9,8 +9,7 @@ $ heroku config
 $ git push heroku master
 
 # to-do list
-- avatar as gravatar at backend ?? or (should I remove image..)
 - posts title, createdAt style
+- call server error handling
 
-- profile, search-results page
-- server error handling
+- createPost, profile, search-results page

@@ -1,35 +1,15 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
+import Avatar from '../avatar/Avatar'
+import Comment from './Comment'
 import { getPost } from '../../actions/post'
 
 const Post = ({ post: { post, loading }, getPost, match }) => {
   useEffect(() => {
     getPost(match.params.id)
   }, [getPost, match.params.id])
-
-  const renderComment = comment => (
-    <>
-      <div>
-        <a href="profile.html">
-          {comment.author.avatar ? (
-            <img src={comment.author.avatar} alt="" />
-          ) : (
-            <i className="fas fa-user" />
-          )}
-          <h4>{comment.author.name}</h4>
-        </a>
-      </div>
-      <div>
-        <p className="my-1">{comment.text}</p>
-        <p className="post-date">
-          Posted on <Moment format="YYYY/MM/DD">{comment.createdAt}</Moment>
-        </p>
-      </div>
-    </>
-  )
 
   return loading || !post ? (
     <div>loading...</div>
@@ -51,11 +31,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
       <div className="post bg-white p-1 my-1">
         <div>
           <a href="profile.html">
-            {post.author.avatar ? (
-              <img src={post.author.avatar} alt="" />
-            ) : (
-              <i className="fas fa-user" />
-            )}
+            <Avatar avatar={post.author.avatar} className="round-img" />
             <h4>{post.author.name}</h4>
           </a>
         </div>
@@ -83,9 +59,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
 
       <div className="comments">
         {post.comments.map(comment => (
-          <div key={comment.id} className="post bg-white p-1 my-1">
-            {renderComment(comment)}
-          </div>
+          <Comment key={comment.id} comment={comment} />
         ))}
       </div>
     </>
