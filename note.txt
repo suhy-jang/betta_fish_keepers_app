@@ -10,7 +10,6 @@ $ git push heroku master
 
 # to-do list
 - posts title, createdAt style
+- call server error handling
 - createPost
 - search posts
-- call server error handling
-- seperate user, profile

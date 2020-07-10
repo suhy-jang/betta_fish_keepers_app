@@ -133,6 +133,15 @@ const gqlSearchProfiles = gql`
   }
 `
 
+const gqlSearchPosts = gql`
+  query($query: String!) {
+    posts(query: $query) {
+      ...postData
+    }
+  }
+  ${FRAGMENT_POST_FIELDS}
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
@@ -142,4 +151,5 @@ export {
   gqlGetSinglePost,
   gqlGetProfile,
   gqlSearchProfiles,
+  gqlSearchPosts,
 }

@@ -4,31 +4,17 @@ import { connect } from 'react-redux'
 import Post from '../profile/Post'
 import Profile from './Profile'
 
-const Search = ({ profile: { profiles, loading } }) => {
-  const posts = [
-    {
-      id: '1',
-      title: 'abc',
-      body:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      author: {
-        id: 'zxcv',
-        name: 'zxcvasdf',
-      },
-      comments: [],
-      pinGazers: [],
-      featuredBy: null,
-    },
-  ]
+const Search = ({ search: { query, profiles, posts, loading } }) => {
   return (
     <>
       <p className="lead">
-        <i className="fas fa-search"></i> Search: "all"
+        <i className="fas fa-search"></i> Search: "{query}"
       </p>
       <div className="search-grid my-1">
         <div className="search-users">
           <h2 className="text-primary">
-            <i className="fas fa-user"></i>
+            <i className="fas fa-user" />
+            Keepers
           </h2>
           {profiles.map(profile => (
             <Profile key={profile.id} profile={profile} />
@@ -36,7 +22,7 @@ const Search = ({ profile: { profiles, loading } }) => {
         </div>
         <div className="search-posts">
           <h2 className="text-primary">
-            <i className="fas fa-pen"></i>
+            <i className="fas fa-pen" />
             Posts
           </h2>
           {posts.map(post => (
@@ -49,11 +35,11 @@ const Search = ({ profile: { profiles, loading } }) => {
 }
 
 Search.propTypes = {
-  profile: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
-  profile: state.profile,
+  search: state.search,
 })
 
 export default connect(mapStateToProps)(Search)

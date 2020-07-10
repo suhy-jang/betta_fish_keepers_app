@@ -16,7 +16,18 @@ const Profile = ({
     getProfile(match.params.id)
   }, [getProfile, match.params.id])
 
-  return !loading && profile ? (
+  if (!profile) {
+    profile = {
+      id: null,
+      name: null,
+      avatar: null,
+      featuredPost: null,
+      pinnedPosts: null,
+      posts: null,
+    }
+  }
+
+  return (
     <>
       <a href="/" className="btn">
         Go Back
@@ -49,11 +60,9 @@ const Profile = ({
           {profile.posts &&
             profile.posts.map(post => <Post key={post.id} post={post} />)}
         </div>
-        {!loading && user.id === profile.id && <PrivateProfile />}
+        {!loading && user && user.id === profile.id && <PrivateProfile />}
       </div>
     </>
-  ) : (
-    <div>loading...</div>
   )
 }
 

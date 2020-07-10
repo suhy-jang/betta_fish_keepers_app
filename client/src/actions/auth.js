@@ -133,27 +133,34 @@ export const login = (email, password) => async dispatch => {
     },
   }
 
-  const res = await axios.post(
-    '/graphql',
-    { query: gqlLogin, variables },
-    config,
-  )
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlLogin, variables },
+      config,
+    )
 
-  const {
-    data: { data, errors },
-  } = res
+    const {
+      data: { data, errors },
+    } = res
 
-  if (!data) {
-    errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-    return dispatch({ type: LOGIN_FAILURE })
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: LOGIN_FAILURE })
+    }
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: data.login,
+    })
+
+    dispatch(loadUser())
+  } catch (err) {
+    dispatch({
+      type: LOGIN_FAILURE,
+      payload: { msg: err.statusText, status: err.status },
+    })
   }
-
-  dispatch({
-    type: LOGIN_SUCCESS,
-    payload: data.login,
-  })
-
-  dispatch(loadUser())
 }
 
 // Logout
