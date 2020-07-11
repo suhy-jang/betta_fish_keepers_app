@@ -7,6 +7,10 @@ import {
   gqlDeletePost,
   gqlCreateComment,
   gqlDeleteComment,
+  gqlCreatePinned,
+  gqlDeletePinned,
+  gqlCreateFeatured,
+  gqlDeleteFeatured,
 } from './gqlOperations'
 import {
   GET_POSTS,
@@ -16,6 +20,10 @@ import {
   DELETE_POST,
   CREATE_COMMENT,
   DELETE_COMMENT,
+  CREATE_PINNED,
+  DELETE_PINNED,
+  CREATE_FEATURED,
+  DELETE_FEATURED,
   POST_ERROR,
 } from '../utils/types'
 
@@ -232,6 +240,88 @@ export const deleteComment = id => async dispatch => {
     dispatch({
       type: DELETE_COMMENT,
       payload: data.deleteComment,
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
+    })
+  }
+}
+
+// Create pinned post
+export const createPinned = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    id,
+  }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlCreatePinned, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: '' })
+    }
+
+    dispatch(setAlert('Successfully Pinned Post', 'success'))
+    dispatch({
+      type: CREATE_PINNED,
+      payload: data.createPinned,
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
+    })
+  }
+}
+
+// Delete pinned post
+export const deletePinned = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    id,
+  }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlDeletePinned, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: '' })
+    }
+
+    dispatch(setAlert('Removed Pin'))
+    dispatch({
+      type: DELETE_PINNED,
+      payload: data.deletePinned,
     })
   } catch (err) {
     dispatch({

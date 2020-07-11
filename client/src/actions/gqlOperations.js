@@ -14,6 +14,15 @@ const FRAGMENT_USER_FIELDS = gql`
     name
     email
     avatar
+    pinnedPosts {
+      id
+      user {
+        id
+      }
+    }
+    featuredPost {
+      id
+    }
   }
 `
 
@@ -68,7 +77,6 @@ const FRAGMENT_POST_FIELDS = gql`
     pinGazers {
       user {
         id
-        name
         avatar
       }
     }
@@ -202,6 +210,46 @@ const gqlDeletePost = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
+const gqlCreatePinned = gql`
+  mutation($id: ID!) {
+    createPinned(id: $id) {
+      id
+      user {
+        id
+        avatar
+      }
+    }
+  }
+`
+
+const gqlDeletePinned = gql`
+  mutation($id: ID!) {
+    deletePinned(id: $id) {
+      id
+    }
+  }
+`
+
+const gqlCreateFeatured = gql`
+  mutation($id: ID!) {
+    createFeatured(id: $id) {
+      post {
+        id
+      }
+    }
+  }
+`
+
+const gqlDeleteFeatured = gql`
+  mutation($id: ID!) {
+    deleteFeatured(id: $id) {
+      post {
+        id
+      }
+    }
+  }
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
@@ -217,4 +265,8 @@ export {
   gqlDeletePost,
   gqlCreateComment,
   gqlDeleteComment,
+  gqlCreatePinned,
+  gqlDeletePinned,
+  gqlCreateFeatured,
+  gqlDeleteFeatured,
 }

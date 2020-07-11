@@ -7,9 +7,10 @@ import Avatar from '../avatar/Avatar'
 import Comment from './Comment'
 import CreateComment from './CreateComment'
 import DeletePost from './DeletePost'
+import Pin from './Pin'
 import { getPost } from '../../actions/post'
 
-const Post = ({ post: { post, loading }, user, getPost, match }) => {
+const Post = ({ post: { post, loading }, getPost, match }) => {
   useEffect(() => {
     getPost(match.params.id)
   }, [getPost, match.params.id])
@@ -24,9 +25,7 @@ const Post = ({ post: { post, loading }, user, getPost, match }) => {
           <button className="btn btn-light pin">
             <i className="fas fa-asterisk" /> Feature
           </button>
-          <button className="btn btn-light pin">
-            <i className="fas fa-thumbtack" /> {post.pinGazers.length}
-          </button>
+          <Pin />
         </div>
       </div>
       <div className="post bg-white p-1 my-1">
@@ -44,9 +43,7 @@ const Post = ({ post: { post, loading }, user, getPost, match }) => {
               Posted on <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
             </div>
           )}
-          {user && post.author.id === user.id && (
-            <DeletePost postId={post.id} />
-          )}
+          {post.id && <DeletePost postId={post.id} authorId={post.author.id} />}
         </div>
       </div>
       {post.allowComments ? (
@@ -67,13 +64,11 @@ const Post = ({ post: { post, loading }, user, getPost, match }) => {
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   getPost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   post: state.post,
-  user: state.auth.user,
 })
 
 export default connect(mapStateToProps, { getPost })(Post)

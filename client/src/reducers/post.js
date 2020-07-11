@@ -6,6 +6,10 @@ import {
   DELETE_POST,
   CREATE_COMMENT,
   DELETE_COMMENT,
+  CREATE_PINNED,
+  DELETE_PINNED,
+  CREATE_FEATURED,
+  DELETE_FEATURED,
   POST_ERROR,
 } from '../utils/types'
 
@@ -72,6 +76,22 @@ export default function(state = initialState, action) {
           comments: state.post.comments.filter(
             comment => comment.id !== payload.id,
           ),
+        },
+      }
+    case CREATE_PINNED:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          pinGazers: [...state.post.pinGazers, payload],
+        },
+      }
+    case DELETE_PINNED:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          pinGazers: state.post.pinGazers.filter(p => p.id !== payload.id),
         },
       }
     case POST_ERROR:
