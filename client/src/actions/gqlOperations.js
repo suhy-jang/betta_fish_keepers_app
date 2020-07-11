@@ -68,7 +68,7 @@ const FRAGMENT_POST_FIELDS = gql`
 
 const gqlGetPosts = gql`
   query {
-    posts {
+    posts(orderBy: createdAt_DESC) {
       ...postData
     }
   }
@@ -112,7 +112,7 @@ const gqlGetProfile = gql`
           ...postData
         }
       }
-      posts {
+      posts(orderBy: createdAt_DESC) {
         ...postData
       }
     }
@@ -135,7 +135,7 @@ const gqlSearchProfiles = gql`
 
 const gqlSearchPosts = gql`
   query($query: String!) {
-    posts(query: $query) {
+    posts(query: $query, orderBy: createdAt_DESC) {
       ...postData
     }
   }
