@@ -4,13 +4,16 @@ import {
   gqlGetPosts,
   gqlGetSinglePost,
   gqlCreatePost,
+  gqlDeletePost,
   gqlCreateComment,
   gqlDeleteComment,
 } from './gqlOperations'
 import {
   GET_POSTS,
   GET_POST,
+  POST_LOADING,
   CREATE_POST,
+  DELETE_POST,
   CREATE_COMMENT,
   DELETE_COMMENT,
   POST_ERROR,
@@ -41,6 +44,7 @@ export const getPosts = () => async dispatch => {
 
 // Get post
 export const getPost = id => async dispatch => {
+  dispatch({ type: POST_LOADING, payload: '' })
   const variables = { id }
 
   try {
@@ -111,19 +115,19 @@ export const createPost = formData => async dispatch => {
 }
 
 // Delete post
-export const deletePost = formData => async dispatch => {
+export const deletePost = (id, history, redirectTo) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   }
 
-  const variables = { data: formData }
+  const variables = { id }
 
   try {
     const res = await axios.post(
       '/graphql',
-      { query: gqlCreatePost, variables },
+      { query: gqlDeletePost, variables },
       config,
     )
 
@@ -136,12 +140,13 @@ export const deletePost = formData => async dispatch => {
       return dispatch({ type: POST_ERROR, payload: '' })
     }
 
-    dispatch({
-      type: CREATE_POST,
-      payload: data.createPost,
-    })
+    history.push(redirectTo)
 
-    dispatch(setAlert('Post Created', 'success'))
+    dispatch(setAlert('Post Deleted'))
+    dispatch({
+      type: DELETE_POST,
+      payload: data.deletePost,
+    })
   } catch (err) {
     dispatch({
       type: POST_ERROR,

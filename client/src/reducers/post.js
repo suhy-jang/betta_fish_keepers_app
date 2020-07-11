@@ -1,7 +1,9 @@
 import {
   GET_POSTS,
   GET_POST,
+  POST_LOADING,
   CREATE_POST,
+  DELETE_POST,
   CREATE_COMMENT,
   DELETE_COMMENT,
   POST_ERROR,
@@ -26,6 +28,12 @@ export default function(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
+    case POST_LOADING:
+      return {
+        ...state,
+        post: initialState.post,
+        loading: true,
+      }
     case GET_POSTS:
       return {
         ...state,
@@ -45,6 +53,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: [payload, ...state.posts],
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(post => post.id !== payload.id),
       }
     case CREATE_COMMENT:
       return {

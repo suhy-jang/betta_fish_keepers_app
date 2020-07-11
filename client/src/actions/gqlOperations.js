@@ -122,7 +122,7 @@ const gqlGetProfile = gql`
           ...postData
         }
       }
-      posts(orderBy: createdAt_DESC) {
+      posts {
         ...postData
       }
     }
@@ -180,6 +180,15 @@ const gqlDeleteComment = gql`
   ${FRAGMENT_COMMENT_FIELDS}
 `
 
+const gqlDeletePost = gql`
+  mutation($id: ID!) {
+    deletePost(id: $id) {
+      ...postData
+    }
+  }
+  ${FRAGMENT_POST_FIELDS}
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
@@ -191,6 +200,7 @@ export {
   gqlSearchProfiles,
   gqlSearchPosts,
   gqlCreatePost,
+  gqlDeletePost,
   gqlCreateComment,
   gqlDeleteComment,
 }

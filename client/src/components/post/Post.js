@@ -5,9 +5,10 @@ import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 import Comment from './Comment'
 import CreateComment from './CreateComment'
+import DeletePost from './DeletePost'
 import { getPost } from '../../actions/post'
 
-const Post = ({ post: { post, loading }, getPost, match }) => {
+const Post = ({ post: { post, loading }, user, getPost, match }) => {
   useEffect(() => {
     getPost(match.params.id)
   }, [getPost, match.params.id])
@@ -42,6 +43,9 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
               Posted on <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
             </div>
           )}
+          {user && post.author.id === user.id && (
+            <DeletePost postId={post.id} />
+          )}
         </div>
       </div>
       {post.allowComments && <CreateComment postId={post.id} />}
@@ -56,11 +60,13 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   getPost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   post: state.post,
+  user: state.auth.user,
 })
 
 export default connect(mapStateToProps, { getPost })(Post)

@@ -108,6 +108,11 @@
   cursor: pointer;
 }
 
+a:hover,
+button:hover {
+  cursor: pointer;
+}
+
 /* Text Styles */
 .x-large {
   font-size: 4rem;
