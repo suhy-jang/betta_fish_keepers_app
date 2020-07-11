@@ -58,7 +58,47 @@ export const getPost = id => async dispatch => {
 }
 
 // Create post
-export const createPost = (formData, history, redirectTo) => async dispatch => {
+export const createPost = formData => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = { data: formData }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlCreatePost, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: '' })
+    }
+
+    dispatch({
+      type: CREATE_POST,
+      payload: data.createPost,
+    })
+
+    dispatch(setAlert('Post Created', 'success'))
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
+
+// Delete post
+export const deletePost = (formData, history, redirectTo) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',

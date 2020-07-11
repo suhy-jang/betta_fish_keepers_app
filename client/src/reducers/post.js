@@ -32,6 +32,9 @@ export default function(state = initialState, action) {
         loading: false,
       }
     case CREATE_POST:
+      if (!payload.published) {
+        return state
+      }
       return {
         ...state,
         posts: [payload, ...state.posts],

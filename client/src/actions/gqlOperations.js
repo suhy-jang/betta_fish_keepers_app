@@ -146,6 +146,7 @@ const gqlCreatePost = gql`
   mutation($data: CreatePostInput!) {
     createPost(data: $data) {
       ...postData
+      published
     }
   }
   ${FRAGMENT_POST_FIELDS}

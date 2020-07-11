@@ -8,7 +8,7 @@ const CreatePost = ({ createPost, history }) => {
   const initialState = {
     title: '',
     body: '',
-    published: false,
+    published: true,
     allowComments: true,
   }
 
@@ -23,7 +23,7 @@ const CreatePost = ({ createPost, history }) => {
   const onSubmit = e => {
     e.preventDefault()
     createPost(formData)
-    setFormData(initialState, history, '/')
+    setFormData(initialState)
   }
 
   return (

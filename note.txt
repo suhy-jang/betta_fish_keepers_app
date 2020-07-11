@@ -9,7 +9,8 @@ $ heroku config
 $ git push heroku master
 
 # to-do list
+- post update
 - router switch at app.js
 - user delete
 - pin, featured create/delete
-- post create/update/delete
+- post delete
