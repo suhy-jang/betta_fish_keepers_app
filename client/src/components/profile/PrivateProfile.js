@@ -19,7 +19,7 @@ const PrivateProfile = ({ user }) => {
 }
 
 PrivateProfile.propTypes = {
-  post: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({

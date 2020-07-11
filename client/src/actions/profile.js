@@ -5,21 +5,14 @@ import { gqlGetProfile } from './gqlOperations'
 
 // Load Profile
 export const getProfile = id => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = { id }
   dispatch({ type: PROFILE_LOADING })
 
   try {
-    const res = await axios.post(
-      '/graphql',
-      { query: gqlGetProfile, variables },
-      config,
-    )
+    const res = await axios.post('/graphql', {
+      query: gqlGetProfile,
+      variables,
+    })
 
     const {
       data: { data, errors },

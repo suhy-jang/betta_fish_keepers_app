@@ -47,7 +47,7 @@ const SearchBar = ({ search, history }) => {
 }
 
 SearchBar.propTypes = {
-  searchProfiles: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
 }
 
 export default connect(null, { search })(withRouter(SearchBar))

@@ -19,7 +19,7 @@ const Profile = ({
   return (
     <>
       <a href="/" className="btn">
-        <i class="fas fa-home" />
+        <i className="fas fa-home" />
       </a>
       <div className="profile-grid my-1">
         <div className="profile-top bg-primary p-2">
@@ -39,7 +39,7 @@ const Profile = ({
           </h2>
           {profile.pinnedPosts &&
             profile.pinnedPosts.map(post => (
-              <Post key={post.id} post={post.post} />
+              <Post key={post.post.id} post={post.post} />
             ))}
         </div>
         <div className="profile-posts">

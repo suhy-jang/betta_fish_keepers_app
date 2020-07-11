@@ -309,6 +309,7 @@
 }
 .form input[type='submit'] {
   font: inherit;
+  cursor: pointer;
 }
 .form .social-input {
   display: flex;
