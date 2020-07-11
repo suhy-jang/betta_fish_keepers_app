@@ -9,5 +9,5 @@ $ heroku config
 $ git push heroku master
 
 # to-do list
+- mobile decreased size image
 - post update
-- pin, featured create/delete
