@@ -6,12 +6,7 @@ import Post from './Post'
 import PrivateProfile from './PrivateProfile'
 import { getProfile } from '../../actions/profile'
 
-const Profile = ({
-  profile: { loading, profile },
-  auth: { user },
-  getProfile,
-  match,
-}) => {
+const Profile = ({ profile: { loading, profile }, getProfile, match }) => {
   useEffect(() => {
     getProfile(match.params.id)
   }, [getProfile, match.params.id])
@@ -51,7 +46,7 @@ const Profile = ({
           {profile.posts &&
             profile.posts.map(post => <Post key={post.id} post={post} />)}
         </div>
-        {!loading && user && user.id === profile.id && <PrivateProfile />}
+        <PrivateProfile profileId={profile.id} />
       </div>
     </>
   )
@@ -63,7 +58,6 @@ Profile.propTypes = {
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { getProfile })(Profile)

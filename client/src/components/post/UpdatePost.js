@@ -28,8 +28,8 @@ const UpdatePost = ({
     setFormData({
       title: post.title || '',
       body: post.body || '',
-      published: post.published || '',
-      allowComments: (post.published && post.allowComments) || '',
+      published: post.published || false,
+      allowComments: (post.published && post.allowComments) || false,
     })
     toggleDisabledComment(!post.published)
     // eslint-disable-next-line
@@ -90,7 +90,6 @@ const UpdatePost = ({
             name="published"
             checked={published}
             onChange={e => {
-              // onChange(e)
               setFormData({ ...formData, [e.target.name]: e.target.checked })
               toggleDisabledComment(!disabledComment)
             }}

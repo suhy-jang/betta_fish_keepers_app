@@ -6,9 +6,11 @@ import seedDatabase, { userOne, userTwo, postOne } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import {
   getPosts,
+  getUnpubPosts,
   createPinnedPost,
   createFeaturedPost,
   myPosts,
+  myUnpubPosts,
   updatePost,
   createPost,
   deletePost,
@@ -24,6 +26,14 @@ test('Should expose published posts', async () => {
   expect(response.data.posts.length).toBe(2)
   expect(response.data.posts[0].published).toBe(true)
   expect(response.data.posts[1].published).toBe(true)
+})
+
+test('Should expose own unpublished posts', async () => {
+  const client = getClient(userTwo.jwt)
+  const response = await client.query({ query: myUnpubPosts })
+
+  expect(response.data.myUnpubPosts.length).toBe(1)
+  expect(response.data.myUnpubPosts[0].published).toBe(false)
 })
 
 test('Should fetch users posts', async () => {

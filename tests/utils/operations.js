@@ -92,6 +92,15 @@ const myPosts = gql`
   }
 `
 
+const myUnpubPosts = gql`
+  query {
+    myUnpubPosts {
+      id
+      published
+    }
+  }
+`
+
 const updatePost = gql`
   mutation($id: ID!, $data: UpdatePostInput!) {
     updatePost(id: $id, data: $data) {
@@ -178,6 +187,7 @@ export {
   createPinnedPost,
   createFeaturedPost,
   myPosts,
+  myUnpubPosts,
   updatePost,
   createPost,
   deletePost,

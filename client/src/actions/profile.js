@@ -1,12 +1,19 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { PROFILE_LOADING, GET_PROFILE, PROFILE_ERROR } from '../utils/types'
-import { gqlGetProfile } from './gqlOperations'
+import {
+  PROFILE_LOADING,
+  GET_PROFILE,
+  UNPUB_LOADING,
+  GET_UNPUB,
+  PROFILE_ERROR,
+} from '../utils/types'
+import { gqlGetProfile, gqlMyUnpubPosts } from './gqlOperations'
 
 // Load Profile
 export const getProfile = id => async dispatch => {
-  const variables = { id }
   dispatch({ type: PROFILE_LOADING })
+
+  const variables = { id }
 
   try {
     const res = await axios.post('/graphql', {
@@ -27,7 +34,34 @@ export const getProfile = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.statusText, status: err.status },
+      payload: err,
+    })
+  }
+}
+
+// Load current user additional profile info
+export const getUnpub = () => async dispatch => {
+  dispatch({ type: UNPUB_LOADING })
+
+  try {
+    const res = await axios.post('/graphql', {
+      query: gqlMyUnpubPosts,
+    })
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: PROFILE_ERROR })
+    }
+
+    dispatch({ type: GET_UNPUB, payload: data.myUnpubPosts })
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: err,
     })
   }
 }

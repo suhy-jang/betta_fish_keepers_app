@@ -151,6 +151,17 @@ const gqlGetProfile = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
+const gqlMyUnpubPosts = gql`
+  query {
+    myUnpubPosts {
+      ...postData
+      published
+      allowComments
+    }
+  }
+  ${FRAGMENT_POST_FIELDS}
+`
+
 const gqlSearchProfiles = gql`
   query($query: String!) {
     users(query: $query) {
@@ -271,6 +282,7 @@ export {
   gqlGetPosts,
   gqlGetSinglePost,
   gqlGetProfile,
+  gqlMyUnpubPosts,
   gqlSearchProfiles,
   gqlSearchPosts,
   gqlCreatePost,

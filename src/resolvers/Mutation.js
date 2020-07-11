@@ -152,10 +152,24 @@ const Mutation = {
       allowComments: true,
     })
 
-    if (
-      allowedComments &&
-      (args.data.published === false || args.data.allowComments === false)
-    ) {
+    if (args.data.published === false) {
+      await prisma.mutation.deleteManyFeatureds({
+        where: {
+          post: {
+            id: args.id,
+          },
+        },
+      })
+      await prisma.mutation.deleteManyPinneds({
+        where: {
+          post: {
+            id: args.id,
+          },
+        },
+      })
+    }
+
+    if (allowedComments === true && args.data.allowComments === false) {
       await prisma.mutation.deleteManyComments({
         where: {
           post: {

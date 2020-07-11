@@ -54,6 +54,16 @@ const postTwo = {
   post: undefined,
 }
 
+const postThree = {
+  input: {
+    title: "my bettas fin rot won't go away",
+    body: 'Do you have any idea why is it so?',
+    published: false,
+    allowComments: false,
+  },
+  post: undefined,
+}
+
 const commentOne = {
   input: {
     text: 'You have to check the water condition.',
@@ -116,6 +126,18 @@ const seedDatabase = async () => {
   postTwo.post = await prisma.mutation.createPost({
     data: {
       ...postTwo.input,
+      author: {
+        connect: {
+          id: userTwo.user.id,
+        },
+      },
+    },
+  })
+
+  // Create post three
+  postThree.post = await prisma.mutation.createPost({
+    data: {
+      ...postThree.input,
       author: {
         connect: {
           id: userTwo.user.id,

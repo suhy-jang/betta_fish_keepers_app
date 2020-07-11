@@ -1,38 +1,69 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deleteUser } from '../../actions/auth'
+import { getUnpub } from '../../actions/profile'
+import Post from './Post'
 
-const PrivateProfile = ({ user, deleteUser, history }) => {
+const PrivateProfile = ({
+  profileId,
+  auth: { loading, user },
+  profile: { unpub },
+  deleteUser,
+  getUnpub,
+  history,
+}) => {
+  useEffect(() => {
+    getUnpub()
+  }, [loading, user, profileId, getUnpub])
+
   return (
-    <div className="profile-update">
-      <a href="/updateUserInfo" className="btn btn-light">
-        <i className="fas fa-user-circle text-primary" /> Edit Info
-      </a>
-      <button
-        className="btn btn-danger"
-        onClick={e => {
-          if (window.confirm('Are you sure?')) {
-            deleteUser(history, '/')
-          }
-        }}
-      >
-        <i className="fas fa-user-minus" /> Delete My Account
-      </button>
-    </div>
+    !loading &&
+    user &&
+    user.id === profileId && (
+      <>
+        <div className="profile-tempposts">
+          <h2 className="text-primary my-1">
+            <i className="fas fa-pen" /> Temporiry saved ({unpub.length})
+          </h2>
+          {unpub.map(post => (
+            <Post key={post.id} post={post} />
+          ))}
+        </div>
+        <div className="profile-update">
+          <a href="/updateUserInfo" className="btn btn-light">
+            <i className="fas fa-user-circle text-primary" /> Edit Info
+          </a>
+          <button
+            className="btn btn-danger"
+            onClick={e => {
+              if (window.confirm('Are you sure?')) {
+                deleteUser(history, '/')
+              }
+            }}
+          >
+            <i className="fas fa-user-minus" /> Delete My Account
+          </button>
+        </div>
+      </>
+    )
   )
 }
 
 PrivateProfile.propTypes = {
-  user: PropTypes.object.isRequired,
+  profileId: PropTypes.string.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   deleteUser: PropTypes.func.isRequired,
+  getUnpub: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  auth: state.auth,
+  profile: state.profile,
 })
 
-export default connect(mapStateToProps, { deleteUser })(
+export default connect(mapStateToProps, { deleteUser, getUnpub })(
   withRouter(PrivateProfile),
 )
