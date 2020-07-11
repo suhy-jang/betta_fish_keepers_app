@@ -594,6 +594,10 @@ button:disabled {
     display: none;
   }
 
+  .landing {
+    background: url('./img/showcase-sm.jpg') no-repeat center center/cover;
+  }
+
   .container {
     margin-top: 8rem;
   }

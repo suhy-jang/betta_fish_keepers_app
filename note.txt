@@ -7,7 +7,3 @@ $ heroku create <APP_NAME>
 $ heroku config:set PRISMA_ENDPOINT=xxx PRISMA_SECRET=xxx JWT_SECRET=xxx
 $ heroku config
 $ git push heroku master
-
-# to-do list
-- mobile decreased size image
-- temp saved post list
