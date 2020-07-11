@@ -9,11 +9,14 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   UPDATE_USER,
+  DELETE_USER,
+  USER_ERROR,
 } from '../utils/types'
 import setAuthToken from '../utils/setAuthToken'
 import {
   gqlCreateUser,
   gqlUpdateUser,
+  gqlDeleteUser,
   gqlGetMe,
   gqlLogin,
 } from './gqlOperations'
@@ -118,7 +121,8 @@ export const updateUser = (formData, history, redirectTo) => async dispatch => {
     } = res
 
     if (!data) {
-      return errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: USER_ERROR, payload: errors })
     }
 
     dispatch({
@@ -126,10 +130,36 @@ export const updateUser = (formData, history, redirectTo) => async dispatch => {
       payload: data.updateUser,
     })
 
-    dispatch(setAlert('Successfully updated user info', 'danger'))
+    dispatch(setAlert('Successfully updated user info', 'success'))
     history.push(redirectTo)
   } catch (err) {
-    console.error(err)
+    dispatch({ type: USER_ERROR, payload: err })
+  }
+}
+
+// Delete User
+export const deleteUser = (history, redirectTo) => async dispatch => {
+  try {
+    const res = await axios.post('/graphql', { query: gqlDeleteUser })
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: USER_ERROR, payload: errors })
+    }
+
+    dispatch({
+      type: DELETE_USER,
+      payload: data.deleteUser,
+    })
+
+    history.push(redirectTo)
+  } catch (err) {
+    dispatch(setAlert('Unable to delete user', 'danger'))
+    dispatch({ type: USER_ERROR, payload: err })
   }
 }
 

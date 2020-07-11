@@ -8,26 +8,40 @@ const gqlCreateUser = gql`
   }
 `
 
+const FRAGMENT_USER_FIELDS = gql`
+  fragment userData on User {
+    id
+    name
+    email
+    avatar
+  }
+`
+
 const gqlUpdateUser = gql`
   mutation($data: UpdateUserInput!) {
     updateUser(data: $data) {
-      id
-      name
-      email
-      avatar
+      ...userData
     }
   }
+  ${FRAGMENT_USER_FIELDS}
+`
+
+const gqlDeleteUser = gql`
+  mutation {
+    deleteUser {
+      ...userData
+    }
+  }
+  ${FRAGMENT_USER_FIELDS}
 `
 
 const gqlGetMe = gql`
   query {
     me {
-      id
-      name
-      email
-      avatar
+      ...userData
     }
   }
+  ${FRAGMENT_USER_FIELDS}
 `
 
 const gqlLogin = gql`
@@ -109,9 +123,7 @@ const gqlGetSinglePost = gql`
 const gqlGetProfile = gql`
   query($id: ID!) {
     user(id: $id) {
-      id
-      name
-      avatar
+      ...userData
       pinnedPosts {
         post {
           ...postData
@@ -127,6 +139,7 @@ const gqlGetProfile = gql`
       }
     }
   }
+  ${FRAGMENT_USER_FIELDS}
   ${FRAGMENT_POST_FIELDS}
 `
 
@@ -192,6 +205,7 @@ const gqlDeletePost = gql`
 export {
   gqlCreateUser,
   gqlUpdateUser,
+  gqlDeleteUser,
   gqlGetMe,
   gqlLogin,
   gqlGetPosts,

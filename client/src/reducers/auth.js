@@ -7,6 +7,8 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   UPDATE_USER,
+  DELETE_USER,
+  USER_ERROR,
 } from '../utils/types'
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
   isAuthenticated: false,
   loading: false,
   user: null,
+  error: {},
 }
 
 export default function(state = initialState, action) {
@@ -44,6 +47,14 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         user: payload,
+      }
+    case DELETE_USER:
+      return initialState
+    case USER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
       }
     case AUTH_ERROR:
     case REGISTER_FAILURE:
