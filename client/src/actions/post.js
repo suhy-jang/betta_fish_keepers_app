@@ -5,12 +5,14 @@ import {
   gqlGetSinglePost,
   gqlCreatePost,
   gqlCreateComment,
+  gqlDeleteComment,
 } from './gqlOperations'
 import {
   GET_POSTS,
   GET_POST,
   CREATE_POST,
   CREATE_COMMENT,
+  DELETE_COMMENT,
   POST_ERROR,
 } from '../utils/types'
 
@@ -179,12 +181,52 @@ export const createComment = (text, post) => async dispatch => {
       return dispatch({ type: POST_ERROR, payload: '' })
     }
 
+    dispatch(setAlert('Comment Created', 'success'))
     dispatch({
       type: CREATE_COMMENT,
       payload: data.createComment,
     })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
+    })
+  }
+}
 
-    dispatch(setAlert('Comment Created', 'success'))
+// Delete comment
+export const deleteComment = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    id,
+  }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlDeleteComment, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: '' })
+    }
+
+    dispatch(setAlert('Comment Deleted'))
+    dispatch({
+      type: DELETE_COMMENT,
+      payload: data.deleteComment,
+    })
   } catch (err) {
     dispatch({
       type: POST_ERROR,

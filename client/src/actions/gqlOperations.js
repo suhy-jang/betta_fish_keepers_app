@@ -171,6 +171,15 @@ const gqlCreateComment = gql`
   ${FRAGMENT_COMMENT_FIELDS}
 `
 
+const gqlDeleteComment = gql`
+  mutation($id: ID!) {
+    deleteComment(id: $id) {
+      ...commentData
+    }
+  }
+  ${FRAGMENT_COMMENT_FIELDS}
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
@@ -183,4 +192,5 @@ export {
   gqlSearchPosts,
   gqlCreatePost,
   gqlCreateComment,
+  gqlDeleteComment,
 }

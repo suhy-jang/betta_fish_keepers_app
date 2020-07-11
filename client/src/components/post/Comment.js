@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
+import { deleteComment } from '../../actions/post'
 
-const Comment = ({ auth: { loading, user }, comment }) => {
+const Comment = ({ auth: { loading, user }, comment, deleteComment }) => {
   const onClick = e => {
-    console.log('delete comment')
+    deleteComment(comment.id)
   }
 
   return (
@@ -46,4 +47,4 @@ const mapStateToProps = state => ({
   auth: state.auth,
 })
 
-export default connect(mapStateToProps)(Comment)
+export default connect(mapStateToProps, { deleteComment })(Comment)

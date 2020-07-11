@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { animateScroll as scroll } from 'react-scroll'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createComment } from '../../actions/post'
 
-const CreateComment = ({ createComment, postId }) => {
+const CreateComment = ({ createComment, postId, history }) => {
   const [text, setText] = useState('')
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault()
-    createComment(text, postId)
+    await createComment(text, postId)
     setText('')
+    setTimeout(() => scroll.scrollToBottom(), 1000)
   }
 
   const onChange = e => {
@@ -41,4 +44,4 @@ CreateComment.propTypes = {
   postId: PropTypes.string.isRequired,
 }
 
-export default connect(null, { createComment })(CreateComment)
+export default connect(null, { createComment })(withRouter(CreateComment))

@@ -3,6 +3,7 @@ import {
   GET_POST,
   CREATE_POST,
   CREATE_COMMENT,
+  DELETE_COMMENT,
   POST_ERROR,
 } from '../utils/types'
 
@@ -49,6 +50,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         post: { ...state.post, comments: [...state.post.comments, payload] },
+      }
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: state.post.comments.filter(
+            comment => comment.id !== payload.id,
+          ),
+        },
       }
     case POST_ERROR:
       return {
