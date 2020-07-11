@@ -6,7 +6,7 @@ import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 import Comment from './Comment'
 import CreateComment from './CreateComment'
-import DeletePost from './DeletePost'
+import PrivateButtons from './PrivateButtons'
 import Feature from './Feature'
 import Pin from './Pin'
 import { getPost } from '../../actions/post'
@@ -37,15 +37,24 @@ const Post = ({ post: { post, loading }, getPost, match, history }) => {
         <div>
           <div className="post-title">{post.title}</div>
           <p className="my-1">{post.body}</p>
-          {post.createdAt && (
-            <div className="post-date">
-              Posted on <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
-            </div>
+          <div className="post-date">
+            {post.published ? (
+              post.createdAt && (
+                <>
+                  Posted on{' '}
+                  <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
+                </>
+              )
+            ) : (
+              <>Temporiry saved</>
+            )}
+          </div>
+          {post.id && (
+            <PrivateButtons postId={post.id} authorId={post.author.id} />
           )}
-          {post.id && <DeletePost postId={post.id} authorId={post.author.id} />}
         </div>
       </div>
-      {post.allowComments ? (
+      {post.published && post.allowComments ? (
         <CreateComment postId={post.id} />
       ) : (
         <div className="bg-light p-1">

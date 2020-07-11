@@ -115,6 +115,7 @@ const gqlGetSinglePost = gql`
   query($id: ID!) {
     post(id: $id) {
       ...postData
+      published
       allowComments
       comments {
         ...commentData
@@ -175,6 +176,16 @@ const gqlSearchPosts = gql`
 const gqlCreatePost = gql`
   mutation($data: CreatePostInput!) {
     createPost(data: $data) {
+      ...postData
+      published
+    }
+  }
+  ${FRAGMENT_POST_FIELDS}
+`
+
+const gqlUpdatePost = gql`
+  mutation($id: ID!, $data: UpdatePostInput!) {
+    updatePost(id: $id, data: $data) {
       ...postData
       published
     }
@@ -263,6 +274,7 @@ export {
   gqlSearchProfiles,
   gqlSearchPosts,
   gqlCreatePost,
+  gqlUpdatePost,
   gqlDeletePost,
   gqlCreateComment,
   gqlDeleteComment,

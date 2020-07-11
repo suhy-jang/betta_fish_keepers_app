@@ -3,6 +3,7 @@ import {
   GET_POST,
   POST_LOADING,
   CREATE_POST,
+  UPDATE_POST,
   DELETE_POST,
   CREATE_COMMENT,
   DELETE_COMMENT,
@@ -51,12 +52,21 @@ export default function(state = initialState, action) {
         loading: false,
       }
     case CREATE_POST:
+      return {
+        ...state,
+        posts: payload.published ? [payload, ...state.posts] : state.posts,
+        post: payload,
+      }
+    case UPDATE_POST:
       if (!payload.published) {
         return state
       }
       return {
         ...state,
-        posts: [payload, ...state.posts],
+        posts: payload.published
+          ? [payload, ...state.posts.filter(p => p.id !== payload)]
+          : state.posts,
+        post: payload,
       }
     case DELETE_POST:
       return {

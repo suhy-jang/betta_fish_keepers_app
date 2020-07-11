@@ -8,6 +8,7 @@ import Posts from '../posts/Posts'
 import Post from '../post/Post'
 import Profile from '../profile/Profile'
 import Search from '../search/Search'
+import UpdatePost from '../post/UpdatePost'
 import PrivateRoute from '../routing/PrivateRoute'
 import NotFound from './NotFound'
 
@@ -20,6 +21,7 @@ const Routes = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/posts" component={Posts} />
         <Route exact path="/posts/:id" component={Post} />
+        <Route exact path="/posts/:id/edit" component={UpdatePost} />
         <Route exact path="/search" component={Search} />
         <Route exact path="/profile/:id" component={Profile} />
         <PrivateRoute exact path="/updateUserInfo" component={UpdateUser} />

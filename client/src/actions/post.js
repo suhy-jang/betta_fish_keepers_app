@@ -4,6 +4,7 @@ import {
   gqlGetPosts,
   gqlGetSinglePost,
   gqlCreatePost,
+  gqlUpdatePost,
   gqlDeletePost,
   gqlCreateComment,
   gqlDeleteComment,
@@ -17,6 +18,7 @@ import {
   GET_POST,
   POST_LOADING,
   CREATE_POST,
+  UPDATE_POST,
   DELETE_POST,
   CREATE_COMMENT,
   DELETE_COMMENT,
@@ -83,7 +85,7 @@ export const getPost = id => async dispatch => {
 }
 
 // Create post
-export const createPost = formData => async dispatch => {
+export const createPost = (formData, history, redirectTo) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -114,10 +116,54 @@ export const createPost = formData => async dispatch => {
     })
 
     dispatch(setAlert('Post Created', 'success'))
+
+    history.push(`${redirectTo}${data.createPost.id}`)
   } catch (err) {
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
+
+// Update post
+export const updatePost = (id, data, history, redirectTo) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = { id, data }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlUpdatePost, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: errors })
+    }
+
+    dispatch({
+      type: UPDATE_POST,
+      payload: data.updatePost,
+    })
+
+    dispatch(setAlert('Post Updated', 'success'))
+
+    history.push(`${redirectTo}${data.updatePost.id}`)
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
     })
   }
 }
