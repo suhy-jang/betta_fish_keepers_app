@@ -4,7 +4,13 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deletePost } from '../../actions/post'
 
-const DeletePost = ({ user, deletePost, postId, authorId, history }) => {
+const DeletePost = ({
+  auth: { user },
+  deletePost,
+  postId,
+  authorId,
+  history,
+}) => {
   return (
     user &&
     authorId === user.id && (
@@ -22,14 +28,14 @@ const DeletePost = ({ user, deletePost, postId, authorId, history }) => {
 }
 
 DeletePost.propTypes = {
-  user: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   authorId: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
   deletePost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { deletePost })(withRouter(DeletePost))

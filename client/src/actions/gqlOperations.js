@@ -16,9 +16,6 @@ const FRAGMENT_USER_FIELDS = gql`
     avatar
     pinnedPosts {
       id
-      user {
-        id
-      }
     }
     featuredPost {
       id
@@ -75,9 +72,9 @@ const FRAGMENT_POST_FIELDS = gql`
       id
     }
     pinGazers {
+      id
       user {
         id
-        avatar
       }
     }
     featuredBy {
@@ -133,11 +130,13 @@ const gqlGetProfile = gql`
     user(id: $id) {
       ...userData
       pinnedPosts {
+        id
         post {
           ...postData
         }
       }
       featuredPost {
+        id
         post {
           ...postData
         }
@@ -233,6 +232,7 @@ const gqlDeletePinned = gql`
 const gqlCreateFeatured = gql`
   mutation($id: ID!) {
     createFeatured(id: $id) {
+      id
       post {
         id
       }
@@ -243,6 +243,7 @@ const gqlCreateFeatured = gql`
 const gqlDeleteFeatured = gql`
   mutation($id: ID!) {
     deleteFeatured(id: $id) {
+      id
       post {
         id
       }

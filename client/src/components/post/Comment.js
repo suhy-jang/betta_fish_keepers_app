@@ -6,7 +6,12 @@ import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 import { deleteComment } from '../../actions/post'
 
-const Comment = ({ auth: { loading, user }, comment, deleteComment }) => {
+const Comment = ({
+  auth: { loading, user },
+  comment,
+  deleteComment,
+  postAuthor,
+}) => {
   const onClick = e => {
     deleteComment(comment.id)
   }
@@ -25,15 +30,17 @@ const Comment = ({ auth: { loading, user }, comment, deleteComment }) => {
           Posted on <Moment format="YYYY/MM/DD">{comment.createdAt}</Moment>
         </p>
 
-        {!loading && user && comment.author.id === user.id && (
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={e => onClick(e)}
-          >
-            <i className="fas fa-times" />
-          </button>
-        )}
+        {!loading &&
+          user &&
+          (comment.author.id === user.id || postAuthor === user.id) && (
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={e => onClick(e)}
+            >
+              <i className="fas fa-times" />
+            </button>
+          )}
       </div>
     </div>
   )
@@ -41,6 +48,7 @@ const Comment = ({ auth: { loading, user }, comment, deleteComment }) => {
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
+  postAuthor: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => ({

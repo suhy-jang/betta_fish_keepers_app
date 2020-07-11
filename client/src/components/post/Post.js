@@ -7,6 +7,7 @@ import Avatar from '../avatar/Avatar'
 import Comment from './Comment'
 import CreateComment from './CreateComment'
 import DeletePost from './DeletePost'
+import Feature from './Feature'
 import Pin from './Pin'
 import { getPost } from '../../actions/post'
 
@@ -22,9 +23,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
           Go to all posts
         </a>
         <div className="buttons">
-          <button className="btn btn-light pin">
-            <i className="fas fa-asterisk" /> Feature
-          </button>
+          <Feature />
           <Pin />
         </div>
       </div>
@@ -55,7 +54,11 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
       )}
       <div className="comments">
         {post.comments.map(comment => (
-          <Comment key={comment.id} comment={comment} />
+          <Comment
+            key={comment.id}
+            comment={comment}
+            postAuthor={post.author.id}
+          />
         ))}
       </div>
     </div>

@@ -104,7 +104,6 @@ export const createPost = formData => async dispatch => {
     } = res
 
     if (!data) {
-      console.error(errors)
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: '' })
     }
@@ -322,6 +321,88 @@ export const deletePinned = id => async dispatch => {
     dispatch({
       type: DELETE_PINNED,
       payload: data.deletePinned,
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
+    })
+  }
+}
+
+// Create featured post
+export const createFeatured = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    id,
+  }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlCreateFeatured, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: '' })
+    }
+
+    dispatch(setAlert('Successfully Featured Post', 'success'))
+    dispatch({
+      type: CREATE_FEATURED,
+      payload: data.createFeatured,
+    })
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
+    })
+  }
+}
+
+// Delete featured post
+export const deleteFeatured = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    id,
+  }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlDeleteFeatured, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: '' })
+    }
+
+    dispatch(setAlert('Removed Feature'))
+    dispatch({
+      type: DELETE_FEATURED,
+      payload: data.deleteFeatured,
     })
   } catch (err) {
     dispatch({

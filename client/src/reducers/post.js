@@ -94,6 +94,22 @@ export default function(state = initialState, action) {
           pinGazers: state.post.pinGazers.filter(p => p.id !== payload.id),
         },
       }
+    case CREATE_FEATURED:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          featuredBy: payload,
+        },
+      }
+    case DELETE_FEATURED:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          featuredBy: null,
+        },
+      }
     case POST_ERROR:
       return {
         ...state,

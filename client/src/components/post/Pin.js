@@ -3,17 +3,19 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createPinned, deletePinned } from '../../actions/post'
 
-const Pin = ({ auth, post, createPinned, deletePinned }) => {
+const Pin = ({
+  auth: { user },
+  post: { post },
+  createPinned,
+  deletePinned,
+}) => {
   const pinned =
-    !auth.loading &&
-    !post.loading &&
-    auth.isAuthenticated &&
-    post.post.pinGazers.map(p => p.user.id).includes(auth.user.id)
+    user && post && post.pinGazers.map(p => p.user.id).includes(user.id)
 
-  if (auth.loading || post.loading || !auth.isAuthenticated) {
+  if (!user) {
     return (
       <button className="btn btn-light pin" disabled>
-        <i className="fas fa-thumbtack" /> {post.post.pinGazers.length}
+        <i className="fas fa-thumbtack" /> {post.pinGazers.length}
       </button>
     )
   }
@@ -21,11 +23,9 @@ const Pin = ({ auth, post, createPinned, deletePinned }) => {
   return (
     <button
       className={`btn btn-${pinned ? 'dark' : 'light'} pin`}
-      onClick={() =>
-        pinned ? deletePinned(post.post.id) : createPinned(post.post.id)
-      }
+      onClick={() => (pinned ? deletePinned(post.id) : createPinned(post.id))}
     >
-      <i className="fas fa-thumbtack" /> {post.post.pinGazers.length}
+      <i className="fas fa-thumbtack" /> {post.pinGazers.length}
     </button>
   )
 }
