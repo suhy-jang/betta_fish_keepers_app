@@ -191,7 +191,11 @@ const Mutation = {
 
     const pinExists = pinnedPosts.some(e => e.post.id === args.id)
 
-    if (pinnedPosts.length >= 6 || pinExists) {
+    if (pinnedPosts.length >= 6) {
+      throw new Error('Pinned post should not be over 6 (maximum)')
+    }
+
+    if (pinExists) {
       throw new Error('Unable to pin post')
     }
 
@@ -260,8 +264,12 @@ const Mutation = {
       },
     })
 
-    if (featureExists || !postExists) {
-      throw new Error('Unable to feature post')
+    if (featureExists) {
+      throw new Error('Featured post should be only one')
+    }
+
+    if (!postExists) {
+      throw new Error('Post not exist')
     }
 
     return prisma.mutation.createFeatured(

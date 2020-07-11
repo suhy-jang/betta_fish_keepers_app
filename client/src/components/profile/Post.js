@@ -11,9 +11,9 @@ const Post = ({ post }) => (
       <p>{post.body}</p>
     </div>
     <div className="p-1">
-      <div className="btn btn-white pin">
+      <button className="btn btn-white pin" disabled>
         <i className="fas fa-thumbtack" /> {post.pinGazers.length}
-      </div>
+      </button>
       <Link to={`/posts/${post.id}`} className="btn btn-primary cursor-pointer">
         Discussion ({post.comments.length})
       </Link>

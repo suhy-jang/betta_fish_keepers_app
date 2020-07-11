@@ -105,7 +105,7 @@ export const createPost = formData => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch({
@@ -273,7 +273,7 @@ export const createPinned = id => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch(setAlert('Successfully Pinned Post', 'success'))
@@ -355,7 +355,7 @@ export const createFeatured = id => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch(setAlert('Successfully Featured Post', 'success'))

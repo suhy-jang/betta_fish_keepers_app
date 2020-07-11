@@ -12,18 +12,11 @@ const Pin = ({
   const pinned =
     user && post && post.pinGazers.map(p => p.user.id).includes(user.id)
 
-  if (!user) {
-    return (
-      <button className="btn btn-light pin" disabled>
-        <i className="fas fa-thumbtack" /> {post.pinGazers.length}
-      </button>
-    )
-  }
-
   return (
     <button
       className={`btn btn-${pinned ? 'dark' : 'light'} pin`}
       onClick={() => (pinned ? deletePinned(post.id) : createPinned(post.id))}
+      disabled={!user}
     >
       <i className="fas fa-thumbtack" /> {post.pinGazers.length}
     </button>

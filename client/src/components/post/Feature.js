@@ -10,14 +10,7 @@ const Feature = ({
   deleteFeatured,
 }) => {
   const featured = post.featuredBy ? true : false
-
-  if (!user || user.id !== post.author.id) {
-    return (
-      <button className="btn btn-light pin" disabled>
-        <i className="fas fa-asterisk" /> Feature
-      </button>
-    )
-  }
+  const guest = !user || user.id !== post.author.id
 
   return (
     <button
@@ -25,6 +18,7 @@ const Feature = ({
       onClick={() =>
         featured ? deleteFeatured(post.id) : createFeatured(post.id)
       }
+      disabled={guest}
     >
       <i className="fas fa-asterisk" /> Feature
     </button>

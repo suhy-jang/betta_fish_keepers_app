@@ -16,7 +16,7 @@ const Post = ({ post }) => {
       <div className="p-1">
         <div className="post-title">{post.title}</div>
         <p className="my-1">{post.body}</p>
-        <button className="btn btn-light pin">
+        <button className="btn btn-light pin" disabled>
           <i className="fas fa-thumbtack" /> {post.pinGazers.length}
         </button>
         <Link

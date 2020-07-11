@@ -561,7 +561,6 @@ img {
 .profile-grid .pin,
 .posts .pin {
   font: inherit;
-  pointer-events: none;
   padding: 0.7rem;
 }
 
@@ -584,6 +583,10 @@ img {
   outline: none;
   display: inline-block;
   margin: 0.3rem 0;
+}
+
+button:disabled {
+  pointer-events: none;
 }
 
 @media (max-width: 700px) {
