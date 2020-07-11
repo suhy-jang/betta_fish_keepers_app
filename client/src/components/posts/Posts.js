@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Post from './Post'
+import CreatePost from './CreatePost'
 import { getPosts } from '../../actions/post'
 
 const Posts = ({ post: { posts, loading }, getPosts }) => {
@@ -15,20 +16,11 @@ const Posts = ({ post: { posts, loading }, getPosts }) => {
       <p className="lead">
         <i className="fas fa-user" /> Welcome to the community
       </p>
-
-      <div className="post-form">
-        <div className="post-form-header bg-primary">
-          <h3>Say Something...</h3>
-        </div>
-        <form className="form my-1">
-          <textarea cols="30" rows="5" placeholder="Create a post"></textarea>
-          <input type="submit" value="Submit" className="btn btn-dark my-1" />
-        </form>
-        <div className="posts">
-          {posts.map(post => (
-            <Post key={post.id} post={post} />
-          ))}
-        </div>
+      <CreatePost />
+      <div className="posts">
+        {posts.map(post => (
+          <Post key={post.id} post={post} />
+        ))}
       </div>
     </Fragment>
   )

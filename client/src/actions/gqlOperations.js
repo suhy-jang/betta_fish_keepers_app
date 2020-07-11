@@ -142,6 +142,15 @@ const gqlSearchPosts = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
+const gqlCreatePost = gql`
+  mutation($data: CreatePostInput!) {
+    createPost(data: $data) {
+      ...postData
+    }
+  }
+  ${FRAGMENT_POST_FIELDS}
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
@@ -152,4 +161,5 @@ export {
   gqlGetProfile,
   gqlSearchProfiles,
   gqlSearchPosts,
+  gqlCreatePost,
 }
