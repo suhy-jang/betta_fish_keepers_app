@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createPost } from '../../actions/post'
 
-const CreatePost = ({ createPost, history }) => {
+const CreatePost = ({ createPost }) => {
   const initialState = {
     title: '',
     body: '',
@@ -75,6 +74,8 @@ const CreatePost = ({ createPost, history }) => {
   )
 }
 
-CreatePost.propTypes = {}
+CreatePost.propTypes = {
+  createPost: PropTypes.func.isRequired,
+}
 
-export default connect(null, { createPost })(withRouter(CreatePost))
+export default connect(null, { createPost })(CreatePost)

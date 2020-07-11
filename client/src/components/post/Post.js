@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 import Comment from './Comment'
+import CreateComment from './CreateComment'
 import { getPost } from '../../actions/post'
 
 const Post = ({ post: { post, loading }, getPost, match }) => {
@@ -15,7 +16,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
     <div className="post-page">
       <div className="post-top">
         <a href="/" className="btn">
-          <i class="fas fa-home" />
+          <i className="fas fa-home" />
         </a>
         <div className="buttons">
           <button className="btn btn-light pin">
@@ -43,23 +44,7 @@ const Post = ({ post: { post, loading }, getPost, match }) => {
           )}
         </div>
       </div>
-
-      <div className="post-form">
-        <div className="bg-primary p">
-          <h3>Leave A Comment</h3>
-        </div>
-        <form className="form my-1">
-          <textarea
-            name="text"
-            cols="30"
-            rows="5"
-            placeholder="Comment on this post"
-            required
-          ></textarea>
-          <input type="submit" className="btn btn-dark my-1" value="Submit" />
-        </form>
-      </div>
-
+      {post.allowComments && <CreateComment postId={post.id} />}
       <div className="comments">
         {post.comments.map(comment => (
           <Comment key={comment.id} comment={comment} />

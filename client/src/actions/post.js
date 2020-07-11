@@ -1,7 +1,18 @@
 import axios from 'axios'
 import { setAlert } from './alert'
-import { gqlGetPosts, gqlGetSinglePost, gqlCreatePost } from './gqlOperations'
-import { GET_POSTS, GET_POST, CREATE_POST, POST_ERROR } from '../utils/types'
+import {
+  gqlGetPosts,
+  gqlGetSinglePost,
+  gqlCreatePost,
+  gqlCreateComment,
+} from './gqlOperations'
+import {
+  GET_POSTS,
+  GET_POST,
+  CREATE_POST,
+  CREATE_COMMENT,
+  POST_ERROR,
+} from '../utils/types'
 
 // Get posts
 export const getPosts = () => async dispatch => {
@@ -98,7 +109,7 @@ export const createPost = formData => async dispatch => {
 }
 
 // Delete post
-export const deletePost = (formData, history, redirectTo) => async dispatch => {
+export const deletePost = formData => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -129,14 +140,55 @@ export const deletePost = (formData, history, redirectTo) => async dispatch => {
     })
 
     dispatch(setAlert('Post Created', 'success'))
-
-    if (history) {
-      history.push(redirectTo)
-    }
   } catch (err) {
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
+    })
+  }
+}
+
+// Create comment
+export const createComment = (text, post) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = {
+    data: {
+      text,
+      post,
+    },
+  }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlCreateComment, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: '' })
+    }
+
+    dispatch({
+      type: CREATE_COMMENT,
+      payload: data.createComment,
+    })
+
+    dispatch(setAlert('Comment Created', 'success'))
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
     })
   }
 }

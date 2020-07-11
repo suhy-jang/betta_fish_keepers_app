@@ -22,6 +22,8 @@ export default function(state = initialState, action) {
         ...state,
         loading: true,
         query: payload,
+        profiles: [],
+        posts: [],
       }
     case SEARCH_PROFILE:
       return {

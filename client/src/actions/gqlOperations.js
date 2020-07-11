@@ -75,25 +75,35 @@ const gqlGetPosts = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
+const FRAGMENT_COMMENT_FIELDS = gql`
+  fragment commentData on Comment {
+    id
+    text
+    post {
+      id
+    }
+    author {
+      id
+      name
+      avatar
+    }
+    createdAt
+    updatedAt
+  }
+`
+
 const gqlGetSinglePost = gql`
   query($id: ID!) {
     post(id: $id) {
       ...postData
       allowComments
       comments {
-        id
-        text
-        author {
-          id
-          name
-          avatar
-        }
-        createdAt
-        updatedAt
+        ...commentData
       }
     }
   }
   ${FRAGMENT_POST_FIELDS}
+  ${FRAGMENT_COMMENT_FIELDS}
 `
 
 const gqlGetProfile = gql`
@@ -152,6 +162,15 @@ const gqlCreatePost = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
+const gqlCreateComment = gql`
+  mutation($data: CreateCommentInput!) {
+    createComment(data: $data) {
+      ...commentData
+    }
+  }
+  ${FRAGMENT_COMMENT_FIELDS}
+`
+
 export {
   gqlCreateUser,
   gqlUpdateUser,
@@ -163,4 +182,5 @@ export {
   gqlSearchProfiles,
   gqlSearchPosts,
   gqlCreatePost,
+  gqlCreateComment,
 }

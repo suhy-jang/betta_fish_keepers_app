@@ -1,4 +1,10 @@
-import { GET_POSTS, GET_POST, CREATE_POST, POST_ERROR } from '../utils/types'
+import {
+  GET_POSTS,
+  GET_POST,
+  CREATE_POST,
+  CREATE_COMMENT,
+  POST_ERROR,
+} from '../utils/types'
 
 const initialState = {
   posts: [],
@@ -38,6 +44,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: [payload, ...state.posts],
+      }
+    case CREATE_COMMENT:
+      return {
+        ...state,
+        post: { ...state.post, comments: [...state.post.comments, payload] },
       }
     case POST_ERROR:
       return {

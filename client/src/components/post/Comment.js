@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 
-const Comment = ({ comment }) => {
+const Comment = ({ auth: { loading, user }, comment }) => {
+  const onClick = e => {
+    console.log('delete comment')
+  }
+
   return (
-    <div className="post bg-white p-1 my-1">
+    <div className="post bg-white p-1 my-1" id={comment.id}>
       <div>
         <Link to={`/profile/${comment.author.id}`}>
           <Avatar avatar={comment.author.avatar} className="round-img" />
@@ -18,6 +23,16 @@ const Comment = ({ comment }) => {
         <p className="post-date">
           Posted on <Moment format="YYYY/MM/DD">{comment.createdAt}</Moment>
         </p>
+
+        {!loading && comment.author.id === user.id && (
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={e => onClick(e)}
+          >
+            <i className="fas fa-times" />
+          </button>
+        )}
       </div>
     </div>
   )
@@ -27,4 +42,8 @@ Comment.propTypes = {
   comment: PropTypes.object.isRequired,
 }
 
-export default Comment
+const mapStateToProps = state => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps)(Comment)

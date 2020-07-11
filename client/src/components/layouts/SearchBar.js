@@ -15,7 +15,8 @@ const SearchBar = ({ search, history }) => {
   const onSubmit = e => {
     e.preventDefault()
     if (query.length > 0) {
-      search(query, history, `/search`)
+      search(query)
+      history.push('/search')
     } else {
       setAlert("Don't leave a blank form", 'danger')
     }

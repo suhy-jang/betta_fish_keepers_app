@@ -9,7 +9,9 @@ import {
 import { gqlSearchProfiles, gqlSearchPosts } from './gqlOperations'
 
 // Load Search Results
-export const search = (query, history, redirectTo) => async dispatch => {
+export const search = query => async dispatch => {
+  dispatch({ type: SEARCH_QUERY, payload: query })
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -18,40 +20,30 @@ export const search = (query, history, redirectTo) => async dispatch => {
 
   const variables = { query }
 
-  dispatch({ type: SEARCH_QUERY, payload: query })
-
   try {
-    let data = await userSearch(dispatch, variables, config)
+    let res = await axios.post(
+      '/graphql',
+      { query: gqlSearchProfiles, variables },
+      config,
+    )
+
+    let data = errorHandling(dispatch, res)
     if (data) dispatch({ type: SEARCH_PROFILE, payload: data.users })
-    data = await postSearch(dispatch, variables, config)
+
+    res = await axios.post(
+      '/graphql',
+      { query: gqlSearchPosts, variables },
+      config,
+    )
+
+    data = await errorHandling(dispatch, res)
     if (data) dispatch({ type: SEARCH_POST, payload: data.posts })
-    history.push(redirectTo)
   } catch (err) {
     dispatch({
       type: SEARCH_ERROR,
       payload: { msg: err.statusText, status: err.status },
     })
   }
-}
-
-const userSearch = async (dispatch, variables, config) => {
-  const res = await axios.post(
-    '/graphql',
-    { query: gqlSearchProfiles, variables },
-    config,
-  )
-
-  return errorHandling(dispatch, res)
-}
-
-const postSearch = async (dispatch, variables, config) => {
-  const res = await axios.post(
-    '/graphql',
-    { query: gqlSearchPosts, variables },
-    config,
-  )
-
-  return errorHandling(dispatch, res)
 }
 
 const errorHandling = (dispatch, res) => {

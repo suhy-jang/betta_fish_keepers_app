@@ -127,10 +127,7 @@ export const updateUser = (formData, history, redirectTo) => async dispatch => {
     })
 
     dispatch(setAlert('Successfully updated user info', 'danger'))
-
-    if (history) {
-      history.push(redirectTo)
-    }
+    history.push(redirectTo)
   } catch (err) {
     console.error(err)
   }

@@ -14,3 +14,4 @@ $ git push heroku master
 - user delete
 - pin, featured create/delete
 - post delete
+- comment create / delete
