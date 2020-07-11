@@ -11,5 +11,3 @@ $ git push heroku master
 # to-do list
 - post update
 - pin, featured create/delete
-- router switch at app.js
-- user delete

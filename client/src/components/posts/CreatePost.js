@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createPost } from '../../actions/post'
 
-const CreatePost = ({ createPost }) => {
+const CreatePost = ({ isAuthenticated, createPost }) => {
   const initialState = {
     title: '',
     body: '',
@@ -30,52 +30,61 @@ const CreatePost = ({ createPost }) => {
       <div className="post-form-header bg-primary">
         <h3>Say Something...</h3>
       </div>
-      <form className="form my-1" onSubmit={e => onSubmit(e)}>
-        <textarea
-          cols="30"
-          rows="1"
-          placeholder="Post title"
-          name="title"
-          value={title}
-          onChange={e => onChange(e)}
-        />
-        <textarea
-          cols="30"
-          rows="5"
-          placeholder="Create a post"
-          name="body"
-          value={body}
-          onChange={e => onChange(e)}
-        />
-        <input
-          type="checkbox"
-          name="published"
-          checked={published}
-          value={published}
-          onChange={() => {
-            setFormData({ ...formData, published: !published })
-          }}
-        />
-        <label htmlFor="publish"> Publish </label>
-        <input
-          type="checkbox"
-          name="allowComments"
-          checked={allowComments}
-          value={allowComments}
-          onChange={() => {
-            setFormData({ ...formData, allowComments: !allowComments })
-          }}
-        />
-        <label htmlFor="allowComments"> allow comments</label>
-        <div />
-        <input type="submit" value="Submit" className="btn btn-dark my-1" />
-      </form>
+      {isAuthenticated ? (
+        <form className="form my-1" onSubmit={e => onSubmit(e)}>
+          <textarea
+            cols="30"
+            rows="1"
+            placeholder="Post title"
+            name="title"
+            value={title}
+            onChange={e => onChange(e)}
+          />
+          <textarea
+            cols="30"
+            rows="5"
+            placeholder="Create a post"
+            name="body"
+            value={body}
+            onChange={e => onChange(e)}
+          />
+          <input
+            type="checkbox"
+            name="published"
+            checked={published}
+            value={published}
+            onChange={() => {
+              setFormData({ ...formData, published: !published })
+            }}
+          />
+          <label htmlFor="publish"> Publish </label>
+          <input
+            type="checkbox"
+            name="allowComments"
+            checked={allowComments}
+            value={allowComments}
+            onChange={() => {
+              setFormData({ ...formData, allowComments: !allowComments })
+            }}
+          />
+          <label htmlFor="allowComments"> allow comments</label>
+          <div />
+          <input type="submit" value="Submit" className="btn btn-dark my-1" />
+        </form>
+      ) : (
+        <div className="bg-light p-1">Login first...</div>
+      )}
     </div>
   )
 }
 
 CreatePost.propTypes = {
   createPost: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 }
 
-export default connect(null, { createPost })(CreatePost)
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+})
+
+export default connect(mapStateToProps, { createPost })(CreatePost)

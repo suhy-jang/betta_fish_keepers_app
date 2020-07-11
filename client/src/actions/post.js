@@ -96,6 +96,7 @@ export const createPost = formData => async dispatch => {
     } = res
 
     if (!data) {
+      console.error(errors)
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: '' })
     }

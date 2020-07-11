@@ -17,8 +17,8 @@ const Post = ({ post: { post, loading }, user, getPost, match }) => {
   return (
     <div className="post-page">
       <div className="post-top">
-        <a href="/" className="btn">
-          <i className="fas fa-home" />
+        <a href="/posts" className="btn">
+          Go to all posts
         </a>
         <div className="buttons">
           <button className="btn btn-light pin">
@@ -49,7 +49,13 @@ const Post = ({ post: { post, loading }, user, getPost, match }) => {
           )}
         </div>
       </div>
-      {post.allowComments && <CreateComment postId={post.id} />}
+      {post.allowComments ? (
+        <CreateComment postId={post.id} />
+      ) : (
+        <div className="bg-light p-1">
+          {!loading && "Author doesn't allow comments..."}
+        </div>
+      )}
       <div className="comments">
         {post.comments.map(comment => (
           <Comment key={comment.id} comment={comment} />

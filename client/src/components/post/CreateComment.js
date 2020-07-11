@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createComment } from '../../actions/post'
 
-const CreateComment = ({ createComment, postId, history }) => {
+const CreateComment = ({ auth, createComment, postId, history }) => {
   const [text, setText] = useState('')
 
   const onSubmit = async e => {
@@ -24,17 +24,21 @@ const CreateComment = ({ createComment, postId, history }) => {
       <div className="bg-primary p">
         <h3>Leave A Comment</h3>
       </div>
-      <form className="form my-1" onSubmit={e => onSubmit(e)}>
-        <textarea
-          cols="30"
-          rows="5"
-          placeholder="Comment on this post"
-          name="text"
-          value={text}
-          onChange={e => onChange(e)}
-        />
-        <input type="submit" className="btn btn-dark my-1" value="Submit" />
-      </form>
+      {!auth.loading && auth.isAuthenticated ? (
+        <form className="form my-1" onSubmit={e => onSubmit(e)}>
+          <textarea
+            cols="30"
+            rows="5"
+            placeholder="Comment on this post"
+            name="text"
+            value={text}
+            onChange={e => onChange(e)}
+          />
+          <input type="submit" className="btn btn-dark my-1" value="Submit" />
+        </form>
+      ) : (
+        <div className="bg-light p-1">Login first...</div>
+      )}
     </div>
   )
 }
@@ -44,4 +48,10 @@ CreateComment.propTypes = {
   postId: PropTypes.string.isRequired,
 }
 
-export default connect(null, { createComment })(withRouter(CreateComment))
+const mapStateToProps = state => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps, { createComment })(
+  withRouter(CreateComment),
+)

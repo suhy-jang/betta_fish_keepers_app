@@ -25,7 +25,7 @@ const Comment = ({ auth: { loading, user }, comment, deleteComment }) => {
           Posted on <Moment format="YYYY/MM/DD">{comment.createdAt}</Moment>
         </p>
 
-        {!loading && comment.author.id === user.id && (
+        {!loading && user && comment.author.id === user.id && (
           <button
             type="button"
             className="btn btn-danger"
