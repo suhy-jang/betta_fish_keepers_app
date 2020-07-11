@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 import Comment from './Comment'
@@ -30,10 +31,10 @@ const Post = ({ post: { post, loading }, user, getPost, match }) => {
       </div>
       <div className="post bg-white p-1 my-1">
         <div>
-          <a href="profile.html">
+          <Link to={`/profile/${post.author.id}`}>
             <Avatar avatar={post.author.avatar} className="round-img" />
             <h4>{post.author.name}</h4>
-          </a>
+          </Link>
         </div>
         <div>
           <div className="post-title">{post.title}</div>

@@ -35,7 +35,8 @@ const Profile = ({
         </div>
         <div className="profile-pinnedposts">
           <h2 className="text-primary my-1">
-            <i className="fas fa-pen" /> Pinned
+            <i className="fas fa-pen" /> Pinned (
+            {profile.pinnedPosts && profile.pinnedPosts.length})
           </h2>
           {profile.pinnedPosts &&
             profile.pinnedPosts.map(post => (
@@ -44,7 +45,8 @@ const Profile = ({
         </div>
         <div className="profile-posts">
           <h2 className="text-primary my-1">
-            <i className="fas fa-pen" /> Posts
+            <i className="fas fa-pen" /> Posts (
+            {profile.posts && profile.posts.length})
           </h2>
           {profile.posts &&
             profile.posts.map(post => <Post key={post.id} post={post} />)}

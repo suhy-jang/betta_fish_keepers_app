@@ -8,7 +8,7 @@ const Post = ({ post }) => {
   return (
     <div className="post bg-white my-1">
       <div>
-        <Link to="/profile">
+        <Link to={`/profile/${post.author.id}`}>
           <Avatar avatar={post.author.avatar} className="round-img my-1" />
           <h4>{post.author.name}</h4>
         </Link>
