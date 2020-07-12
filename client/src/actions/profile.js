@@ -26,8 +26,7 @@ export const getProfile = id => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: PROFILE_ERROR })
+      return dispatch({ type: PROFILE_ERROR, payload: errors })
     }
 
     dispatch({ type: GET_PROFILE, payload: data.user })
@@ -53,8 +52,7 @@ export const getUnpub = () => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: PROFILE_ERROR })
+      return dispatch({ type: PROFILE_ERROR, payload: errors })
     }
 
     dispatch({ type: GET_UNPUB, payload: data.myUnpubPosts })

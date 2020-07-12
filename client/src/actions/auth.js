@@ -31,11 +31,11 @@ export const loadUser = () => async dispatch => {
     const res = await axios.post('/graphql', { query: gqlGetMe })
 
     const {
-      data: { data },
+      data: { data, errors },
     } = res
 
     if (!data) {
-      return dispatch({ type: AUTH_ERROR })
+      return dispatch({ type: AUTH_ERROR, payload: errors })
     }
 
     dispatch({
@@ -45,7 +45,7 @@ export const loadUser = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
-      payload: { msg: err.statusText, status: err.status },
+      payload: err,
     })
   }
 }

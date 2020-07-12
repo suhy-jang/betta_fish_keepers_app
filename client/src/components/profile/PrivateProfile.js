@@ -16,7 +16,7 @@ const PrivateProfile = ({
 }) => {
   useEffect(() => {
     getUnpub()
-  }, [loading, user, profileId, getUnpub])
+  }, [getUnpub, loading])
 
   return (
     !loading &&
@@ -25,7 +25,8 @@ const PrivateProfile = ({
       <>
         <div className="profile-tempposts">
           <h2 className="text-primary my-1">
-            <i className="fas fa-pen" /> Temporiry saved ({unpub.length})
+            <i className="fas fa-pen" />
+            Unpublished posts ({unpub.length})
           </h2>
           {unpub.map(post => (
             <Post key={post.id} post={post} />

@@ -46,7 +46,7 @@ const Post = ({ post: { post, loading }, getPost, match, history }) => {
                 </>
               )
             ) : (
-              <>Temporiry saved</>
+              <>{!loading && 'Temporiry saved'}</>
             )}
           </div>
           {post.id && (

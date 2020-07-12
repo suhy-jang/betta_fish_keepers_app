@@ -5,7 +5,7 @@ import Post from './Post'
 import CreatePost from './CreatePost'
 import { getPosts } from '../../actions/post'
 
-const Posts = ({ post: { posts, loading }, getPosts }) => {
+const Posts = ({ post: { posts }, getPosts }) => {
   useEffect(() => {
     getPosts()
   }, [getPosts])

@@ -17,12 +17,10 @@ const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     </>
   )
 
-  const profileId = user ? user.id : ''
-
   const authLinks = (
     <>
       <li>
-        <Link to={`/profile/${profileId}`}>Profile</Link>
+        <Link to="/profile">Profile</Link>
       </li>
       <li>
         <a onClick={logout} href="/">
