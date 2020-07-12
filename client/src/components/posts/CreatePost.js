@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { createPost } from '../../actions/post'
 import { setAlert } from '../../actions/alert'
 
-const CreatePost = ({ isAuthenticated, createPost, setAlert, history }) => {
+const CreatePost = ({ auth, createPost, setAlert, history }) => {
   const initialState = {
     title: '',
     body: '',
@@ -14,6 +14,7 @@ const CreatePost = ({ isAuthenticated, createPost, setAlert, history }) => {
   }
 
   const [formData, setFormData] = useState(initialState)
+  const [disabledComment, toggleDisabledComment] = useState(false)
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -26,8 +27,16 @@ const CreatePost = ({ isAuthenticated, createPost, setAlert, history }) => {
     if (!title && !body) {
       return setAlert("Don't leave all blank (Fill at least one)", 'danger')
     }
-    createPost(formData, history, '/posts/')
+    createPost(
+      {
+        ...formData,
+        allowComments: published && allowComments,
+      },
+      history,
+      '/posts/',
+    )
     setFormData(initialState)
+    toggleDisabledComment(true)
   }
 
   return (
@@ -35,7 +44,7 @@ const CreatePost = ({ isAuthenticated, createPost, setAlert, history }) => {
       <div className="post-form-header bg-primary">
         <h3>Say Something...</h3>
       </div>
-      {isAuthenticated ? (
+      {auth.isAuthenticated ? (
         <form className="form my-1" onSubmit={e => onSubmit(e)}>
           <textarea
             cols="30"
@@ -58,8 +67,9 @@ const CreatePost = ({ isAuthenticated, createPost, setAlert, history }) => {
             name="published"
             checked={published}
             value={published}
-            onChange={() => {
-              setFormData({ ...formData, published: !published })
+            onChange={e => {
+              setFormData({ ...formData, [e.target.name]: e.target.checked })
+              toggleDisabledComment(!disabledComment)
             }}
           />
           <label htmlFor="publish"> Publish </label>
@@ -68,16 +78,17 @@ const CreatePost = ({ isAuthenticated, createPost, setAlert, history }) => {
             name="allowComments"
             checked={allowComments}
             value={allowComments}
-            onChange={() => {
-              setFormData({ ...formData, allowComments: !allowComments })
+            onChange={e => {
+              setFormData({ ...formData, [e.target.name]: e.target.checked })
             }}
+            disabled={disabledComment}
           />
           <label htmlFor="allowComments"> allow comments</label>
           <div />
           <input type="submit" value="Submit" className="btn btn-dark my-1" />
         </form>
       ) : (
-        <div className="bg-light p-1">Login first...</div>
+        <div className="bg-light p-1">{!auth.loading && 'Login first...'}</div>
       )}
     </div>
   )
@@ -85,11 +96,11 @@ const CreatePost = ({ isAuthenticated, createPost, setAlert, history }) => {
 
 CreatePost.propTypes = {
   createPost: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { createPost, setAlert })(
