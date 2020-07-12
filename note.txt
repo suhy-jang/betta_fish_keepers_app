@@ -8,6 +8,4 @@ $ heroku config:set PRISMA_ENDPOINT=xxx PRISMA_SECRET=xxx JWT_SECRET=xxx
 $ heroku config
 $ git push heroku master
 
-duplicated email message
 mobile search bar - hide?
-add new post unpub
