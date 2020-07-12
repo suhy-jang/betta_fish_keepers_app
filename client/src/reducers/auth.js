@@ -10,6 +10,7 @@ import {
   DELETE_USER,
   USER_ERROR,
 } from '../utils/types'
+import setAuthToken from '../utils/setAuthToken'
 
 const initialState = {
   token: null,
@@ -34,6 +35,7 @@ export default function(state = initialState, action) {
       }
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
+      setAuthToken(payload.token)
       localStorage.setItem('token', payload.token)
       return {
         ...state,

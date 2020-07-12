@@ -16,7 +16,7 @@ const Pin = ({
     <button
       className={`btn btn-${pinned ? 'dark' : 'light'} pin`}
       onClick={() => (pinned ? deletePinned(post.id) : createPinned(post.id))}
-      disabled={!user}
+      disabled={!user || !post.published}
     >
       <i className="fas fa-thumbtack" /> {post.pinGazers.length}
     </button>

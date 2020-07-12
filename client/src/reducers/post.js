@@ -1,6 +1,7 @@
 import {
   GET_POSTS,
   GET_POST,
+  GET_MY_POSTS,
   POST_LOADING,
   CREATE_POST,
   UPDATE_POST,
@@ -25,6 +26,7 @@ const initialState = {
     createdAt: null,
     comments: [],
   },
+  myPosts: [],
   loading: false,
   error: {},
 }
@@ -51,22 +53,27 @@ export default function(state = initialState, action) {
         post: payload,
         loading: false,
       }
+    case GET_MY_POSTS:
+      return {
+        ...state,
+        myPosts: payload,
+        loading: false,
+      }
     case CREATE_POST:
       return {
         ...state,
         posts: payload.published ? [payload, ...state.posts] : state.posts,
         post: payload,
+        loading: false,
       }
     case UPDATE_POST:
-      if (!payload.published) {
-        return state
-      }
       return {
         ...state,
         posts: payload.published
           ? [payload, ...state.posts.filter(p => p.id !== payload)]
           : state.posts,
         post: payload,
+        loading: false,
       }
     case DELETE_POST:
       return {

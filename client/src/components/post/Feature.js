@@ -18,7 +18,7 @@ const Feature = ({
       onClick={() =>
         featured ? deleteFeatured(post.id) : createFeatured(post.id)
       }
-      disabled={guest}
+      disabled={guest || !post.published}
     >
       <i className="fas fa-asterisk" /> Feature
     </button>

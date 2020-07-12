@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 import Comment from './Comment'
@@ -11,17 +11,24 @@ import Feature from './Feature'
 import Pin from './Pin'
 import { getPost } from '../../actions/post'
 
-const Post = ({ post: { post, loading }, getPost, match, history }) => {
+const Post = ({
+  auth: { loading: userLoading, user },
+  post: { post, loading },
+  userId,
+  getPost,
+  match,
+}) => {
   useEffect(() => {
     getPost(match.params.id)
-  }, [getPost, match.params.id])
+    // eslint-disable-next-line
+  }, [userLoading, match.params.id])
 
   return (
     <div className="post-page">
       <div className="post-top">
-        <div onClick={() => history.goBack()} className="btn">
-          Go Back
-        </div>
+        <a href="/posts" className="btn">
+          Go All Posts
+        </a>
         <div className="buttons">
           <Feature />
           <Pin />
@@ -76,11 +83,13 @@ const Post = ({ post: { post, loading }, getPost, match, history }) => {
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   getPost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
   post: state.post,
+  auth: state.auth,
 })
 
-export default connect(mapStateToProps, { getPost })(withRouter(Post))
+export default connect(mapStateToProps, { getPost })(Post)

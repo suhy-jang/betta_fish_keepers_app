@@ -1,10 +1,4 @@
-import {
-  PROFILE_LOADING,
-  GET_PROFILE,
-  UNPUB_LOADING,
-  GET_UNPUB,
-  PROFILE_ERROR,
-} from '../utils/types'
+import { PROFILE_LOADING, GET_PROFILE, PROFILE_ERROR } from '../utils/types'
 
 const initialState = {
   profile: {
@@ -15,7 +9,6 @@ const initialState = {
     pinnedPosts: null,
     posts: null,
   },
-  unpub: [],
   loading: false,
   error: {},
 }
@@ -35,18 +28,6 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         profile: payload,
-      }
-    case UNPUB_LOADING:
-      return {
-        ...state,
-        loading: true,
-        unpub: [],
-      }
-    case GET_UNPUB:
-      return {
-        ...state,
-        loading: false,
-        unpub: payload,
       }
     case PROFILE_ERROR:
       return {

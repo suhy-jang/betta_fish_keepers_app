@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Post from './Post'
+import Post from '../profile/Post'
 import { deleteUser } from '../../actions/auth'
+import { getMyPosts } from '../../actions/post'
 
-const Dashboard = ({ auth: { loading, user }, post: { posts }, history }) => {
-  return (
+const Dashboard = ({
+  auth: { loading: userLoading, user },
+  post: { loading: postLoading, myPosts },
+  getMyPosts,
+  deleteUser,
+  history,
+}) => {
+  useEffect(() => {
+    getMyPosts()
+  }, [getMyPosts])
+
+  return userLoading ? (
+    <>loading...</>
+  ) : (
     <>
       <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">
@@ -25,9 +38,8 @@ const Dashboard = ({ auth: { loading, user }, post: { posts }, history }) => {
         <h2 className="text-dark my-1">
           <i className="fas fa-pen" /> My Posts
         </h2>
-        {posts.map(post => (
-          <Post post={post} />
-        ))}
+        {!postLoading &&
+          myPosts.map(post => <Post key={post.id} post={post} />)}
       </div>
       <div className="my-2">
         <button
@@ -38,7 +50,7 @@ const Dashboard = ({ auth: { loading, user }, post: { posts }, history }) => {
             }
           }}
         >
-          <i className="fas fa-user-minus" />
+          <i className="fas fa-user-minus" onClick={() => deleteUser()} />
           Delete My Account
         </button>
       </div>
@@ -56,4 +68,6 @@ const mapStateToProps = state => ({
   post: state.post,
 })
 
-export default connect(mapStateToProps)(withRouter(Dashboard))
+export default connect(mapStateToProps, { deleteUser, getMyPosts })(
+  withRouter(Dashboard),
+)

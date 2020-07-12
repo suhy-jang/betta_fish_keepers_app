@@ -2,6 +2,7 @@ import axios from 'axios'
 import { setAlert } from './alert'
 import {
   gqlGetPosts,
+  gqlMyPosts,
   gqlGetSinglePost,
   gqlCreatePost,
   gqlUpdatePost,
@@ -15,6 +16,7 @@ import {
 } from './gqlOperations'
 import {
   GET_POSTS,
+  GET_MY_POSTS,
   GET_POST,
   POST_LOADING,
   CREATE_POST,
@@ -31,6 +33,7 @@ import {
 
 // Get posts
 export const getPosts = () => async dispatch => {
+  dispatch({ type: POST_LOADING, payload: '' })
   try {
     const res = await axios.post('/graphql', { query: gqlGetPosts })
 
@@ -40,7 +43,7 @@ export const getPosts = () => async dispatch => {
 
     if (!data) {
       dispatch(setAlert('Unable to load posts', 'danger'))
-      return dispatch({ type: POST_ERROR, payload: errors[0].message })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch({
@@ -52,24 +55,58 @@ export const getPosts = () => async dispatch => {
   }
 }
 
-// Get post
-export const getPost = id => async dispatch => {
+// Get my posts
+export const getMyPosts = () => async dispatch => {
   dispatch({ type: POST_LOADING, payload: '' })
-  const variables = { id }
-
   try {
-    const res = await axios.post('/graphql', {
-      query: gqlGetSinglePost,
-      variables,
-    })
+    const res = await axios.post('/graphql', { query: gqlMyPosts })
 
     const {
       data: { data, errors },
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      dispatch(setAlert('Unable to load posts', 'danger'))
+      return dispatch({ type: POST_ERROR, payload: errors })
+    }
+
+    dispatch({
+      type: GET_MY_POSTS,
+      payload: data.myPosts,
+    })
+  } catch (err) {
+    dispatch({ type: POST_ERROR, payload: err })
+  }
+}
+
+// Get post
+export const getPost = id => async dispatch => {
+  dispatch({ type: POST_LOADING, payload: '' })
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }
+
+  const variables = { id }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      {
+        query: gqlGetSinglePost,
+        variables,
+      },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch({
@@ -79,7 +116,7 @@ export const getPost = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.statusText, status: err.status },
+      payload: err,
     })
   }
 }
@@ -121,7 +158,7 @@ export const createPost = (formData, history, redirectTo) => async dispatch => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: err,
     })
   }
 }
@@ -191,7 +228,7 @@ export const deletePost = (id, history, redirectTo) => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     history.push(redirectTo)
@@ -204,7 +241,7 @@ export const deletePost = (id, history, redirectTo) => async dispatch => {
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: err,
     })
   }
 }
@@ -237,7 +274,7 @@ export const createComment = (text, post) => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch(setAlert('Comment Created', 'success'))
@@ -278,7 +315,7 @@ export const deleteComment = id => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch(setAlert('Comment Deleted'))
@@ -360,7 +397,7 @@ export const deletePinned = id => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch(setAlert('Removed Pin'))
@@ -442,7 +479,7 @@ export const deleteFeatured = id => async dispatch => {
 
     if (!data) {
       errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: '' })
+      return dispatch({ type: POST_ERROR, payload: errors })
     }
 
     dispatch(setAlert('Removed Feature'))

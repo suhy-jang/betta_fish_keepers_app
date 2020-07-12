@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
-    return <Redirect to="/posts" />
+    return <Redirect to="/dashboard" />
   }
 
   return (

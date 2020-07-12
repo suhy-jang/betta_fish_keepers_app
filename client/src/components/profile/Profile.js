@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Avatar from '../avatar/Avatar'
 import Post from './Post'
-import PrivateProfile from './PrivateProfile'
 import { getProfile } from '../../actions/profile'
 
 const Profile = ({ profile: { loading, profile }, getProfile, match }) => {
@@ -13,9 +12,6 @@ const Profile = ({ profile: { loading, profile }, getProfile, match }) => {
 
   return (
     <>
-      <a href="/" className="btn">
-        <i className="fas fa-home" />
-      </a>
       <div className="profile-grid my-1">
         <div className="profile-top bg-primary p-2">
           <Avatar avatar={profile.avatar} className="round-img my-1" />
@@ -46,7 +42,6 @@ const Profile = ({ profile: { loading, profile }, getProfile, match }) => {
           {profile.posts &&
             profile.posts.map(post => <Post key={post.id} post={post} />)}
         </div>
-        <PrivateProfile profileId={profile.id} />
       </div>
     </>
   )

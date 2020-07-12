@@ -4,6 +4,11 @@ const gqlCreateUser = gql`
   mutation($data: CreateUserInput!) {
     createUser(data: $data) {
       token
+      user {
+        id
+        name
+        avatar
+      }
     }
   }
 `
@@ -54,6 +59,11 @@ const gqlLogin = gql`
   mutation($data: LoginUserInput!) {
     login(data: $data) {
       token
+      user {
+        id
+        name
+        avatar
+      }
     }
   }
 `
@@ -151,9 +161,9 @@ const gqlGetProfile = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlMyUnpubPosts = gql`
+const gqlMyPosts = gql`
   query {
-    myUnpubPosts {
+    myPosts {
       ...postData
       published
       allowComments
@@ -282,7 +292,7 @@ export {
   gqlGetPosts,
   gqlGetSinglePost,
   gqlGetProfile,
-  gqlMyUnpubPosts,
+  gqlMyPosts,
   gqlSearchProfiles,
   gqlSearchPosts,
   gqlCreatePost,
