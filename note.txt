@@ -7,5 +7,3 @@ $ heroku create <APP_NAME>
 $ heroku config:set PRISMA_ENDPOINT=xxx PRISMA_SECRET=xxx JWT_SECRET=xxx
 $ heroku config
 $ git push heroku master
-
-mobile search bar - hide?

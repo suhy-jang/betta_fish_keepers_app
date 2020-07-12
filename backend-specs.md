@@ -39,6 +39,7 @@ Create the backend for a Betta-fish-keepers community. All of the functionality 
   - JWT should expire in 24 hours
 - User registration
   - Once registered, a token will be sent along with user info
+  - When registration, get gravatar image as users avatar
   - Passwords must be hashed
 - User login
   - User can login with email and password
