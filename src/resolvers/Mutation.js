@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import getUserId from '../utils/getUserId'
 import { generateToken } from '../utils/jwtToken'
 import hashPassword from '../utils/hashPassword'
+const gravatar = require('gravatar')
 
 const Mutation = {
   async createUser(parent, args, { prisma }, info) {
@@ -15,10 +16,17 @@ const Mutation = {
       throw new Error('Email already taken.')
     }
 
+    const avatar = gravatar.url(args.data.email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm',
+    })
+
     const user = await prisma.mutation.createUser({
       data: {
         ...args.data,
         password,
+        avatar,
       },
     })
 
@@ -62,6 +70,14 @@ const Mutation = {
 
     if (typeof args.data.password === 'string') {
       args.data.password = await hashPassword(args.data.password)
+    }
+
+    if (args.data.email) {
+      args.data.avatar = gravatar.url(args.data.email, {
+        s: '200',
+        r: 'pg',
+        d: 'mm',
+      })
     }
 
     return prisma.mutation.updateUser(
@@ -136,10 +152,24 @@ const Mutation = {
       allowComments: true,
     })
 
-    if (
-      allowedComments &&
-      (args.data.published === false || args.data.allowComments === false)
-    ) {
+    if (args.data.published === false) {
+      await prisma.mutation.deleteManyFeatureds({
+        where: {
+          post: {
+            id: args.id,
+          },
+        },
+      })
+      await prisma.mutation.deleteManyPinneds({
+        where: {
+          post: {
+            id: args.id,
+          },
+        },
+      })
+    }
+
+    if (allowedComments === true && args.data.allowComments === false) {
       await prisma.mutation.deleteManyComments({
         where: {
           post: {
@@ -175,7 +205,11 @@ const Mutation = {
 
     const pinExists = pinnedPosts.some(e => e.post.id === args.id)
 
-    if (pinnedPosts.length >= 6 || pinExists) {
+    if (pinnedPosts.length >= 6) {
+      throw new Error('Pinned post should not be over 6 (maximum)')
+    }
+
+    if (pinExists) {
       throw new Error('Unable to pin post')
     }
 
@@ -244,8 +278,12 @@ const Mutation = {
       },
     })
 
-    if (featureExists || !postExists) {
-      throw new Error('Unable to feature post')
+    if (featureExists) {
+      throw new Error('Featured post should be only one')
+    }
+
+    if (!postExists) {
+      throw new Error('Post not exist')
     }
 
     return prisma.mutation.createFeatured(

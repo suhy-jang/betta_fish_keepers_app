@@ -71,12 +71,14 @@ input CreateUserInput {
   name: String!
   email: String!
   password: String!
+  avatar: String
 }
 
 input UpdateUserInput {
   name: String
   email: String
   password: String
+  avatar: String
 }
 
 input CreatePostInput {
@@ -107,6 +109,7 @@ type User {
   name: String!
   email: String
   password: String!
+  avatar: String
   pinnedPosts: [Pinned!]!
   featuredPost: Featured
   posts: [Post!]!

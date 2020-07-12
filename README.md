@@ -1,6 +1,6 @@
-# Betta Fish Keepers API
+# Betta Fish Keepers Community
 
-> Backend API for Betta-fish-keepers application, which is a community website
+> Betta-fish-keepers application, which is a community website. Due to COVID-19, people tend to be home with their pets. There is a growing population for fish keepers. Especially Betta fishes have identical behaviors, their keepers need to search for information about that species. This app is to help of Betta keepers.
 
 ## Version Info
 
@@ -61,9 +61,11 @@ $ npm run dev
 
 ## ✨Live Demo
 
-The API is live at [herokuapp](https://suhy-betta-keepers-api.herokuapp.com/)
+The full website is live at [heroku-app](https://suhy-betta-keepers-app.herokuapp.com/)
 
-Extensive documentation with examples [here](https://documenter.getpostman.com/view/8001436/T17CEALp)
+The Backend is running at https://suhy-betta-keepers-app.herokuapp.com/graphql, can see API structure [graphql playground](https://suhy-betta-keepers-app.herokuapp.com/graphql/playground)
+
+Extensive documentation with examples [postman](https://documenter.getpostman.com/view/8001436/T17CEALp)
 
 - Version: 1.0.0
 - Author: Suhyeon Jang

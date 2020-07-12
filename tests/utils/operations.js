@@ -8,6 +8,7 @@ const createUser = gql`
         id
         name
         email
+        avatar
       }
     }
   }
@@ -87,6 +88,15 @@ const myPosts = gql`
       featuredBy {
         id
       }
+    }
+  }
+`
+
+const myUnpubPosts = gql`
+  query {
+    myUnpubPosts {
+      id
+      published
     }
   }
 `
@@ -177,6 +187,7 @@ export {
   createPinnedPost,
   createFeaturedPost,
   myPosts,
+  myUnpubPosts,
   updatePost,
   createPost,
   deletePost,

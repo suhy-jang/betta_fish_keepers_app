@@ -23,7 +23,7 @@ test('Should expose comments', async () => {
 })
 
 test('Should delete own comment', async () => {
-  const client = getClient(userOne.jwt)
+  const client = getClient(userThree.jwt)
   const variables = {
     id: commentOne.comment.id,
   }
@@ -43,7 +43,7 @@ test('Should delete own posts comment', async () => {
 })
 
 test('Should not delete other users comment', async () => {
-  const client = getClient(userThree.jwt)
+  const client = getClient(userOne.jwt)
   const variables = {
     id: commentOne.comment.id,
   }

@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Jun 28 2020 22:51:05 GMT+0900 (Korean Standard Time)
+# timestamp: Fri Jul 10 2020 02:33:06 GMT+0900 (Korean Standard Time)
 
 type AggregateComment {
   count: Int!
@@ -1892,6 +1892,7 @@ type User implements Node {
   id: ID!
   name: String!
   email: String!
+  avatar: String
   password: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
@@ -1915,6 +1916,7 @@ input UserCreateInput {
   id: ID
   name: String!
   email: String!
+  avatar: String
   password: String!
   posts: PostCreateManyWithoutAuthorInput
   comments: CommentCreateManyWithoutAuthorInput
@@ -1946,6 +1948,7 @@ input UserCreateWithoutCommentsInput {
   id: ID
   name: String!
   email: String!
+  avatar: String
   password: String!
   posts: PostCreateManyWithoutAuthorInput
   pinnedPosts: PinnedCreateManyWithoutUserInput
@@ -1956,6 +1959,7 @@ input UserCreateWithoutFeaturedPostInput {
   id: ID
   name: String!
   email: String!
+  avatar: String
   password: String!
   posts: PostCreateManyWithoutAuthorInput
   comments: CommentCreateManyWithoutAuthorInput
@@ -1966,6 +1970,7 @@ input UserCreateWithoutPinnedPostsInput {
   id: ID
   name: String!
   email: String!
+  avatar: String
   password: String!
   posts: PostCreateManyWithoutAuthorInput
   comments: CommentCreateManyWithoutAuthorInput
@@ -1976,6 +1981,7 @@ input UserCreateWithoutPostsInput {
   id: ID
   name: String!
   email: String!
+  avatar: String
   password: String!
   comments: CommentCreateManyWithoutAuthorInput
   pinnedPosts: PinnedCreateManyWithoutUserInput
@@ -1998,6 +2004,8 @@ enum UserOrderByInput {
   name_DESC
   email_ASC
   email_DESC
+  avatar_ASC
+  avatar_DESC
   password_ASC
   password_DESC
   createdAt_ASC
@@ -2010,6 +2018,7 @@ type UserPreviousValues {
   id: ID!
   name: String!
   email: String!
+  avatar: String
   password: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -2057,6 +2066,7 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   name: String
   email: String
+  avatar: String
   password: String
   posts: PostUpdateManyWithoutAuthorInput
   comments: CommentUpdateManyWithoutAuthorInput
@@ -2067,6 +2077,7 @@ input UserUpdateInput {
 input UserUpdateManyMutationInput {
   name: String
   email: String
+  avatar: String
   password: String
 }
 
@@ -2101,6 +2112,7 @@ input UserUpdateOneRequiredWithoutPostsInput {
 input UserUpdateWithoutCommentsDataInput {
   name: String
   email: String
+  avatar: String
   password: String
   posts: PostUpdateManyWithoutAuthorInput
   pinnedPosts: PinnedUpdateManyWithoutUserInput
@@ -2110,6 +2122,7 @@ input UserUpdateWithoutCommentsDataInput {
 input UserUpdateWithoutFeaturedPostDataInput {
   name: String
   email: String
+  avatar: String
   password: String
   posts: PostUpdateManyWithoutAuthorInput
   comments: CommentUpdateManyWithoutAuthorInput
@@ -2119,6 +2132,7 @@ input UserUpdateWithoutFeaturedPostDataInput {
 input UserUpdateWithoutPinnedPostsDataInput {
   name: String
   email: String
+  avatar: String
   password: String
   posts: PostUpdateManyWithoutAuthorInput
   comments: CommentUpdateManyWithoutAuthorInput
@@ -2128,6 +2142,7 @@ input UserUpdateWithoutPinnedPostsDataInput {
 input UserUpdateWithoutPostsDataInput {
   name: String
   email: String
+  avatar: String
   password: String
   comments: CommentUpdateManyWithoutAuthorInput
   pinnedPosts: PinnedUpdateManyWithoutUserInput
@@ -2283,6 +2298,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   email_not_ends_with: String
+  avatar: String
+
+  """All values that are not equal to given value."""
+  avatar_not: String
+
+  """All values that are contained in given list."""
+  avatar_in: [String!]
+
+  """All values that are not contained in given list."""
+  avatar_not_in: [String!]
+
+  """All values less than the given value."""
+  avatar_lt: String
+
+  """All values less than or equal the given value."""
+  avatar_lte: String
+
+  """All values greater than the given value."""
+  avatar_gt: String
+
+  """All values greater than or equal the given value."""
+  avatar_gte: String
+
+  """All values containing the given string."""
+  avatar_contains: String
+
+  """All values not containing the given string."""
+  avatar_not_contains: String
+
+  """All values starting with the given string."""
+  avatar_starts_with: String
+
+  """All values not starting with the given string."""
+  avatar_not_starts_with: String
+
+  """All values ending with the given string."""
+  avatar_ends_with: String
+
+  """All values not ending with the given string."""
+  avatar_not_ends_with: String
   password: String
 
   """All values that are not equal to given value."""

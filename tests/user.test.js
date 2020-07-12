@@ -18,6 +18,7 @@ test('Should create a new user', async () => {
       password: 'foobar123',
     },
   }
+
   const response = await client.mutate({
     mutation: createUser,
     variables,
@@ -68,7 +69,7 @@ test('Should expose public author profiles', async () => {
   const { data } = await client.query({ query: getUsers })
 
   expect(data).toHaveProperty('users')
-  expect(data.users.length).toBe(2)
+  expect(data.users.length).toBe(3)
   expect(data.users[0].email).toBe(null)
   expect(data.users[0].name).toBe('Jen Barber')
 })

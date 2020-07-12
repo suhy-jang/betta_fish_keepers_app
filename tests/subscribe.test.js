@@ -2,13 +2,18 @@ import 'core-js/stable'
 import 'cross-fetch/polyfill'
 import 'regenerator-runtime/runtime'
 import prisma from '../src/prisma'
-import seedDatabase, { postOne, commentTwo } from './utils/seedDatabase'
+import seedDatabase, {
+  postOne,
+  postTwo,
+  commentOne,
+  commentTwo,
+} from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { subscribeToPosts, subscribeToComments } from './utils/operations'
 
 const client = getClient()
 
-beforeEach(seedDatabase)
+beforeAll(seedDatabase)
 
 test('Should subscribe to changes for published posts', async done => {
   client.subscribe({ query: subscribeToPosts }).subscribe({
