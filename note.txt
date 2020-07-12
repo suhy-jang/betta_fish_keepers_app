@@ -11,4 +11,4 @@ $ git push heroku master
 mock user
 mobile search bar - hide?
 add new post unpub
-unpub hide properly
+my posts - dashboard, dashboard link

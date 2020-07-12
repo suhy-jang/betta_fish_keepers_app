@@ -20,7 +20,7 @@ const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const authLinks = (
     <>
       <li>
-        <Link to="/profile">Profile</Link>
+        <Link to="/dashboard">Dashboard</Link>
       </li>
       <li>
         <a onClick={logout} href="/">

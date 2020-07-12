@@ -7,6 +7,7 @@ import UpdateUser from '../auth/UpdateUser'
 import Posts from '../posts/Posts'
 import Post from '../post/Post'
 import Profile from '../profile/Profile'
+import Dashboard from '../dashboard/Dashboard'
 import Search from '../search/Search'
 import UpdatePost from '../post/UpdatePost'
 import PrivateRoute from '../routing/PrivateRoute'
@@ -24,6 +25,7 @@ const Routes = () => {
         <Route exact path="/posts/:id/edit" component={UpdatePost} />
         <Route exact path="/search" component={Search} />
         <Route exact path="/profile/:id" component={Profile} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/updateUserInfo" component={UpdateUser} />
         <Route component={NotFound} />
       </Switch>
