@@ -62,24 +62,6 @@ const Query = {
 
     return prisma.query.posts(opArgs, info)
   },
-  myUnpubPosts(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request)
-
-    const opArgs = {
-      first: args.first,
-      skip: args.skip,
-      after: args.after,
-      orderBy: args.orderBy,
-      where: {
-        published: false,
-        author: {
-          id: userId,
-        },
-      },
-    }
-
-    return prisma.query.posts(opArgs, info)
-  },
   me(parent, args, { prisma, request }, info) {
     const userId = getUserId(request)
     return prisma.query.user(
