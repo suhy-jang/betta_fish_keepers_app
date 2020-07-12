@@ -84,7 +84,7 @@ const UpdateUser = ({
         <div className="form-group">
           <input
             type="password"
-            placeholder="ConfirmPassword"
+            placeholder="Confirm Password"
             name="password2"
             value={password2}
             onChange={e => onChange(e)}
