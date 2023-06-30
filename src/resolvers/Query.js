@@ -1,18 +1,21 @@
 import getUserId from '../utils/getUserId'
 
 const Query = {
-  users(parent, args, { prisma }, info) {
-    const opArgs = {
-      first: args.first,
-      skip: args.skip,
-      after: args.after,
-      orderBy: args.orderBy,
-    }
+  users: async (parent, args, { prisma }, info) => {
+    // const opArgs = {
+    //   first: args.first,
+    //   skip: args.skip,
+    //   after: args.after,
+    //   orderBy: args.orderBy,
+    // }
 
-    if (args.query) {
-      opArgs.where = { name_contains: args.query }
-    }
-    return prisma.query.users(opArgs, info)
+    // if (args.query) {
+    //   opArgs.where = { name_contains: args.query }
+    // }
+    const users = await prisma.user.findMany({})
+
+    return users
+    // prisma.query.user(opArgs, info)
   },
   posts(parent, args, { prisma }, info) {
     const opArgs = {

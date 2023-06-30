@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  avatar       String?
+  password     String
+  posts        Post[]    @relation("PostToUser")
+  comments     Comment[] @relation("CommentToUser")
+  pinnedPosts  Pinned[]  @relation("PinnedToUser")
+  featuredPost Featured? @relation("FeaturedToUser")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Pinned {
+  id        String   @id @default(uuid())
+  user      User     @relation("PinnedToUser", fields: [userId], references: [id])
+  post      Post     @relation("PinnedToPost", fields: [postId], references: [id])
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Featured {
+  id        String   @id @default(uuid())
+  user      User     @relation("FeaturedToUser", fields: [userId], references: [id])
+  post      Post     @relation("FeaturedToPost", fields: [postId], references: [id])
+  userId    String   @unique
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id            String     @id @default(uuid())
+  title         String
+  body          String
+  published     Boolean    @default(false)
+  allowComments Boolean    @default(true)
+  author        User?      @relation("PostToUser", fields: [authorId], references: [id])
+  comments      Comment[]  @relation("CommentToPost")
+  pinGazers     Pinned[]   @relation("PinnedToPost")
+  featuredBy    Featured[] @relation("FeaturedToPost")
+  authorId      String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  post      Post?    @relation("CommentToPost", fields: [postId], references: [id])
+  author    User?    @relation("CommentToUser", fields: [authorId], references: [id])
+  postId    String?
+  authorId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

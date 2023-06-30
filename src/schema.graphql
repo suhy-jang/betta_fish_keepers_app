@@ -140,7 +140,7 @@ type Post {
   body: String!
   published: Boolean!
   allowComments: Boolean!
-  featuredBy: Featured
+  featuredBy: [Featured]
   pinGazers: [Pinned!]!
   author: User!
   comments: [Comment!]!

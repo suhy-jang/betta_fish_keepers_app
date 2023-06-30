@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist",
+    "build": "npm run build:mysql-client",
     "heroku-postbuild": "babel src --out-dir dist --copy-files && NPM_CONFIG_PRODUCTION=false && npm install --prefix client && npm run build --prefix client",
     "server": "env-cmd -f ./config/dev.env nodemon src --ext js,graphql --exec babel-node --ignore client",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand --notify",
-    "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"
+    "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env",
+    "migrate": "env-cmd -f ./config/dev.env prisma migrate dev --schema=./prisma/schema.postgresql.prisma",
+    "build:mysql-client": "prisma generate --schema=./prisma/schema.postgresql.prisma"
   },
   "jest": {
     "testEnvironment": "node",
@@ -21,7 +24,9 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
+    "@prisma/client": "^3.15.2",
     "bcryptjs": "^2.4.3",
+    "caniuse-lite": "^1.0.30001509",
     "core-js": "^3.6.5",
     "cross-fetch": "^3.0.5",
     "express": "^4.17.1",
@@ -30,7 +35,7 @@
     "graphql-yoga": "^1.18.3",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "prisma-binding": "^2.3.16"
+    "prisma": "^3.15.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
