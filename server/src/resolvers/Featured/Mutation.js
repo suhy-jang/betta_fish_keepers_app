@@ -1,8 +1,11 @@
-import getUserId from '../../utils/getUserId'
+import { AuthenticationError } from '../../utils/error'
 
 const Featured = {
-  async createFeatured(parent, args, { prisma, request }, info) {
+  async createFeatured(_, args, { prisma, request, getUserId }, _) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
 
     const featured = await prisma.featured.findFirst({
       where: {
@@ -43,8 +46,16 @@ const Featured = {
     })
     return newFeatured
   },
-  async deleteFeatured(parent, args, { prisma, request }, info) {
+  async deleteFeatured(
+    _,
+    args,
+    { prisma, request, getUserId, AuthenticationError },
+    _,
+  ) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
     const featuredPost = await prisma.featured.findFirst({
       where: {
         id: args.id,

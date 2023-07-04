@@ -1,6 +1,6 @@
 import { verifyToken } from './auth'
 
-const getUserId = (request, requireAuth = true) => {
+const getUserId = (request) => {
   const header = request.request
     ? request.request.headers.authorization
     : request.connection.context.Authorization
@@ -9,10 +9,6 @@ const getUserId = (request, requireAuth = true) => {
     const token = header.replace('Bearer ', '')
     const decoded = verifyToken(token)
     return decoded.userId
-  }
-
-  if (requireAuth) {
-    throw new Error('Authentication required')
   }
 
   return null

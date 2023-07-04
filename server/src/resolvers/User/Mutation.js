@@ -1,12 +1,12 @@
 import bcrypt from 'bcryptjs'
-import getUserId from '../../utils/getUserId'
 import { generateToken } from '../../utils/auth'
 import hashPassword from '../../utils/hashPassword'
 import { PASSWORD_LENGTH } from '../../constants/constants.js'
 const gravatar = require('gravatar')
+import { AuthenticationError } from '../../utils/error'
 
 const User = {
-  async createUser(parent, args, { prisma }, info) {
+  async createUser(_, args, { prisma }, __) {
     if (args.data.password.length < PASSWORD_LENGTH) {
       throw new Error('Password must be 8 characters or longer.')
     }
@@ -40,7 +40,7 @@ const User = {
       token: generateToken(user.id),
     }
   },
-  async login(parent, args, { prisma }, info) {
+  async login(_, args, { prisma }, __) {
     if (args.data.password.length < PASSWORD_LENGTH) {
       throw new Error('Password must be 8 characters or longer.')
     }
@@ -62,15 +62,21 @@ const User = {
       token: generateToken(user.id),
     }
   },
-  async deleteUser(parent, args, { prisma, request }, info) {
+  async deleteUser(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
     const deletedUser = await prisma.user.delete({
       where: { id: userId },
     })
     return deletedUser
   },
-  async updateUser(parent, args, { prisma, request }, info) {
+  async updateUser(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
 
     if (typeof args.data.password === 'string') {
       if (args.data.password.length < PASSWORD_LENGTH) {

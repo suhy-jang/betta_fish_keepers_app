@@ -1,10 +1,6 @@
-import getUserId from '../../utils/getUserId'
-
 const Post = {
   pinGazers: {
-    async resolve(parent, args, { request, prisma }, info) {
-      const userId = getUserId(request, false)
-
+    async resolve(parent, args, { prisma, request, getUserId }, _) {
       const pinned = await prisma.pinned.findMany({
         where: {
           post: { id: parent.id },
@@ -27,8 +23,7 @@ const Post = {
     },
   },
   featuredBy: {
-    async resolve(parent, args, { prisma, request }, info) {
-      const userId = getUserId(request, false)
+    async resolve(parent, args, { prisma, request, getUserId }, _) {
       const featured = await prisma.featured.findFirst({
         where: {
           post: { id: parent.id },

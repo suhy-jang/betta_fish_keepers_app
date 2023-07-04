@@ -1,9 +1,8 @@
-import getUserId from '../../utils/getUserId'
-
 const User = {
   email: {
-    resolve(parent, args, { request }, info) {
-      const userId = getUserId(request, false)
+    resolve(parent, args, { request, getUserId }, _) {
+      const userId = getUserId(request)
+      // Only logged-in users can see the email information.
       if (userId && userId === parent.id) {
         return parent.email
       } else {
@@ -12,8 +11,8 @@ const User = {
     },
   },
   posts: {
-    resolve(parent, args, { prisma, request }, info) {
-      const userId = getUserId(request, false)
+    resolve(parent, args, { prisma, request, getUserId }, _) {
+      const userId = getUserId(request)
       return prisma.post.findMany({
         where: {
           published: userId === parent.id ? undefined : true,
@@ -25,8 +24,7 @@ const User = {
     },
   },
   pinnedPosts: {
-    async resolve(parent, args, { prisma, request }, info) {
-      const userId = getUserId(request, false)
+    async resolve(parent, args, { prisma, request, getUserId }, _) {
       const pinned = await prisma.pinned.findMany({
         where: {
           user: { id: parent.id },
@@ -44,8 +42,7 @@ const User = {
     },
   },
   featuredPost: {
-    async resolve(parent, args, { prisma, request }, info) {
-      const userId = getUserId(request, false)
+    async resolve(parent, args, { prisma, request, getUserId }, _) {
       const featured = await prisma.featured.findFirst({
         where: {
           user: { id: parent.id },

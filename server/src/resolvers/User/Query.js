@@ -1,7 +1,7 @@
-import getUserId from '../../utils/getUserId'
+import { AuthenticationError } from '../../utils/error'
 
 const User = {
-  users: async (parent, args, { prisma }, info) => {
+  users: async (_, args, { prisma }, __) => {
     const opArgs = {
       take: args.first,
       skip: args.skip,
@@ -18,14 +18,17 @@ const User = {
     const users = await prisma.user.findMany(opArgs)
     return users
   },
-  async me(parent, args, { prisma, request }, info) {
+  async me(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
     const user = await prisma.user.findUnique({
       where: { id: userId },
     })
     return user
   },
-  async user(parent, args, { prisma }, info) {
+  async user(_, args, { prisma }, __) {
     const user = await prisma.user.findUnique({
       where: { id: args.id },
     })

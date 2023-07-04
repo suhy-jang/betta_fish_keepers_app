@@ -1,8 +1,11 @@
-import getUserId from '../../utils/getUserId'
+import { AuthenticationError } from '../../utils/error'
 
 const Pinned = {
-  async createPinned(parent, args, { prisma, request }, info) {
+  async createPinned(_, args, { prisma, request, getUserId }, _) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
 
     const pinned = await prisma.pinned.findFirst({
       where: {
@@ -46,8 +49,11 @@ const Pinned = {
 
     return createdPinned
   },
-  async deletePinned(parent, args, { prisma, request }, info) {
+  async deletePinned(_, args, { prisma, request, getUserId }, _) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
     const pinned = await prisma.pinned.findFirst({
       where: {
         id: args.id,

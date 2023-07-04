@@ -1,7 +1,8 @@
-import getUserId from '../../utils/getUserId'
+import { AuthenticationError } from '../../utils/error'
 
-const Post = {
-  posts: async (parent, args, { prisma }, info) => {
+const Query = {
+  // public
+  posts: async (_, args, { prisma }, __) => {
     const opArgs = {
       take: args.first,
       skip: args.skip,
@@ -23,8 +24,11 @@ const Post = {
     const posts = await prisma.post.findMany(opArgs)
     return posts
   },
-  async myPosts(parent, args, { prisma, request }, info) {
+  async myPosts(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
 
     const opArgs = {
       take: args.first,
@@ -50,8 +54,9 @@ const Post = {
 
     return posts
   },
-  async post(parent, args, { prisma, request }, info) {
-    const userId = getUserId(request, false)
+  async post(_, args, { prisma, request }, __) {
+    const userId = getUserId(request)
+    // No need to verify if a user is logged in to see published posts.
 
     const post = await prisma.post.findFirst({
       where: {
@@ -75,4 +80,4 @@ const Post = {
   },
 }
 
-export { Post as default }
+export { Query as default }

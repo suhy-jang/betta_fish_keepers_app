@@ -1,7 +1,6 @@
-import getUserId from '../../utils/getUserId'
-
 const Comment = {
-  async comments(parent, args, { prisma }, info) {
+  // public
+  async comments(_, args, { prisma }, __) {
     const opArgs = {
       where: {
         postId: args.postId,

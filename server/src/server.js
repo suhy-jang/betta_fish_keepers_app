@@ -1,6 +1,7 @@
 import { GraphQLServer } from 'graphql-yoga'
 import prisma from './prisma'
 import { resolvers, fragmentReplacements } from './resolvers'
+import getUserId from './utils/getUserId'
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
@@ -9,6 +10,7 @@ const server = new GraphQLServer({
     return {
       prisma,
       request,
+      getUserId,
     }
   },
   fragmentReplacements,

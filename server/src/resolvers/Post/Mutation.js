@@ -1,11 +1,10 @@
-import getUserId from '../../utils/getUserId'
+import { AuthenticationError } from '../../utils/error'
 
-const Post = {
-  async createPost(parent, args, { request, prisma }, info) {
+const Mutation = {
+  async createPost(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
-
     if (!userId) {
-      throw new Error('User not found')
+      throw new AuthenticationError('Authentication required')
     }
 
     const createPost = await prisma.post.create({
@@ -20,8 +19,11 @@ const Post = {
     })
     return createPost
   },
-  async deletePost(parent, args, { prisma, request }, info) {
+  async deletePost(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
 
     const postExists = await prisma.post.findFirst({
       where: {
@@ -66,8 +68,11 @@ const Post = {
 
     return deletedPost
   },
-  async updatePost(parent, args, { prisma, request }, info) {
+  async updatePost(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
+    if (!userId) {
+      throw new AuthenticationError('Authentication required')
+    }
 
     const postExists = await prisma.post.findFirst({
       where: {
@@ -93,4 +98,4 @@ const Post = {
   },
 }
 
-export { Post as default }
+export { Mutation as default }

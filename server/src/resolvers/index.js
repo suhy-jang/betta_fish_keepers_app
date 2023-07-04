@@ -1,4 +1,3 @@
-import Subscription from './Subscription'
 import userResolver from './userResolver'
 import postResolver from './postResolver'
 import commentResolver from './commentResolver'
@@ -6,7 +5,10 @@ import pinnedResolver from './pinnedResolver'
 import featuredResolver from './featuredResolver'
 
 const resolvers = {
-  Subscription,
+  Subscription: {
+    ...postResolver.Subscription,
+    ...commentResolver.Subscription,
+  },
   Mutation: {
     ...userResolver.Mutation,
     ...postResolver.Mutation,

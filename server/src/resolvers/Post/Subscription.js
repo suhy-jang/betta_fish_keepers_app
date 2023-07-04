@@ -1,8 +1,8 @@
-import getUserId from '../utils/getUserId'
+import { AuthenticationError } from '../../utils/error'
 
 const Subscription = {
   post: {
-    subscribe(parent, args, { prisma }, info) {
+    subscribe(_, args, { prisma }, info) {
       return prisma.subscription.post(
         {
           where: {
@@ -15,25 +15,12 @@ const Subscription = {
       )
     },
   },
-  comment: {
-    subscribe(parent, args, { prisma }, info) {
-      return prisma.subscription.comment(
-        {
-          where: {
-            node: {
-              post: {
-                id: args.postId,
-              },
-            },
-          },
-        },
-        info,
-      )
-    },
-  },
   myPost: {
-    subscribe(parent, args, { prisma, request }, info) {
+    subscribe(_, args, { prisma, request, getUserId }, info) {
       const userId = getUserId(request)
+      if (!userId) {
+        throw new AuthenticationError('Authentication required')
+      }
 
       return prisma.subscription.post(
         {
