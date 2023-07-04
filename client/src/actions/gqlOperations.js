@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 const gqlCreateUser = gql`
-  mutation($data: CreateUserInput!) {
+  mutation ($data: CreateUserInput!) {
     createUser(data: $data) {
       token
       user {
@@ -29,7 +29,7 @@ const FRAGMENT_USER_FIELDS = gql`
 `
 
 const gqlUpdateUser = gql`
-  mutation($data: UpdateUserInput!) {
+  mutation ($data: UpdateUserInput!) {
     updateUser(data: $data) {
       ...userData
     }
@@ -56,7 +56,7 @@ const gqlGetMe = gql`
 `
 
 const gqlLogin = gql`
-  mutation($data: LoginUserInput!) {
+  mutation ($data: LoginUserInput!) {
     login(data: $data) {
       token
       user {
@@ -97,7 +97,7 @@ const FRAGMENT_POST_FIELDS = gql`
 
 const gqlGetPosts = gql`
   query {
-    posts(orderBy: createdAt_DESC) {
+    posts {
       ...postData
     }
   }
@@ -122,7 +122,7 @@ const FRAGMENT_COMMENT_FIELDS = gql`
 `
 
 const gqlGetSinglePost = gql`
-  query($id: ID!) {
+  query ($id: ID!) {
     post(id: $id) {
       ...postData
       published
@@ -137,7 +137,7 @@ const gqlGetSinglePost = gql`
 `
 
 const gqlGetProfile = gql`
-  query($id: ID!) {
+  query ($id: ID!) {
     user(id: $id) {
       ...userData
       pinnedPosts {
@@ -173,7 +173,7 @@ const gqlMyPosts = gql`
 `
 
 const gqlSearchProfiles = gql`
-  query($query: String!) {
+  query ($query: String!) {
     users(query: $query) {
       id
       name
@@ -186,8 +186,8 @@ const gqlSearchProfiles = gql`
 `
 
 const gqlSearchPosts = gql`
-  query($query: String!) {
-    posts(query: $query, orderBy: createdAt_DESC) {
+  query ($query: String!) {
+    posts(query: $query) {
       ...postData
     }
   }
@@ -195,7 +195,7 @@ const gqlSearchPosts = gql`
 `
 
 const gqlCreatePost = gql`
-  mutation($data: CreatePostInput!) {
+  mutation ($data: CreatePostInput!) {
     createPost(data: $data) {
       ...postData
       published
@@ -205,7 +205,7 @@ const gqlCreatePost = gql`
 `
 
 const gqlUpdatePost = gql`
-  mutation($id: ID!, $data: UpdatePostInput!) {
+  mutation ($id: ID!, $data: UpdatePostInput!) {
     updatePost(id: $id, data: $data) {
       ...postData
       published
@@ -215,7 +215,7 @@ const gqlUpdatePost = gql`
 `
 
 const gqlCreateComment = gql`
-  mutation($data: CreateCommentInput!) {
+  mutation ($data: CreateCommentInput!) {
     createComment(data: $data) {
       ...commentData
     }
@@ -224,7 +224,7 @@ const gqlCreateComment = gql`
 `
 
 const gqlDeleteComment = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     deleteComment(id: $id) {
       ...commentData
     }
@@ -233,7 +233,7 @@ const gqlDeleteComment = gql`
 `
 
 const gqlDeletePost = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     deletePost(id: $id) {
       ...postData
     }
@@ -242,7 +242,7 @@ const gqlDeletePost = gql`
 `
 
 const gqlCreatePinned = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     createPinned(id: $id) {
       id
       user {
@@ -254,7 +254,7 @@ const gqlCreatePinned = gql`
 `
 
 const gqlDeletePinned = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     deletePinned(id: $id) {
       id
     }
@@ -262,7 +262,7 @@ const gqlDeletePinned = gql`
 `
 
 const gqlCreateFeatured = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     createFeatured(id: $id) {
       id
       post {
@@ -273,7 +273,7 @@ const gqlCreateFeatured = gql`
 `
 
 const gqlDeleteFeatured = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     deleteFeatured(id: $id) {
       id
       post {
