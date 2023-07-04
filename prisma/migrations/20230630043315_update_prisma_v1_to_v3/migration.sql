@@ -49,7 +49,7 @@ CREATE TABLE "Post" (
 
 -- CreateTable
 CREATE TABLE "Comment" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
     "postId" TEXT,
     "authorId" TEXT,

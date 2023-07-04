@@ -1,33 +1,28 @@
-# import UserOrderByInput, PostOrderByInput, CommentOrderByInput from './generated/prisma.graphql'
-
 type Query {
   users(
     query: String
     first: Int
     after: String
     skip: Int
-    orderBy: UserOrderByInput
   ): [User!]!
   posts(
     query: String
     first: Int
     skip: Int
     after: String
-    orderBy: PostOrderByInput
   ): [Post!]!
   myPosts(
     query: String
     first: Int
     skip: Int
     after: String
-    orderBy: PostOrderByInput
   ): [Post!]!
   comments(
+    postId: ID!
     query: String
     first: Int
     skip: Int
     after: String
-    orderBy: CommentOrderByInput
   ): [Comment!]!
   me: User!
   user(id: ID!): User!
@@ -42,8 +37,8 @@ type Mutation {
   createPost(data: CreatePostInput!): Post!
   deletePost(id: ID!): Post!
   updatePost(id: ID!, data: UpdatePostInput!): Post!
-  createPinned(id: ID!): Pinned!
-  createFeatured(id: ID!): Featured!
+  createPinned(postId: ID!): Pinned!
+  createFeatured(postId: ID!): Featured!
   deletePinned(id: ID!): Pinned!
   deleteFeatured(id: ID!): Featured!
   createComment(data: CreateCommentInput!): Comment!
@@ -97,7 +92,7 @@ input UpdatePostInput {
 
 input CreateCommentInput {
   text: String!
-  post: ID!
+  postId: ID!
 }
 
 input UpdateCommentInput {
@@ -110,8 +105,8 @@ type User {
   email: String
   password: String!
   avatar: String
-  pinnedPosts: [Pinned!]!
-  featuredPost: Featured
+  pinnedPosts: [Post!]!
+  featuredPost: Post
   posts: [Post!]!
   comments: [Comment!]!
   createdAt: String!
@@ -140,8 +135,8 @@ type Post {
   body: String!
   published: Boolean!
   allowComments: Boolean!
-  featuredBy: [Featured]
-  pinGazers: [Pinned!]!
+  featuredBy: User
+  pinGazers: [User!]!
   author: User!
   comments: [Comment!]!
   createdAt: String!

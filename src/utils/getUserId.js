@@ -1,4 +1,4 @@
-import { verifyToken } from './jwtToken'
+import { verifyToken } from './auth'
 
 const getUserId = (request, requireAuth = true) => {
   const header = request.request

@@ -57,7 +57,7 @@ model Post {
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   text      String
   post      Post?    @relation("CommentToPost", fields: [postId], references: [id])
   author    User?    @relation("CommentToUser", fields: [authorId], references: [id])
