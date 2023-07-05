@@ -16,13 +16,13 @@ const CreatePost = ({ auth, createPost, setAlert, history }) => {
   const [formData, setFormData] = useState(initialState)
   const [disabledComment, toggleDisabledComment] = useState(false)
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const { title, body, published, allowComments } = formData
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
     if (!title && !body) {
       return setAlert("Don't leave all blank (Fill at least one)", 'danger')
@@ -41,18 +41,18 @@ const CreatePost = ({ auth, createPost, setAlert, history }) => {
 
   return (
     <div className="post-form">
-      <div className="post-form-header bg-primary">
+      <div className="post-form-header bg-purple-300 rounded-lg text-gray-800">
         <h3>Say Something...</h3>
       </div>
       {auth.isAuthenticated ? (
-        <form className="form my-1" onSubmit={e => onSubmit(e)}>
+        <form className="form my-1" onSubmit={(e) => onSubmit(e)}>
           <textarea
             cols="30"
             rows="1"
             placeholder="Post title"
             name="title"
             value={title}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
           <textarea
             cols="30"
@@ -60,14 +60,14 @@ const CreatePost = ({ auth, createPost, setAlert, history }) => {
             placeholder="Create a post"
             name="body"
             value={body}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
           <input
             type="checkbox"
             name="published"
             checked={published}
             value={published}
-            onChange={e => {
+            onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
               toggleDisabledComment(!disabledComment)
             }}
@@ -78,7 +78,7 @@ const CreatePost = ({ auth, createPost, setAlert, history }) => {
             name="allowComments"
             checked={allowComments}
             value={allowComments}
-            onChange={e => {
+            onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
             }}
             disabled={disabledComment}
@@ -99,7 +99,7 @@ CreatePost.propTypes = {
   auth: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 

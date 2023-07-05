@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 import faker from 'faker'
+import gravatar from 'gravatar'
 
 const prisma = new PrismaClient()
 
@@ -9,12 +10,20 @@ const generatePassword = async (pw) => await bcrypt.hash(pw, 10)
 const seedUsers = async () => {
   const users = []
   for (let i = 0; i < 5; i++) {
+    const email = faker.internet.email()
     const password = await generatePassword(faker.internet.password())
+
+    const avatar = gravatar.url(email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm',
+    })
 
     users.push({
       name: faker.name.findName(),
-      email: faker.internet.email(),
+      email,
       password,
+      avatar,
     })
   }
   await prisma.user.createMany({ data: users })

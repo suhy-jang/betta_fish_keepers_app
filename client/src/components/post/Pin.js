@@ -10,11 +10,11 @@ const Pin = ({
   deletePinned,
 }) => {
   const pinned =
-    user && post && post.pinGazers.map(p => p.user.id).includes(user.id)
+    user && post && post.pinGazers.map((p) => p.id).includes(user.id)
 
   return (
     <button
-      className={`btn btn-${pinned ? 'dark' : 'light'} pin`}
+      className={`btn bg-purple-100 rounded-lg hover:bg-purple-300`}
       onClick={() => (pinned ? deletePinned(post.id) : createPinned(post.id))}
       disabled={!user || !post.published}
     >
@@ -30,7 +30,7 @@ Pin.propTypes = {
   deletePinned: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   post: state.post,
 })

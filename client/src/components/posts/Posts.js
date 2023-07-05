@@ -12,13 +12,12 @@ const Posts = ({ post: { posts }, getPosts }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Posts</h1>
       <p className="lead">
         <i className="fas fa-user" /> Welcome to the community
       </p>
       <CreatePost />
       <div className="posts">
-        {posts.map(post => (
+        {posts.map((post) => (
           <Post key={post.id} post={post} />
         ))}
       </div>
@@ -30,7 +29,7 @@ Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   post: state.post,
 })
 

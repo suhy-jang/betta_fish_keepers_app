@@ -249,7 +249,7 @@ export const deletePost = (id, history, redirectTo) => async (dispatch) => {
 }
 
 // Create comment
-export const createComment = (text, post) => async (dispatch) => {
+export const createComment = (data) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -257,10 +257,7 @@ export const createComment = (text, post) => async (dispatch) => {
   }
 
   const variables = {
-    data: {
-      text,
-      post,
-    },
+    data,
   }
 
   try {

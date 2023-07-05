@@ -535,15 +535,10 @@ img {
 }
 
 .post .post-title {
-  color: #888;
   font-size: 1.2rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid #ccc;
-}
-
-.post .post-title a {
-  color: #888;
 }
 
 .post .post-date {

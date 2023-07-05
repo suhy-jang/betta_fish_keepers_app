@@ -26,11 +26,15 @@ const Post = ({
   return (
     <div className="post-page">
       <div className="post-top">
-        <a href="/posts" className="btn">
+        <a
+          href="/posts"
+          className="btn bg-purple-300 rounded-lg hover:bg-purple-700"
+        >
           Go All Posts
         </a>
         <div className="buttons">
           <Feature />
+          {/* TODO: feature only user's post */}
           <Pin />
         </div>
       </div>
@@ -42,7 +46,7 @@ const Post = ({
           </Link>
         </div>
         <div>
-          <div className="post-title">{post.title}</div>
+          <div className="post-title text-gray-800">{post.title}</div>
           <p className="my-1">{post.body}</p>
           <div className="post-date">
             {post.published ? (
@@ -69,7 +73,7 @@ const Post = ({
         </div>
       )}
       <div className="comments">
-        {post.comments.map(comment => (
+        {post.comments.map((comment) => (
           <Comment
             key={comment.id}
             comment={comment}
@@ -87,7 +91,7 @@ Post.propTypes = {
   getPost: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   post: state.post,
   auth: state.auth,
 })
