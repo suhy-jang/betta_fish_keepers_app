@@ -5,6 +5,18 @@ import { PASSWORD_LENGTH } from '../../constants/constants.js'
 const gravatar = require('gravatar')
 import { AuthenticationError } from '../../utils/error'
 
+// Function to construct a random image URL from Lorem Picsum with custom options
+function getRandomImageUrl(options = {}) {
+  const baseUrl = 'https://picsum.photos'
+  const width = 200
+  const height = 200
+  const blur = '?blur=2'
+  const grayscale = '?grayscale'
+  const seed = options.seed ? `seed=${options.seed}` : ''
+
+  return `${baseUrl}/${width}/${height}${blur}${grayscale}${seed}`
+}
+
 const User = {
   async createUser(_, args, { prisma }, __) {
     if (args.data.password.length < PASSWORD_LENGTH) {
@@ -22,11 +34,13 @@ const User = {
       throw new Error('Email already taken.')
     }
 
-    const avatar = gravatar.url(args.data.email, {
-      s: '200',
-      r: 'pg',
-      d: 'mm',
-    })
+    // const avatar = gravatar.url(args.data.email, {
+    //   s: '200',
+    //   r: 'pg',
+    //   d: 'mm',
+    // })
+
+    const avatar = getRandomImageUrl({ seed: args.data.email })
 
     const user = await prisma.user.create({
       data: {
@@ -86,11 +100,7 @@ const User = {
     }
 
     if (args.data.email) {
-      args.data.avatar = gravatar.url(args.data.email, {
-        s: '200',
-        r: 'pg',
-        d: 'mm',
-      })
+      args.data.avatar = getRandomImageUrl({ seed: args.data.email })
     }
 
     const updateUser = await prisma.user.update({

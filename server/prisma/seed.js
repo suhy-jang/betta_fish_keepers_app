@@ -1,11 +1,22 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 import faker from 'faker'
-import gravatar from 'gravatar'
 
 const prisma = new PrismaClient()
 
 const generatePassword = async (pw) => await bcrypt.hash(pw, 10)
+
+// Function to construct a random image URL from Lorem Picsum with custom options
+function getRandomImageUrl(options = {}) {
+  const baseUrl = 'https://picsum.photos'
+  const width = 200
+  const height = 200
+  const blur = '?blur=2'
+  const grayscale = '?grayscale'
+  const seed = options.seed ? `seed=${options.seed}` : ''
+
+  return `${baseUrl}/${width}/${height}${blur}${grayscale}${seed}`
+}
 
 const seedUsers = async () => {
   const users = []
@@ -13,11 +24,7 @@ const seedUsers = async () => {
     const email = faker.internet.email()
     const password = await generatePassword(faker.internet.password())
 
-    const avatar = gravatar.url(email, {
-      s: '200',
-      r: 'pg',
-      d: 'mm',
-    })
+    const avatar = getRandomImageUrl({ seed: email })
 
     users.push({
       name: faker.name.findName(),
