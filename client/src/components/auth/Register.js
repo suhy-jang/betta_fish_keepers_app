@@ -15,10 +15,10 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
 
   const { name, email, password, password2 } = formData
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
     if (password !== password2) {
       setAlert('Passwords do not match', 'danger')
@@ -37,14 +37,14 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account
       </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="text"
             placeholder="Name"
             name="name"
             value={name}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className="form-group">
@@ -53,7 +53,7 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
           <small className="form-text">
             This site uses Gravatar, so if you want a profile image, use a
@@ -67,7 +67,7 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
             minLength="6"
             name="password"
             value={password}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className="form-group">
@@ -77,7 +77,7 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
             minLength="6"
             name="password2"
             value={password2}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <input type="submit" value="Register" className="btn btn-primary" />
@@ -95,7 +95,7 @@ Register.propTypes = {
   isAuthenticated: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 })
 

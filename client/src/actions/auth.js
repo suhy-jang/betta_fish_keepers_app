@@ -22,7 +22,7 @@ import {
 } from './gqlOperations'
 
 // Load User
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
@@ -51,94 +51,97 @@ export const loadUser = () => async dispatch => {
 }
 
 // Register User
-export const register = ({ name, email, password }) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
-  const variables = {
-    data: {
-      name,
-      email,
-      password,
-    },
-  }
-
-  try {
-    const res = await axios.post(
-      '/graphql',
-      { query: gqlCreateUser, variables },
-      config,
-    )
-
-    const {
-      data: { data, errors },
-    } = res
-
-    if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: REGISTER_FAILURE })
+export const register =
+  ({ name, email, password }) =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
 
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: data.createUser,
-    })
+    const variables = {
+      data: {
+        name,
+        email,
+        password,
+      },
+    }
 
-    dispatch(setAlert('Successfully sign up', 'success'))
-    dispatch(loadUser())
-  } catch (err) {
-    dispatch({
-      type: REGISTER_FAILURE,
-      payload: { msg: err.statusText, status: err.status },
-    })
+    try {
+      const res = await axios.post(
+        '/graphql',
+        { query: gqlCreateUser, variables },
+        config,
+      )
+
+      const {
+        data: { data, errors },
+      } = res
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
+        return dispatch({ type: REGISTER_FAILURE })
+      }
+
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: data.createUser,
+      })
+
+      dispatch(setAlert('Successfully sign up', 'success'))
+      dispatch(loadUser())
+    } catch (err) {
+      dispatch({
+        type: REGISTER_FAILURE,
+        payload: { msg: err.statusText, status: err.status },
+      })
+    }
   }
-}
 
 // Update User
-export const updateUser = (formData, history, redirectTo) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
-  const variables = {
-    data: formData,
-  }
-
-  try {
-    const res = await axios.post(
-      '/graphql',
-      { query: gqlUpdateUser, variables },
-      config,
-    )
-
-    const {
-      data: { data, errors },
-    } = res
-
-    if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: USER_ERROR, payload: errors })
+export const updateUser =
+  (formData, history, redirectTo) => async (dispatch) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
 
-    dispatch({
-      type: UPDATE_USER,
-      payload: data.updateUser,
-    })
+    const variables = {
+      data: formData,
+    }
 
-    dispatch(setAlert('Successfully updated user info', 'success'))
-    history.push(redirectTo)
-  } catch (err) {
-    dispatch({ type: USER_ERROR, payload: err })
+    try {
+      const res = await axios.post(
+        '/graphql',
+        { query: gqlUpdateUser, variables },
+        config,
+      )
+
+      const {
+        data: { data, errors },
+      } = res
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
+        return dispatch({ type: USER_ERROR, payload: errors })
+      }
+
+      dispatch({
+        type: UPDATE_USER,
+        payload: data.updateUser,
+      })
+
+      dispatch(setAlert('Successfully updated user info', 'success'))
+      history.push(redirectTo)
+    } catch (err) {
+      dispatch({ type: USER_ERROR, payload: err })
+    }
   }
-}
 
 // Delete User
-export const deleteUser = (history, redirectTo) => async dispatch => {
+export const deleteUser = (history, redirectTo) => async (dispatch) => {
   try {
     const res = await axios.post('/graphql', { query: gqlDeleteUser })
 
@@ -147,7 +150,7 @@ export const deleteUser = (history, redirectTo) => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: USER_ERROR, payload: errors })
     }
 
@@ -164,7 +167,7 @@ export const deleteUser = (history, redirectTo) => async dispatch => {
 }
 
 // Login User
-export const login = (email, password) => async dispatch => {
+export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -190,7 +193,7 @@ export const login = (email, password) => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: LOGIN_FAILURE })
     }
 
@@ -209,4 +212,4 @@ export const login = (email, password) => async dispatch => {
 }
 
 // Logout
-export const logout = () => dispatch => dispatch({ type: LOGOUT })
+export const logout = () => (dispatch) => dispatch({ type: LOGOUT })

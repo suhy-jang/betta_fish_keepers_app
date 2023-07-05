@@ -2,12 +2,11 @@ const User = {
   email: {
     resolve(parent, args, { request, getUserId }, _) {
       const userId = getUserId(request)
-      // Only logged-in users can see the email information.
-      if (userId && userId === parent.id) {
-        return parent.email
-      } else {
+      if (!userId) {
         return null
       }
+
+      return parent.email
     },
   },
   posts: {

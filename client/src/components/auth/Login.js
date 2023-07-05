@@ -13,12 +13,12 @@ const Login = ({ login, isAuthenticated }) => {
 
   const { email, password } = formData
 
-  const onChange = e => {
+  const onChange = (e) => {
     e.preventDefault()
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
     if (!email || !password) {
       const msg = !email ? 'email' : 'password'
@@ -37,14 +37,14 @@ const Login = ({ login, isAuthenticated }) => {
       <p className="lead">
         <i className="fas fa-user" /> Sign into your account
       </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="email"
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className="form-group">
@@ -53,7 +53,7 @@ const Login = ({ login, isAuthenticated }) => {
             placeholder="Password"
             name="password"
             value={password}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <input type="submit" value="Login" className="btn btn-primary" />
@@ -61,7 +61,7 @@ const Login = ({ login, isAuthenticated }) => {
       <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>
       </p>
-      <div class="white-space-pre sample-account">
+      <div className="white-space-pre sample-account">
         {`
       Sample Account(ID / PW) :
       user-0@example.org / foobar123
@@ -78,7 +78,7 @@ Login.propTypes = {
   isAuthenticated: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 })
 

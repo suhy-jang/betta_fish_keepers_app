@@ -54,7 +54,7 @@ const Query = {
 
     return posts
   },
-  async post(_, args, { prisma, request }, __) {
+  async post(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
     // No need to verify if a user is logged in to see published posts.
 
