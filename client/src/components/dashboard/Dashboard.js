@@ -39,12 +39,12 @@ const Dashboard = ({
           <i className="fas fa-pen" /> My Posts
         </h2>
         {!postLoading &&
-          myPosts.map(post => <Post key={post.id} post={post} />)}
+          myPosts.map((post) => <Post key={post.id} post={post} />)}
       </div>
       <div className="my-2">
         <button
           className="btn btn-danger"
-          onClick={e => {
+          onClick={(e) => {
             if (window.confirm('Are you sure?')) {
               deleteUser(history, '/')
             }
@@ -63,7 +63,7 @@ Dashboard.propTypes = {
   post: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   post: state.post,
 })

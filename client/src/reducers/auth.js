@@ -20,7 +20,7 @@ const initialState = {
   error: {},
 }
 
-export default function(state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         token,
-        isAuthenticated: true,
+        isAuthenticated: !!token,
         loading: false,
         user: payload,
       }
@@ -51,7 +51,7 @@ export default function(state = initialState, action) {
         user: payload,
       }
     case DELETE_USER:
-      return initialState
+      return { ...state }
     case USER_ERROR:
       return {
         ...state,
@@ -71,6 +71,6 @@ export default function(state = initialState, action) {
         user: null,
       }
     default:
-      return state
+      return { ...state }
   }
 }

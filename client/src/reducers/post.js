@@ -31,7 +31,7 @@ const initialState = {
   error: {},
 }
 
-export default function(state = initialState, action) {
+export default function postReducer(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -70,7 +70,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: payload.published
-          ? [payload, ...state.posts.filter(p => p.id !== payload)]
+          ? [payload, ...state.posts.filter((p) => p.id !== payload)]
           : state.posts,
         post: payload,
         loading: false,
@@ -78,7 +78,7 @@ export default function(state = initialState, action) {
     case DELETE_POST:
       return {
         ...state,
-        posts: state.posts.filter(post => post.id !== payload.id),
+        posts: state.posts.filter((post) => post.id !== payload.id),
       }
     case CREATE_COMMENT:
       return {
@@ -91,7 +91,7 @@ export default function(state = initialState, action) {
         post: {
           ...state.post,
           comments: state.post.comments.filter(
-            comment => comment.id !== payload.id,
+            (comment) => comment.id !== payload.id,
           ),
         },
       }
@@ -108,7 +108,7 @@ export default function(state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          pinGazers: state.post.pinGazers.filter(p => p.id !== payload.id),
+          pinGazers: state.post.pinGazers.filter((p) => p.id !== payload.id),
         },
       }
     case CREATE_FEATURED:
