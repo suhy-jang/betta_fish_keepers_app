@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { loadUser } from './actions/auth'
 import store from './utils/store'
 import './App.css'
+import './tailwind.css'
 
 const App = () => {
   useEffect(() => {

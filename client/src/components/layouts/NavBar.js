@@ -32,7 +32,7 @@ const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   )
 
   return (
-    <nav className="navbar bg-dark">
+    <nav className="navbar bg-purple-300">
       <h1>
         <Link to="/">
           <i className="fas fa-water" /> Betta Fish Keepers{' '}
@@ -57,7 +57,7 @@ NavBar.propTypes = {
   logout: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
