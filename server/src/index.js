@@ -37,12 +37,11 @@ server.start(opts, ({ port }) => {
   console.log(`The server is up on port ${port}`)
 })
 
-process.on('SIGINT', async () => {
-  await prisma.$disconnect()
-  process.exit(0)
-})
-
-process.on('SIGTERM', async () => {
-  await prisma.$disconnect()
-  process.exit(0)
-})
+process
+  .on('unhandledRejection', (reason, promise) => {
+    console.warn('Unhandled Rejection at: ', promise, 'reason: ', reason)
+  })
+  .on('uncaughtException', (err) => {
+    console.warn(err, 'Uncaught Exception thrown')
+    process.exit(1)
+  })

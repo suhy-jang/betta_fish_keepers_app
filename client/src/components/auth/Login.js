@@ -61,14 +61,6 @@ const Login = ({ login, isAuthenticated }) => {
       <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>
       </p>
-      <div className="white-space-pre sample-account">
-        {`
-      Sample Account(ID / PW) :
-      user-0@example.org / foobar123
-      or
-      user-1@example.org / foobar123
-        `}
-      </div>
     </Fragment>
   )
 }

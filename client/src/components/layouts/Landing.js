@@ -36,7 +36,7 @@ Landing.propTypes = {
   isAuthenticated: PropTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 })
 
