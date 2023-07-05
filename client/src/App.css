@@ -375,7 +375,6 @@ img {
   z-index: 1;
   width: 100%;
   top: 0;
-  border-bottom: solid 1px var(--primary-color);
   opacity: 0.9;
 }
 .navbar ul {
@@ -383,12 +382,12 @@ img {
   align-items: baseline;
 }
 .navbar a {
-  color: #fff;
+  color: var(--primary-color);
   padding: 0.45rem;
   margin: 0 0.25rem;
 }
 .navbar a:hover {
-  color: var(--primary-color);
+  color: var(--light-color);
 }
 
 .landing {
@@ -411,7 +410,6 @@ img {
 .search-form {
   width: 250px;
   display: inline-block;
-  background-color: #555;
   position: relative;
   border-radius: 10px;
   line-height: 0;
@@ -421,7 +419,6 @@ img {
   border: 0;
   outline: 0;
   font-size: 1rem;
-  color: #ddd;
   background-color: transparent;
   font-family: inherit;
   margin: 0;
@@ -437,14 +434,12 @@ img {
   right: 0;
   width: 30px;
   height: 35px;
-  background-color: #eee;
   font-size: 1rem;
   text-align: center;
   margin: 0;
   padding: 0;
   outline: 0;
   border: 0;
-  color: #333;
   cursor: pointer;
   border-radius: 0 10px 10px 0;
 }

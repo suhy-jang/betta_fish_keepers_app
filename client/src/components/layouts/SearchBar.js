@@ -8,11 +8,11 @@ import { connect } from 'react-redux'
 const SearchBar = ({ search, history }) => {
   const [query, setQuery] = useState('')
 
-  const onChange = e => {
+  const onChange = (e) => {
     setQuery(e.target.value)
   }
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
     if (query.length > 0) {
       search(query)
@@ -25,8 +25,8 @@ const SearchBar = ({ search, history }) => {
 
   return (
     <>
-      <form name="search-form" onSubmit={e => onSubmit(e)}>
-        <div className="search-form">
+      <form name="search-form" onSubmit={(e) => onSubmit(e)}>
+        <div className="search-form bg-purple-500">
           <span className="form-control-wrap">
             <input
               type="text"
@@ -34,12 +34,15 @@ const SearchBar = ({ search, history }) => {
               value={query}
               id="search"
               size="40"
-              className="form-control"
+              className="form-control placeholder-purple-100 text-purple-50"
               placeholder="search"
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             />
           </span>
-          <button type="submit" className="form-control submit">
+          <button
+            type="submit"
+            className="submit bg-purple-200 text-purple-900"
+          >
             <i className="fas fa-chevron-right" />
           </button>
         </div>
