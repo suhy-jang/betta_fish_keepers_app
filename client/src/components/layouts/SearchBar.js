@@ -26,7 +26,7 @@ const SearchBar = ({ search, history }) => {
   return (
     <>
       <form name="search-form" onSubmit={(e) => onSubmit(e)}>
-        <div className="search-form bg-purple-500">
+        <div className="search-form bg-purple-400">
           <span className="form-control-wrap">
             <input
               type="text"
@@ -41,7 +41,7 @@ const SearchBar = ({ search, history }) => {
           </span>
           <button
             type="submit"
-            className="submit bg-purple-200 text-purple-900"
+            className="submit bg-purple-100 text-purple-900"
           >
             <i className="fas fa-chevron-right" />
           </button>

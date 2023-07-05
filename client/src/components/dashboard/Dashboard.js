@@ -21,16 +21,16 @@ const Dashboard = ({
     <>loading...</>
   ) : (
     <>
-      <h1 className="large text-primary">Dashboard</h1>
+      <h1 className="large text-purple-800">Dashboard</h1>
       <p className="lead">
         <i className="fas fa-user" /> Welcome {user.name}
       </p>
       <div className="dash-buttons">
         <a href={`/profile/${user.id}`} className="btn btn-light">
-          <i className="fas fa-user-circle text-primary" /> View Profile
+          <i className="fas fa-user-circle text-purple-800" /> View Profile
         </a>
         <a href="/updateUserInfo" className="btn btn-light">
-          <i className="fas fa-user-circle text-primary" /> Edit User Info
+          <i className="fas fa-user-circle text-purple-800" /> Edit User Info
         </a>
       </div>
 

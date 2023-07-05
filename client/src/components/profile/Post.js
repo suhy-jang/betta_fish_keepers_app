@@ -14,7 +14,10 @@ const Post = ({ post }) => (
       <button className="btn btn-white pin" disabled>
         <i className="fas fa-thumbtack" /> {post.pinGazers.length}
       </button>
-      <Link to={`/posts/${post.id}`} className="btn btn-primary cursor-pointer">
+      <Link
+        to={`/posts/${post.id}`}
+        className="btn bg-purple-300 hover:bg-purple-700 cursor-pointer"
+      >
         Discussion ({post.comments.length})
       </Link>
     </div>

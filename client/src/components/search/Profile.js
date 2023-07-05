@@ -8,14 +8,17 @@ const Profile = ({ profile }) => {
       <Avatar avatar={profile.avatar} className="round-img" />
       <div>
         <h2>{profile.name}</h2>
-        <a href={`/profile/${profile.id}`} className="btn btn-primary">
+        <a
+          href={`/profile/${profile.id}`}
+          className="btn bg-purple-300 hover:bg-purple-700 rounded-lg"
+        >
           View profile
         </a>
       </div>
 
       <ul>
-        <li className="text-primary">
-          <i className="fas fa-pen"></i> posts: {profile.posts.length}
+        <li className="text-purple-800">
+          <i className="fas fa-pen"></i> {profile.posts.length}
         </li>
       </ul>
     </div>

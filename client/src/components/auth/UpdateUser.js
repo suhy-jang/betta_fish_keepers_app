@@ -32,10 +32,10 @@ const UpdateUser = ({
 
   const { name, email, password, password2 } = formData
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
     if (!name || !email || !password || !password2) {
       setAlert('Do not leave blank fields', 'danger')
@@ -50,14 +50,14 @@ const UpdateUser = ({
 
   return (
     <>
-      <h1 className="large text-primary">Edit User Info</h1>
-      <form className="form" onSubmit={e => onSubmit(e)}>
+      <h1 className="large text-purple-800">Edit User Info</h1>
+      <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
             type="text"
             name="name"
             value={name}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className="form-group">
@@ -65,7 +65,7 @@ const UpdateUser = ({
             type="email"
             name="email"
             value={email}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
           <small className="form-text">
             This site uses Gravatar, so if you want a profile image, use a
@@ -78,7 +78,7 @@ const UpdateUser = ({
             placeholder="Password"
             name="password"
             value={password}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className="form-group">
@@ -87,10 +87,14 @@ const UpdateUser = ({
             placeholder="Confirm Password"
             name="password2"
             value={password2}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
-        <input type="submit" value="Submit" className="btn btn-primary" />
+        <input
+          type="submit"
+          value="Submit"
+          className="btn bg-purple-300 hover:bg-purple-700"
+        />
       </form>
     </>
   )
@@ -102,7 +106,7 @@ UpdateUser.propTypes = {
   updateUser: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 export default connect(mapStateToProps, { setAlert, updateUser })(

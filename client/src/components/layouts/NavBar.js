@@ -32,7 +32,7 @@ const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   )
 
   return (
-    <nav className="navbar bg-purple-300">
+    <nav className="navbar bg-purple-200">
       <h1>
         <Link to="/">
           <i className="fas fa-water" /> Betta Fish Keepers{' '}

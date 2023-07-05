@@ -12,20 +12,20 @@ const Search = ({ search: { query, profiles, posts, loading } }) => {
       </p>
       <div className="search-grid my-1">
         <div className="search-users">
-          <h2 className="text-primary">
+          <h2 className="text-purple-800">
             <i className="fas fa-user" />
             Keepers
           </h2>
-          {profiles.map(profile => (
+          {profiles.map((profile) => (
             <Profile key={profile.id} profile={profile} />
           ))}
         </div>
         <div className="search-posts">
-          <h2 className="text-primary">
+          <h2 className="text-purple-800">
             <i className="fas fa-pen" />
             Posts
           </h2>
-          {posts.map(post => (
+          {posts.map((post) => (
             <Post key={post.id} post={post} />
           ))}
         </div>
@@ -38,7 +38,7 @@ Search.propTypes = {
   search: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   search: state.search,
 })
 

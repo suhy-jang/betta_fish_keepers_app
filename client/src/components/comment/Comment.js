@@ -12,7 +12,7 @@ const Comment = ({
   deleteComment,
   postAuthor,
 }) => {
-  const onClick = e => {
+  const onClick = (e) => {
     deleteComment(comment.id)
   }
 
@@ -35,8 +35,8 @@ const Comment = ({
           (comment.author.id === user.id || postAuthor === user.id) && (
             <button
               type="button"
-              className="btn btn-danger"
-              onClick={e => onClick(e)}
+              className="btn btn-danger btn-square rounded-lg"
+              onClick={(e) => onClick(e)}
             >
               <i className="fas fa-times" />
             </button>
@@ -51,7 +51,7 @@ Comment.propTypes = {
   postAuthor: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 

@@ -33,7 +33,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign In</h1>
+      <h1 className="large text-purple-800">Sign In</h1>
       <p className="lead">
         <i className="fas fa-user" /> Sign into your account
       </p>
@@ -56,7 +56,11 @@ const Login = ({ login, isAuthenticated }) => {
             onChange={(e) => onChange(e)}
           />
         </div>
-        <input type="submit" value="Login" className="btn btn-primary" />
+        <input
+          type="submit"
+          value="Login"
+          className="btn bg-purple-300 hover:bg-purple-700"
+        />
       </form>
       <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>

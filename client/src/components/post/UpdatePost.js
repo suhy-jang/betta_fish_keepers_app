@@ -40,11 +40,11 @@ const UpdatePost = ({
     getPost(match.params.id)
   }, [auth.loading, auth.isAuthenticated, getPost, match.params.id])
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault()
     if (!title && !body) {
       return setAlert("Don't leave all blank (Fill at least one)", 'danger')
@@ -64,18 +64,18 @@ const UpdatePost = ({
 
   return (
     <div className="post-form">
-      <div className="post-form-header bg-primary">
+      <div className="post-form-header bg-purple-300">
         <h3>Say Something...</h3>
       </div>
       {!auth.loading && auth.isAuthenticated ? (
-        <form className="form my-1" onSubmit={e => onSubmit(e)}>
+        <form className="form my-1" onSubmit={(e) => onSubmit(e)}>
           <textarea
             cols="30"
             rows="1"
             placeholder="Post title"
             name="title"
             value={title}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
           <textarea
             cols="30"
@@ -83,13 +83,13 @@ const UpdatePost = ({
             placeholder="Create a post"
             name="body"
             value={body}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
           <input
             type="checkbox"
             name="published"
             checked={published}
-            onChange={e => {
+            onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
               toggleDisabledComment(!disabledComment)
             }}
@@ -99,7 +99,7 @@ const UpdatePost = ({
             type="checkbox"
             name="allowComments"
             checked={allowComments && !disabledComment}
-            onChange={e => {
+            onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
             }}
             disabled={disabledComment}
@@ -121,7 +121,7 @@ UpdatePost.propTypes = {
   getPost: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   post: state.post,
 })
