@@ -30,6 +30,7 @@ const seedPosts = async () => {
       title: faker.lorem.sentence(),
       body: faker.lorem.paragraph(),
       authorId: users[randomUser].id,
+      published: true,
     })
   }
   await prisma.post.createMany({ data: posts })

@@ -73,6 +73,8 @@ const FRAGMENT_POST_FIELDS = gql`
     id
     title
     body
+    createdAt
+    updatedAt
     author {
       id
       name
@@ -83,15 +85,8 @@ const FRAGMENT_POST_FIELDS = gql`
     }
     pinGazers {
       id
-      user {
-        id
-      }
+      name
     }
-    featuredBy {
-      id
-    }
-    createdAt
-    updatedAt
   }
 `
 

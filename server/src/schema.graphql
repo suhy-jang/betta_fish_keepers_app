@@ -24,7 +24,7 @@ type Query {
     skip: Int
     after: String
   ): [Comment!]!
-  me: User!
+  me: User
   user(id: ID!): User!
   post(id: ID!): Post!
 }

@@ -32,7 +32,7 @@ import {
 } from '../utils/types'
 
 // Get posts
-export const getPosts = () => async dispatch => {
+export const getPosts = () => async (dispatch) => {
   dispatch({ type: POST_LOADING, payload: '' })
   try {
     const res = await axios.post('/graphql', { query: gqlGetPosts })
@@ -56,7 +56,7 @@ export const getPosts = () => async dispatch => {
 }
 
 // Get my posts
-export const getMyPosts = () => async dispatch => {
+export const getMyPosts = () => async (dispatch) => {
   dispatch({ type: POST_LOADING, payload: '' })
   try {
     const res = await axios.post('/graphql', { query: gqlMyPosts })
@@ -80,7 +80,7 @@ export const getMyPosts = () => async dispatch => {
 }
 
 // Get post
-export const getPost = id => async dispatch => {
+export const getPost = (id) => async (dispatch) => {
   dispatch({ type: POST_LOADING, payload: '' })
 
   const config = {
@@ -122,91 +122,93 @@ export const getPost = id => async dispatch => {
 }
 
 // Create post
-export const createPost = (formData, history, redirectTo) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
-  const variables = { data: formData }
-
-  try {
-    const res = await axios.post(
-      '/graphql',
-      { query: gqlCreatePost, variables },
-      config,
-    )
-
-    const {
-      data: { data, errors },
-    } = res
-
-    if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: errors })
+export const createPost =
+  (formData, history, redirectTo) => async (dispatch) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
 
-    dispatch({
-      type: CREATE_POST,
-      payload: data.createPost,
-    })
+    const variables = { data: formData }
 
-    dispatch(setAlert('Post Created', 'success'))
+    try {
+      const res = await axios.post(
+        '/graphql',
+        { query: gqlCreatePost, variables },
+        config,
+      )
 
-    history.push(`${redirectTo}${data.createPost.id}`)
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: err,
-    })
+      const {
+        data: { data, errors },
+      } = res
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
+        return dispatch({ type: POST_ERROR, payload: errors })
+      }
+
+      dispatch({
+        type: CREATE_POST,
+        payload: data.createPost,
+      })
+
+      dispatch(setAlert('Post Created', 'success'))
+
+      history.push(`${redirectTo}${data.createPost.id}`)
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+        payload: err,
+      })
+    }
   }
-}
 
 // Update post
-export const updatePost = (id, data, history, redirectTo) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
-  const variables = { id, data }
-
-  try {
-    const res = await axios.post(
-      '/graphql',
-      { query: gqlUpdatePost, variables },
-      config,
-    )
-
-    const {
-      data: { data, errors },
-    } = res
-
-    if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
-      return dispatch({ type: POST_ERROR, payload: errors })
+export const updatePost =
+  (id, data, history, redirectTo) => async (dispatch) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
 
-    dispatch({
-      type: UPDATE_POST,
-      payload: data.updatePost,
-    })
+    const variables = { id, data }
 
-    dispatch(setAlert('Post Updated', 'success'))
+    try {
+      const res = await axios.post(
+        '/graphql',
+        { query: gqlUpdatePost, variables },
+        config,
+      )
 
-    history.push(`${redirectTo}${data.updatePost.id}`)
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: err,
-    })
+      const {
+        data: { data, errors },
+      } = res
+
+      if (!data) {
+        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
+        return dispatch({ type: POST_ERROR, payload: errors })
+      }
+
+      dispatch({
+        type: UPDATE_POST,
+        payload: data.updatePost,
+      })
+
+      dispatch(setAlert('Post Updated', 'success'))
+
+      history.push(`${redirectTo}${data.updatePost.id}`)
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+        payload: err,
+      })
+    }
   }
-}
 
 // Delete post
-export const deletePost = (id, history, redirectTo) => async dispatch => {
+export const deletePost = (id, history, redirectTo) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -227,7 +229,7 @@ export const deletePost = (id, history, redirectTo) => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
@@ -247,7 +249,7 @@ export const deletePost = (id, history, redirectTo) => async dispatch => {
 }
 
 // Create comment
-export const createComment = (text, post) => async dispatch => {
+export const createComment = (text, post) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -273,7 +275,7 @@ export const createComment = (text, post) => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
@@ -291,7 +293,7 @@ export const createComment = (text, post) => async dispatch => {
 }
 
 // Delete comment
-export const deleteComment = id => async dispatch => {
+export const deleteComment = (id) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -314,7 +316,7 @@ export const deleteComment = id => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
@@ -332,7 +334,7 @@ export const deleteComment = id => async dispatch => {
 }
 
 // Create pinned post
-export const createPinned = id => async dispatch => {
+export const createPinned = (id) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -355,7 +357,7 @@ export const createPinned = id => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
@@ -373,7 +375,7 @@ export const createPinned = id => async dispatch => {
 }
 
 // Delete pinned post
-export const deletePinned = id => async dispatch => {
+export const deletePinned = (id) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -396,7 +398,7 @@ export const deletePinned = id => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
@@ -414,7 +416,7 @@ export const deletePinned = id => async dispatch => {
 }
 
 // Create featured post
-export const createFeatured = id => async dispatch => {
+export const createFeatured = (id) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -437,7 +439,7 @@ export const createFeatured = id => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
@@ -455,7 +457,7 @@ export const createFeatured = id => async dispatch => {
 }
 
 // Delete featured post
-export const deleteFeatured = id => async dispatch => {
+export const deleteFeatured = (id) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -478,7 +480,7 @@ export const deleteFeatured = id => async dispatch => {
     } = res
 
     if (!data) {
-      errors.forEach(err => dispatch(setAlert(err.message, 'danger')))
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 

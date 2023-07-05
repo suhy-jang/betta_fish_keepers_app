@@ -7,6 +7,14 @@ const Post = {
       return author
     },
   },
+  comments: {
+    async resolve(parent, args, { prisma }, info) {
+      const comments = await prisma.comment.findMany({
+        where: { postId: parent.id },
+      })
+      return comments
+    },
+  },
   pinGazers: {
     async resolve(parent, args, { prisma }, _) {
       const pinned = await prisma.pinned.findMany({
