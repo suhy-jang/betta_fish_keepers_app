@@ -34,7 +34,7 @@ export const loadUser = () => async (dispatch) => {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (!data || !data.me) {
       return dispatch({ type: AUTH_ERROR, payload: errors })
     }
 
