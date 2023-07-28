@@ -35,7 +35,9 @@ import {
 export const getPosts = () => async (dispatch) => {
   dispatch({ type: POST_LOADING, payload: '' })
   try {
-    const res = await axios.post('/graphql', { query: gqlGetPosts })
+    const res = await axios.post('/graphql', {
+      query: gqlGetPosts,
+    })
 
     const {
       data: { data, errors },

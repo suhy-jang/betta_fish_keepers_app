@@ -28,7 +28,7 @@ const Post = ({
       <div className="post-top">
         <a
           href="/posts"
-          className="btn bg-purple-300 rounded-lg hover:bg-purple-700"
+          className="bg-purple-300 rounded-lg btn hover:bg-purple-700"
         >
           Go All Posts
         </a>
@@ -38,15 +38,18 @@ const Post = ({
           <Pin />
         </div>
       </div>
-      <div className="post bg-white p-1 my-1">
-        <div>
-          <Link to={`/profile/${post.author.id}`}>
-            <Avatar avatar={post.author.avatar} className="round-img" />
+      <div className="p-1 my-1 bg-white">
+        <Link to={`/profile/${post.author.id}`}>
+          <div className="flex items-center">
+            <Avatar
+              avatar={post.author.avatar}
+              className="m-3 round-img w-45px"
+            />
             <h4>{post.author.name}</h4>
-          </Link>
-        </div>
-        <div>
-          <div className="post-title text-gray-800">{post.title}</div>
+          </div>
+        </Link>
+        <div className="p-1">
+          <div className="text-gray-800 post-title">{post.title}</div>
           <p className="my-1">{post.body}</p>
           <div className="post-date">
             {post.published ? (
@@ -68,7 +71,7 @@ const Post = ({
       {post.published && post.allowComments ? (
         <CreateComment postId={post.id} />
       ) : (
-        <div className="bg-light p-1">
+        <div className="p-1 bg-light">
           {!loading && "Author doesn't allow comments..."}
         </div>
       )}

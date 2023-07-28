@@ -523,22 +523,6 @@ img {
   padding: 0.5rem;
 }
 
-.post-page .post,
-.posts .post,
-.comments .post {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-gap: 2rem;
-  align-items: center;
-}
-.posts .post > div:first-child,
-.comments .post > div:first-child {
-  text-align: center;
-}
-.post img {
-  width: 150px;
-}
-
 .post .post-title {
   font-size: 1.2rem;
   padding-bottom: 1rem;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -12,35 +12,62 @@ const Comment = ({
   deleteComment,
   postAuthor,
 }) => {
-  const onClick = (e) => {
-    deleteComment(comment.id)
-  }
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+  // const onDelete = (e) => {
+  //   deleteComment(comment.id)
+  // }
 
   return (
-    <div className="post bg-white p-1 my-1" id={comment.id}>
-      <div>
+    <div
+      className={`flex flex-row p-1 my-1 bg-white ${
+        isDropDownOpen ? '' : 'hover:bg-violet-50'
+      }`}
+      id={comment.id}
+    >
+      <div className="m-3 w-45px">
         <Link to={`/profile/${comment.author.id}`}>
           <Avatar avatar={comment.author.avatar} className="round-img" />
-          <h4>{comment.author.name}</h4>
         </Link>
       </div>
-      <div>
-        <p className="my-1">{comment.text}</p>
-        <p className="post-date">
-          Posted on <Moment format="YYYY/MM/DD">{comment.createdAt}</Moment>
-        </p>
+      <div className="flex flex-grow">
+        <div className="flex-grow">
+          <h4 className="font-bold">{comment.author.name}</h4>
 
-        {!loading &&
-          user &&
-          (comment.author.id === user.id || postAuthor === user.id) && (
-            <button
-              type="button"
-              className="btn btn-danger btn-square rounded-lg"
-              onClick={(e) => onClick(e)}
-            >
-              <i className="fas fa-times" />
-            </button>
-          )}
+          <p className="my-1">{comment.text}</p>
+          <p className="post-date">
+            Posted on <Moment format="YYYY/MM/DD">{comment.createdAt}</Moment>
+          </p>
+        </div>
+        <div className="relative inline-block w-45">
+          <div className="flex items-center justify-center rounded-full w-7 h-7 hover:bg-violet-200">
+            <i
+              className="fas fa-ellipsis-h"
+              onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+            ></i>
+            {isDropDownOpen && (
+              <div className="absolute bottom-0 right-0 z-10 flex flex-col h-48 bg-white rounded-lg shadow-md cursor-pointer w-80">
+                {!loading &&
+                  user &&
+                  (comment.author.id === user.id || postAuthor === user.id) && (
+                    <>
+                      <div
+                        className="p-3 hover:bg-violet-50"
+                        onClick={() => console.log(1)}
+                      >
+                        Edit
+                      </div>
+                      <div
+                        className="p-3 hover:bg-violet-50"
+                        onClick={() => console.log(1)}
+                      >
+                        Delete
+                      </div>
+                    </>
+                  )}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -211,21 +211,21 @@ img {
   padding: .5rem;
 }
 
-.posts .post,
-.comments .post {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-gap: 2rem;
-  align-items: center;
+// .posts .post,
+// .comments .post {
+//   display: grid;
+//   grid-template-columns: 1fr 4fr;
+//   grid-gap: 2rem;
+//   align-items: center;
 
-  & > div:first-child {
-    text-align: center;
-  }
+//   & > div:first-child {
+//     text-align: center;
+//   }
 
-  img {
-    width: 150px;
-  }
-}
+//   img {
+//     width: 150px;
+//   }
+// }
 
 .search-grid .pin,
 .profile-grid .pin,

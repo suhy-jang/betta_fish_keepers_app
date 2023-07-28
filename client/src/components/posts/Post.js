@@ -8,22 +8,25 @@ const Post = ({ post }) => {
   return (
     <Link
       to={`/posts/${post.id}`}
-      className="btn bg-purple-50 hover:bg-purple-300 cursor-pointer my-1"
+      className="my-1 cursor-pointer btn bg-purple-50 hover:bg-purple-300"
     >
-      <div className="post bg-white bg-opacity-50">
+      <div className="flex flex-row bg-white bg-opacity-50">
         <div>
-          <Link to={`/profile/${post.author.id}`}>
-            <Avatar avatar={post.author.avatar} className="round-img my-1" />
-            <h4>{post.author.name}</h4>
-          </Link>
+          <div className="m-3 w-45px">
+            <Link to={`/profile/${post.author.id}`}>
+              <Avatar avatar={post.author.avatar} className="my-1 round-img" />
+            </Link>
+          </div>
         </div>
-        <div className="p-1">
+        <div className="flex-grow p-1">
+          <h4 className="font-bold">{post.author.name}</h4>
+
           <div className="post-title">{post.title}</div>
           <p className="my-1">{post.body}</p>
-          <button className="btn bg-purple-100 rounded-lg" disabled>
+          <button className="bg-purple-100 rounded-lg btn" disabled>
             <i className="fas fa-thumbtack" /> {post.pinGazers.length}
           </button>
-          <button className="btn bg-purple-100 rounded-lg " disabled>
+          <button className="bg-purple-100 rounded-lg btn " disabled>
             <i className="fas fa-comment" /> {post.comments.length}
           </button>
           <span className="post-date">
