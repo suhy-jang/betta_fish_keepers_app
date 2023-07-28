@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -13,6 +13,22 @@ const Comment = ({
   postAuthor,
 }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+  const dropDownRef = useRef(null)
+
+  useEffect(() => {
+    function handleWindowClick(event) {
+      if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
+        setIsDropDownOpen(false)
+      }
+    }
+
+    window.addEventListener('click', handleWindowClick)
+
+    return () => {
+      window.removeEventListener('click', handleWindowClick)
+    }
+  }, [])
+
   // const onDelete = (e) => {
   //   deleteComment(comment.id)
   // }
@@ -42,10 +58,16 @@ const Comment = ({
           <div className="flex items-center justify-center rounded-full w-7 h-7 hover:bg-violet-200">
             <i
               className="fas fa-ellipsis-h"
-              onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsDropDownOpen(!isDropDownOpen)
+              }}
             ></i>
             {isDropDownOpen && (
-              <div className="absolute bottom-0 right-0 z-10 flex flex-col h-48 bg-white rounded-lg shadow-md cursor-pointer w-80">
+              <div
+                ref={dropDownRef}
+                className="absolute bottom-0 right-0 z-10 flex flex-col h-48 bg-white rounded-lg shadow-md cursor-pointer w-80"
+              >
                 {!loading &&
                   user &&
                   (comment.author.id === user.id || postAuthor === user.id) && (
