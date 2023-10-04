@@ -1,7 +1,7 @@
-import { gql } from 'apollo-boost'
+import { gql } from '@apollo/client'
 
 const createUser = gql`
-  mutation($data: CreateUserInput!) {
+  mutation ($data: CreateUserInput!) {
     createUser(data: $data) {
       token
       user {
@@ -24,7 +24,7 @@ const getUsers = gql`
 `
 
 const login = gql`
-  mutation($data: LoginUserInput!) {
+  mutation ($data: LoginUserInput!) {
     login(data: $data) {
       token
       user {
@@ -56,7 +56,7 @@ const getPosts = gql`
 `
 
 const createPinnedPost = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     createPinned(id: $id) {
       id
     }
@@ -64,7 +64,7 @@ const createPinnedPost = gql`
 `
 
 const createFeaturedPost = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     createFeatured(id: $id) {
       id
     }
@@ -102,7 +102,7 @@ const myUnpubPosts = gql`
 `
 
 const updatePost = gql`
-  mutation($id: ID!, $data: UpdatePostInput!) {
+  mutation ($id: ID!, $data: UpdatePostInput!) {
     updatePost(id: $id, data: $data) {
       id
       title
@@ -114,7 +114,7 @@ const updatePost = gql`
 `
 
 const createPost = gql`
-  mutation($data: CreatePostInput!) {
+  mutation ($data: CreatePostInput!) {
     createPost(data: $data) {
       id
       title
@@ -126,7 +126,7 @@ const createPost = gql`
 `
 
 const deletePost = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     deletePost(id: $id) {
       id
     }
@@ -143,7 +143,7 @@ const getComments = gql`
 `
 
 const deleteComment = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     deleteComment(id: $id) {
       id
       text
@@ -167,7 +167,7 @@ const subscribeToPosts = gql`
 `
 
 const subscribeToComments = gql`
-  subscription($postId: ID!) {
+  subscription ($postId: ID!) {
     comment(postId: $postId) {
       mutation
       node {

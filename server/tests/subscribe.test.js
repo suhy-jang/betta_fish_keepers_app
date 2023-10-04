@@ -1,31 +1,31 @@
 import 'core-js/stable'
 import 'cross-fetch/polyfill'
 import 'regenerator-runtime/runtime'
-import prisma from '../src/prisma'
+import { PrismaClient } from '@prisma/client'
 import seedDatabase, {
   postOne,
   postTwo,
   commentOne,
-  commentTwo,
 } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { subscribeToPosts, subscribeToComments } from './utils/operations'
 
+const prisma = new PrismaClient()
 const client = getClient()
 
 beforeAll(seedDatabase)
 
-test('Should subscribe to changes for published posts', async done => {
+test('Should subscribe to changes for published posts', async (done) => {
   client.subscribe({ query: subscribeToPosts }).subscribe({
     next(response) {
       expect(response.data.post.mutation).toBe('DELETED')
       done()
     },
   })
-  await prisma.mutation.deletePost({ where: { id: postOne.post.id } })
+  await prisma.post.delete({ where: { id: postOne.post.id } })
 })
 
-test('Should subscribe to comments for a post', async done => {
+test('Should subscribe to comments for a post', async (done) => {
   const variables = {
     postId: postTwo.post.id,
   }
@@ -35,7 +35,7 @@ test('Should subscribe to comments for a post', async done => {
       done()
     },
   })
-  await prisma.mutation.deleteComment({
+  await prisma.comment.delete({
     where: { id: commentOne.comment.id },
   })
 })

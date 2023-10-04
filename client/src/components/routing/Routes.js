@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Alert from '../layouts/Alert'
 import Register from '../auth/Register'
 import Login from '../auth/Login'
@@ -10,27 +10,35 @@ import Profile from '../profile/Profile'
 import Dashboard from '../dashboard/Dashboard'
 import Search from '../search/Search'
 import UpdatePost from '../post/UpdatePost'
-import PrivateRoute from '../routing/PrivateRoute'
+import PrivateComponent from '../routing/PrivateComponent'
 import NotFound from './NotFound'
+import Landing from '../layouts/Landing'
 
-const Routes = () => {
+const AppRoutes = () => {
   return (
     <section className="container">
       <Alert />
-      <Switch>
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/posts" component={Posts} />
-        <Route exact path="/posts/:id" component={Post} />
-        <Route exact path="/posts/:id/edit" component={UpdatePost} />
-        <Route exact path="/search" component={Search} />
-        <Route exact path="/profile/:id" component={Profile} />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
-        <PrivateRoute exact path="/updateUserInfo" component={UpdateUser} />
-        <Route component={NotFound} />
-      </Switch>
+      <Routes>
+        <Route index element={<Landing />} />
+        <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="posts" element={<Posts />} />
+        <Route path="posts/:id" element={<Post />} />
+        <Route path="posts/:id/edit" element={<UpdatePost />} />
+        <Route path="search" element={<Search />} />
+        <Route path="profile/:id" element={<Profile />} />
+        <Route
+          path="dashboard"
+          element={<PrivateComponent Component={Dashboard} />}
+        />
+        <Route
+          path="updateUserInfo"
+          element={<PrivateComponent Component={UpdateUser} />}
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </section>
   )
 }
 
-export default Routes
+export default AppRoutes

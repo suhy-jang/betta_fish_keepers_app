@@ -1,10 +1,9 @@
 import 'core-js/stable'
 import 'cross-fetch/polyfill'
 import 'regenerator-runtime/runtime'
-import prisma from '../src/prisma'
+import { PrismaClient } from '@prisma/client'
 import seedDatabase, {
   userOne,
-  userTwo,
   userThree,
   commentOne,
   commentTwo,
@@ -12,6 +11,7 @@ import seedDatabase, {
 import getClient from './utils/getClient'
 import { getComments, deleteComment } from './utils/operations'
 
+const prisma = new PrismaClient()
 const client = getClient()
 
 beforeEach(seedDatabase)

@@ -118,11 +118,13 @@ const deleteMany = async () => {
 const seedData = async () => {
   try {
     await deleteMany()
-    await seedUsers()
-    await seedPosts()
-    await seedFeaturedPosts()
-    await seedPinnedPosts()
-    await seedComments()
+    await Promise.all([
+      seedUsers(),
+      seedPosts(),
+      seedFeaturedPosts(),
+      seedPinnedPosts(),
+      seedComments(),
+    ])
   } catch (error) {
     console.error(error)
   }

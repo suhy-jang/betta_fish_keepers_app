@@ -1,11 +1,13 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setAlert } from '../../actions/alert'
 import { register } from '../../actions/auth'
 
 const Register = ({ isAuthenticated, setAlert, register }) => {
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,12 +30,12 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
   }
 
   if (isAuthenticated) {
-    return <Redirect to="/" />
+    navigate('/')
   }
 
   return (
     <Fragment>
-      <h1 className="large text-purple-800">Sign Up</h1>
+      <h1 className="text-purple-800 large">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account
       </p>
@@ -83,7 +85,7 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
         <input
           type="submit"
           value="Register"
-          className="btn bg-purple-300 hover:bg-purple-700"
+          className="bg-purple-300 btn hover:bg-purple-700"
         />
       </form>
       <p className="my-1">

@@ -100,48 +100,47 @@ export const register =
   }
 
 // Update User
-export const updateUser =
-  (formData, history, redirectTo) => async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
-    const variables = {
-      data: formData,
-    }
-
-    try {
-      const res = await axios.post(
-        '/graphql',
-        { query: gqlUpdateUser, variables },
-        config,
-      )
-
-      const {
-        data: { data, errors },
-      } = res
-
-      if (!data) {
-        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
-        return dispatch({ type: USER_ERROR, payload: errors })
-      }
-
-      dispatch({
-        type: UPDATE_USER,
-        payload: data.updateUser,
-      })
-
-      dispatch(setAlert('Successfully updated user info', 'success'))
-      history.push(redirectTo)
-    } catch (err) {
-      dispatch({ type: USER_ERROR, payload: err })
-    }
+export const updateUser = (formData, callback) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }
 
+  const variables = {
+    data: formData,
+  }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlUpdateUser, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: USER_ERROR, payload: errors })
+    }
+
+    dispatch({
+      type: UPDATE_USER,
+      payload: data.updateUser,
+    })
+
+    dispatch(setAlert('Successfully updated user info', 'success'))
+    callback?.()
+  } catch (err) {
+    dispatch({ type: USER_ERROR, payload: err })
+  }
+}
+
 // Delete User
-export const deleteUser = (history, redirectTo) => async (dispatch) => {
+export const deleteUser = (callback) => async (dispatch) => {
   try {
     const res = await axios.post('/graphql', { query: gqlDeleteUser })
 
@@ -159,7 +158,7 @@ export const deleteUser = (history, redirectTo) => async (dispatch) => {
       payload: data.deleteUser,
     })
 
-    history.push(redirectTo)
+    callback?.()
   } catch (err) {
     dispatch(setAlert('Unable to delete user', 'danger'))
     dispatch({ type: USER_ERROR, payload: err })

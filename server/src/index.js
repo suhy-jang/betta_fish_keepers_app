@@ -1,29 +1,34 @@
 import '@babel/polyfill/noConflict'
-import server from './server'
-import os from 'os'
+import { createSchema, createYoga } from 'graphql-yoga'
+import { PrismaClient } from '@prisma/client'
 const path = require('path')
 const express = require('express')
+import getUserId from './utils/getUserId'
+import typeDefs from './typedefs'
+import { resolvers } from './resolvers'
 
-const host =
-  'http://' +
-  (process.env.NODE_ENV === 'production' ? os.hostname() : 'localhost')
-const port = process.env.PORT || 4000
+const app = express()
+
+const prisma = new PrismaClient()
+
+const origin =
+  process.env.NODE_ENV === 'production' ? process.env.ORIGIN : 'localhost'
 
 const opts = {
   endpoint: '/graphql',
-  port,
+  port: process.env.PORT || 4000,
   tracing: true,
   playground: '/graphql/playground',
   cors: {
-    origin: [`${host}:3000`],
+    origin,
   },
 }
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
-  server.express.use('/', express.static('public'))
-  server.express.get('*', (req, res, next) => {
-    const routes = ['/graphql', '/subscriptions', '/graphql/playground']
+  app.use('/', express.static('public'))
+  app.get('*', (req, res, next) => {
+    const routes = ['/graphql', '/graphql/playground']
 
     if (routes.includes(req.url)) {
       return next()
@@ -33,8 +38,24 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-server.start(opts, ({ port }) => {
-  console.log(`The server is up on port ${port}`)
+const yoga = createYoga({
+  schema: createSchema({
+    typeDefs,
+    resolvers,
+    context({ request }) {
+      return {
+        prisma,
+        request,
+        getUserId,
+      }
+    },
+  }),
+})
+
+app.use(yoga.graphqlEndpoint, yoga)
+
+app.listen(opts, () => {
+  console.log('The server is up')
 })
 
 process

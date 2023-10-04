@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Post from '../profile/Post'
 import { deleteUser } from '../../actions/auth'
@@ -11,8 +11,9 @@ const Dashboard = ({
   post: { loading: postLoading, myPosts },
   getMyPosts,
   deleteUser,
-  history,
 }) => {
+  const navigate = useNavigate()
+
   useEffect(() => {
     getMyPosts()
   }, [getMyPosts])
@@ -21,21 +22,21 @@ const Dashboard = ({
     <>loading...</>
   ) : (
     <>
-      <h1 className="large text-purple-800">Dashboard</h1>
+      <h1 className="text-purple-800 large">Dashboard</h1>
       <p className="lead">
         <i className="fas fa-user" /> Welcome {user.name}
       </p>
       <div className="dash-buttons">
         <a href={`/profile/${user.id}`} className="btn btn-light">
-          <i className="fas fa-user-circle text-purple-800" /> View Profile
+          <i className="text-purple-800 fas fa-user-circle" /> View Profile
         </a>
         <a href="/updateUserInfo" className="btn btn-light">
-          <i className="fas fa-user-circle text-purple-800" /> Edit User Info
+          <i className="text-purple-800 fas fa-user-circle" /> Edit User Info
         </a>
       </div>
 
       <div className="profile-posts">
-        <h2 className="text-dark my-1">
+        <h2 className="my-1 text-dark">
           <i className="fas fa-pen" /> My Posts
         </h2>
         {!postLoading &&
@@ -46,7 +47,9 @@ const Dashboard = ({
           className="btn btn-danger"
           onClick={(e) => {
             if (window.confirm('Are you sure?')) {
-              deleteUser(history, '/')
+              deleteUser(() => {
+                navigate('/')
+              })
             }
           }}
         >
@@ -68,6 +71,4 @@ const mapStateToProps = (state) => ({
   post: state.post,
 })
 
-export default connect(mapStateToProps, { deleteUser, getMyPosts })(
-  withRouter(Dashboard),
-)
+export default connect(mapStateToProps, { deleteUser, getMyPosts })(Dashboard)

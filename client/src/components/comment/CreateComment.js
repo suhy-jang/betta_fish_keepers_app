@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { animateScroll as scroll } from 'react-scroll'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createComment } from '../../actions/post'
 
-const CreateComment = ({ auth, createComment, postId, history }) => {
+const CreateComment = ({ auth, createComment, postId }) => {
   const [text, setText] = useState('')
 
   const onSubmit = async (e) => {
@@ -21,11 +20,11 @@ const CreateComment = ({ auth, createComment, postId, history }) => {
 
   return (
     <div className="post-form">
-      <div className="bg-purple-200 p-1 text-purple-900 p">
+      <div className="p-1 text-purple-900 bg-purple-200 p">
         <h3>Leave A Comment</h3>
       </div>
       {!auth.loading && auth.isAuthenticated ? (
-        <form className="form my-1" onSubmit={(e) => onSubmit(e)}>
+        <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
           <textarea
             cols="30"
             rows="5"
@@ -36,12 +35,12 @@ const CreateComment = ({ auth, createComment, postId, history }) => {
           />
           <input
             type="submit"
-            className="btn bg-purple-300 hover:bg-purple-700 rounded-lg my-1"
+            className="my-1 bg-purple-300 rounded-lg btn hover:bg-purple-700"
             value="Submit"
           />
         </form>
       ) : (
-        <div className="bg-light p-1">Login first...</div>
+        <div className="p-1 bg-light">Login first...</div>
       )}
     </div>
   )
@@ -56,6 +55,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-export default connect(mapStateToProps, { createComment })(
-  withRouter(CreateComment),
-)
+export default connect(mapStateToProps, { createComment })(CreateComment)

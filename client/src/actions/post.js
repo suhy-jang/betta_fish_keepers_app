@@ -124,93 +124,91 @@ export const getPost = (id) => async (dispatch) => {
 }
 
 // Create post
-export const createPost =
-  (formData, history, redirectTo) => async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
-    const variables = { data: formData }
-
-    try {
-      const res = await axios.post(
-        '/graphql',
-        { query: gqlCreatePost, variables },
-        config,
-      )
-
-      const {
-        data: { data, errors },
-      } = res
-
-      if (!data) {
-        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
-        return dispatch({ type: POST_ERROR, payload: errors })
-      }
-
-      dispatch({
-        type: CREATE_POST,
-        payload: data.createPost,
-      })
-
-      dispatch(setAlert('Post Created', 'success'))
-
-      history.push(`${redirectTo}${data.createPost.id}`)
-    } catch (err) {
-      dispatch({
-        type: POST_ERROR,
-        payload: err,
-      })
-    }
+export const createPost = (formData, callback) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }
+
+  const variables = { data: formData }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlCreatePost, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: errors })
+    }
+
+    dispatch({
+      type: CREATE_POST,
+      payload: data.createPost,
+    })
+
+    dispatch(setAlert('Post Created', 'success'))
+
+    callback(data.createPost.id)
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
+    })
+  }
+}
 
 // Update post
-export const updatePost =
-  (id, data, history, redirectTo) => async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
-    const variables = { id, data }
-
-    try {
-      const res = await axios.post(
-        '/graphql',
-        { query: gqlUpdatePost, variables },
-        config,
-      )
-
-      const {
-        data: { data, errors },
-      } = res
-
-      if (!data) {
-        errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
-        return dispatch({ type: POST_ERROR, payload: errors })
-      }
-
-      dispatch({
-        type: UPDATE_POST,
-        payload: data.updatePost,
-      })
-
-      dispatch(setAlert('Post Updated', 'success'))
-
-      history.push(`${redirectTo}${data.updatePost.id}`)
-    } catch (err) {
-      dispatch({
-        type: POST_ERROR,
-        payload: err,
-      })
-    }
+export const updatePost = (id, data, callback) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }
 
+  const variables = { id, data }
+
+  try {
+    const res = await axios.post(
+      '/graphql',
+      { query: gqlUpdatePost, variables },
+      config,
+    )
+
+    const {
+      data: { data, errors },
+    } = res
+
+    if (!data) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
+      return dispatch({ type: POST_ERROR, payload: errors })
+    }
+
+    dispatch({
+      type: UPDATE_POST,
+      payload: data.updatePost,
+    })
+
+    dispatch(setAlert('Post Updated', 'success'))
+
+    callback(data.updatePost.id)
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: err,
+    })
+  }
+}
+
 // Delete post
-export const deletePost = (id, history, redirectTo) => async (dispatch) => {
+export const deletePost = (id, callback) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -235,7 +233,7 @@ export const deletePost = (id, history, redirectTo) => async (dispatch) => {
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
-    history.push(redirectTo)
+    callback()
 
     dispatch(setAlert('Post Deleted'))
     dispatch({

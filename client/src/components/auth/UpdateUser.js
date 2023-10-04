@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { updateUser } from '../../actions/auth'
 import { setAlert } from '../../actions/alert'
 
@@ -9,8 +9,8 @@ const UpdateUser = ({
   setAlert,
   auth: { isAuthenticated, loading, user },
   updateUser,
-  history,
 }) => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -44,13 +44,15 @@ const UpdateUser = ({
     } else if (password.length < 8) {
       setAlert(`Password must be 8 characters or longer.`, 'danger')
     } else {
-      updateUser({ name, email, password }, history, '/')
+      updateUser({ name, email, password }, () => {
+        navigate('/')
+      })
     }
   }
 
   return (
     <>
-      <h1 className="large text-purple-800">Edit User Info</h1>
+      <h1 className="text-purple-800 large">Edit User Info</h1>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
@@ -93,7 +95,7 @@ const UpdateUser = ({
         <input
           type="submit"
           value="Submit"
-          className="btn bg-purple-300 hover:bg-purple-700"
+          className="bg-purple-300 btn hover:bg-purple-700"
         />
       </form>
     </>
@@ -109,6 +111,4 @@ UpdateUser.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
 })
-export default connect(mapStateToProps, { setAlert, updateUser })(
-  withRouter(UpdateUser),
-)
+export default connect(mapStateToProps, { setAlert, updateUser })(UpdateUser)

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { createPost } from '../../actions/post'
 import { setAlert } from '../../actions/alert'
 
-const CreatePost = ({ auth, createPost, setAlert, history }) => {
+const CreatePost = ({ auth, createPost, setAlert }) => {
+  const navigate = useNavigate()
   const initialState = {
     title: '',
     body: '',
@@ -32,8 +33,9 @@ const CreatePost = ({ auth, createPost, setAlert, history }) => {
         ...formData,
         allowComments: published && allowComments,
       },
-      history,
-      '/posts/',
+      (postId) => {
+        navigate(`/posts/${postId}`)
+      },
     )
     setFormData(initialState)
     toggleDisabledComment(true)
@@ -41,11 +43,11 @@ const CreatePost = ({ auth, createPost, setAlert, history }) => {
 
   return (
     <div className="post-form">
-      <div className="post-form-header bg-purple-300 rounded-lg text-gray-800">
+      <div className="text-gray-800 bg-purple-300 rounded-lg post-form-header">
         <h3>Say Something...</h3>
       </div>
       {auth.isAuthenticated ? (
-        <form className="form my-1" onSubmit={(e) => onSubmit(e)}>
+        <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
           <textarea
             cols="30"
             rows="1"
@@ -85,10 +87,10 @@ const CreatePost = ({ auth, createPost, setAlert, history }) => {
           />
           <label htmlFor="allowComments"> allow comments</label>
           <div />
-          <input type="submit" value="Submit" className="btn btn-dark my-1" />
+          <input type="submit" value="Submit" className="my-1 btn btn-dark" />
         </form>
       ) : (
-        <div className="bg-light p-1">{!auth.loading && 'Login first...'}</div>
+        <div className="p-1 bg-light">{!auth.loading && 'Login first...'}</div>
       )}
     </div>
   )
@@ -103,6 +105,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-export default connect(mapStateToProps, { createPost, setAlert })(
-  withRouter(CreatePost),
-)
+export default connect(mapStateToProps, { createPost, setAlert })(CreatePost)

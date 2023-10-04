@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { updatePost, getPost } from '../../actions/post'
 import { setAlert } from '../../actions/alert'
 
@@ -11,9 +11,9 @@ const UpdatePost = ({
   updatePost,
   getPost,
   setAlert,
-  history,
   match,
 }) => {
+  const navigate = useNavigate()
   const initialState = {
     title: '',
     body: '',
@@ -55,8 +55,9 @@ const UpdatePost = ({
         ...formData,
         allowComments: published && allowComments,
       },
-      history,
-      '/posts/',
+      (postId) => {
+        navigate(`/posts/${postId}`)
+      },
     )
     setFormData(initialState)
     toggleDisabledComment(false)
@@ -64,11 +65,11 @@ const UpdatePost = ({
 
   return (
     <div className="post-form">
-      <div className="post-form-header bg-purple-300">
+      <div className="bg-purple-300 post-form-header">
         <h3>Say Something...</h3>
       </div>
       {!auth.loading && auth.isAuthenticated ? (
-        <form className="form my-1" onSubmit={(e) => onSubmit(e)}>
+        <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
           <textarea
             cols="30"
             rows="1"
@@ -106,10 +107,10 @@ const UpdatePost = ({
           />
           <label htmlFor="allowComments"> allow comments</label>
           <div />
-          <input type="submit" value="Submit" className="btn btn-dark my-1" />
+          <input type="submit" value="Submit" className="my-1 btn btn-dark" />
         </form>
       ) : (
-        <div className="bg-light p-1">Login first...</div>
+        <div className="p-1 bg-light">Login first...</div>
       )}
     </div>
   )
@@ -127,5 +128,5 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, { updatePost, getPost, setAlert })(
-  withRouter(UpdatePost),
+  UpdatePost,
 )

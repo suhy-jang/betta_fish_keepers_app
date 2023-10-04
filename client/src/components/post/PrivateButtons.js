@@ -1,16 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deletePost } from '../../actions/post'
 
-const PrivateButtons = ({
-  auth: { user },
-  deletePost,
-  postId,
-  authorId,
-  history,
-}) => {
+const PrivateButtons = ({ auth: { user }, deletePost, postId, authorId }) => {
+  const navigate = useNavigate()
   return (
     user &&
     authorId === user.id && (
@@ -18,8 +13,8 @@ const PrivateButtons = ({
         <button
           type="button"
           className="btn btn-dark"
-          onClick={e => {
-            history.push(`/posts/${postId}/edit`)
+          onClick={() => {
+            navigate(`/posts/${postId}/edit`)
           }}
         >
           <i className="fas fa-wrench" />
@@ -27,8 +22,10 @@ const PrivateButtons = ({
         <button
           type="button"
           className="btn btn-danger"
-          onClick={e => {
-            deletePost(postId, history, '/')
+          onClick={() => {
+            deletePost(postId, () => {
+              navigate('/')
+            })
           }}
         >
           <i className="fas fa-times" />
@@ -45,10 +42,8 @@ PrivateButtons.propTypes = {
   deletePost: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-export default connect(mapStateToProps, { deletePost })(
-  withRouter(PrivateButtons),
-)
+export default connect(mapStateToProps, { deletePost })(PrivateButtons)

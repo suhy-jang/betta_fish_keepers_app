@@ -1,11 +1,13 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
 import { setAlert } from '../../actions/alert'
 
 const Login = ({ login, isAuthenticated }) => {
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,12 +30,12 @@ const Login = ({ login, isAuthenticated }) => {
   }
 
   if (isAuthenticated) {
-    return <Redirect to="/" />
+    navigate('/')
   }
 
   return (
     <Fragment>
-      <h1 className="large text-purple-800">Sign In</h1>
+      <h1 className="text-purple-800 large">Sign In</h1>
       <p className="lead">
         <i className="fas fa-user" /> Sign into your account
       </p>
@@ -59,7 +61,7 @@ const Login = ({ login, isAuthenticated }) => {
         <input
           type="submit"
           value="Login"
-          className="btn bg-purple-300 hover:bg-purple-700"
+          className="bg-purple-300 btn hover:bg-purple-700"
         />
       </form>
       <p className="my-1">

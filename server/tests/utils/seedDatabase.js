@@ -2,7 +2,9 @@ import 'core-js/stable'
 import 'cross-fetch/polyfill'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import prisma from '../../src/prisma'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 const userOne = {
   input: {
@@ -82,26 +84,26 @@ const seedDatabase = async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL *= 10
 
   // Delete test data
-  await prisma.mutation.deleteManyComments()
-  await prisma.mutation.deleteManyPosts()
-  await prisma.mutation.deleteManyUsers()
+  await prisma.comment.deleteMany()
+  await prisma.post.deleteMany()
+  await prisma.user.deleteMany()
 
   // Create user one
-  userOne.user = await prisma.mutation.createUser({
+  userOne.user = await prisma.user.create({
     data: userOne.input,
   })
 
   userOne.jwt = jwt.sign({ userId: userOne.user.id }, process.env.JWT_SECRET)
 
   // Create user two
-  userTwo.user = await prisma.mutation.createUser({
+  userTwo.user = await prisma.user.create({
     data: userTwo.input,
   })
 
   userTwo.jwt = jwt.sign({ userId: userTwo.user.id }, process.env.JWT_SECRET)
 
   // Create user three
-  userThree.user = await prisma.mutation.createUser({
+  userThree.user = await prisma.user.create({
     data: userThree.input,
   })
 
@@ -111,7 +113,7 @@ const seedDatabase = async () => {
   )
 
   // Create post one
-  postOne.post = await prisma.mutation.createPost({
+  postOne.post = await prisma.post.create({
     data: {
       ...postOne.input,
       author: {
@@ -123,7 +125,7 @@ const seedDatabase = async () => {
   })
 
   // Create post two
-  postTwo.post = await prisma.mutation.createPost({
+  postTwo.post = await prisma.post.create({
     data: {
       ...postTwo.input,
       author: {
@@ -135,7 +137,7 @@ const seedDatabase = async () => {
   })
 
   // Create post three
-  postThree.post = await prisma.mutation.createPost({
+  postThree.post = await prisma.post.create({
     data: {
       ...postThree.input,
       author: {
@@ -147,7 +149,7 @@ const seedDatabase = async () => {
   })
 
   // Create comment one
-  commentOne.comment = await prisma.mutation.createComment({
+  commentOne.comment = await prisma.comment.create({
     data: {
       ...commentOne.input,
       author: {
@@ -163,7 +165,7 @@ const seedDatabase = async () => {
     },
   })
   // Create comment two
-  commentTwo.comment = await prisma.mutation.createComment({
+  commentTwo.comment = await prisma.comment.create({
     data: {
       ...commentTwo.input,
       author: {

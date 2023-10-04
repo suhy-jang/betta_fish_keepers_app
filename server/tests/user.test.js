@@ -1,11 +1,12 @@
 import 'core-js/stable'
 import 'cross-fetch/polyfill'
 import 'regenerator-runtime/runtime'
-import prisma from '../src/prisma'
+import { PrismaClient } from '@prisma/client'
 import seedDatabase, { userOne } from './utils/seedDatabase'
 import getClient from './utils/getClient'
 import { createUser, getUsers, login, getProfile } from './utils/operations'
 
+const prisma = new PrismaClient()
 const client = getClient()
 
 beforeEach(seedDatabase)
