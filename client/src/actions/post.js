@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from '../utils/axiosInstance'
 import { setAlert } from './alert'
 import {
   gqlGetPosts,
@@ -35,7 +35,7 @@ import {
 export const getPosts = () => async (dispatch) => {
   dispatch({ type: POST_LOADING, payload: '' })
   try {
-    const res = await axios.post('/graphql', {
+    const res = await axiosInstance.post('/graphql', {
       query: gqlGetPosts,
     })
 
@@ -61,7 +61,7 @@ export const getPosts = () => async (dispatch) => {
 export const getMyPosts = () => async (dispatch) => {
   dispatch({ type: POST_LOADING, payload: '' })
   try {
-    const res = await axios.post('/graphql', { query: gqlMyPosts })
+    const res = await axiosInstance.post('/graphql', { query: gqlMyPosts })
 
     const {
       data: { data, errors },
@@ -94,7 +94,7 @@ export const getPost = (id) => async (dispatch) => {
   const variables = { id }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       {
         query: gqlGetSinglePost,
@@ -134,7 +134,7 @@ export const createPost = (formData, callback) => async (dispatch) => {
   const variables = { data: formData }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlCreatePost, variables },
       config,
@@ -176,7 +176,7 @@ export const updatePost = (id, data, callback) => async (dispatch) => {
   const variables = { id, data }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlUpdatePost, variables },
       config,
@@ -218,7 +218,7 @@ export const deletePost = (id, callback) => async (dispatch) => {
   const variables = { id }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlDeletePost, variables },
       config,
@@ -261,7 +261,7 @@ export const createComment = (data) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlCreateComment, variables },
       config,
@@ -302,7 +302,7 @@ export const deleteComment = (id) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlDeleteComment, variables },
       config,
@@ -343,7 +343,7 @@ export const createPinned = (id) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlCreatePinned, variables },
       config,
@@ -384,7 +384,7 @@ export const deletePinned = (id) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlDeletePinned, variables },
       config,
@@ -425,7 +425,7 @@ export const createFeatured = (id) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlCreateFeatured, variables },
       config,
@@ -466,7 +466,7 @@ export const deleteFeatured = (id) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlDeleteFeatured, variables },
       config,

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-const gqlCreateUser = gql`
+const gqlCreateUser = `
   mutation ($data: CreateUserInput!) {
     createUser(data: $data) {
       token
@@ -13,7 +13,7 @@ const gqlCreateUser = gql`
   }
 `
 
-const FRAGMENT_USER_FIELDS = gql`
+const FRAGMENT_USER_FIELDS = `
   fragment userData on User {
     id
     name
@@ -28,7 +28,7 @@ const FRAGMENT_USER_FIELDS = gql`
   }
 `
 
-const gqlUpdateUser = gql`
+const gqlUpdateUser = `
   mutation ($data: UpdateUserInput!) {
     updateUser(data: $data) {
       ...userData
@@ -37,7 +37,7 @@ const gqlUpdateUser = gql`
   ${FRAGMENT_USER_FIELDS}
 `
 
-const gqlDeleteUser = gql`
+const gqlDeleteUser = `
   mutation {
     deleteUser {
       ...userData
@@ -46,7 +46,7 @@ const gqlDeleteUser = gql`
   ${FRAGMENT_USER_FIELDS}
 `
 
-const gqlGetMe = gql`
+const gqlGetMe = `
   query {
     me {
       ...userData
@@ -55,7 +55,7 @@ const gqlGetMe = gql`
   ${FRAGMENT_USER_FIELDS}
 `
 
-const gqlLogin = gql`
+const gqlLogin = `
   mutation ($data: LoginUserInput!) {
     login(data: $data) {
       token
@@ -68,7 +68,7 @@ const gqlLogin = gql`
   }
 `
 
-const FRAGMENT_POST_FIELDS = gql`
+const FRAGMENT_POST_FIELDS = `
   fragment postData on Post {
     id
     title
@@ -90,7 +90,7 @@ const FRAGMENT_POST_FIELDS = gql`
   }
 `
 
-const gqlGetPosts = gql`
+const gqlGetPosts = `
   query {
     posts {
       ...postData
@@ -99,7 +99,7 @@ const gqlGetPosts = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const FRAGMENT_COMMENT_FIELDS = gql`
+const FRAGMENT_COMMENT_FIELDS = `
   fragment commentData on Comment {
     id
     text
@@ -116,7 +116,7 @@ const FRAGMENT_COMMENT_FIELDS = gql`
   }
 `
 
-const gqlGetSinglePost = gql`
+const gqlGetSinglePost = `
   query ($id: ID!) {
     post(id: $id) {
       ...postData
@@ -131,7 +131,7 @@ const gqlGetSinglePost = gql`
   ${FRAGMENT_COMMENT_FIELDS}
 `
 
-const gqlGetProfile = gql`
+const gqlGetProfile = `
   query ($id: ID!) {
     user(id: $id) {
       ...userData
@@ -156,7 +156,7 @@ const gqlGetProfile = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlMyPosts = gql`
+const gqlMyPosts = `
   query {
     myPosts {
       ...postData
@@ -167,7 +167,7 @@ const gqlMyPosts = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlSearchProfiles = gql`
+const gqlSearchProfiles = `
   query ($query: String!) {
     users(query: $query) {
       id
@@ -180,7 +180,7 @@ const gqlSearchProfiles = gql`
   }
 `
 
-const gqlSearchPosts = gql`
+const gqlSearchPosts = `
   query ($query: String!) {
     posts(query: $query) {
       ...postData
@@ -189,7 +189,7 @@ const gqlSearchPosts = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlCreatePost = gql`
+const gqlCreatePost = `
   mutation ($data: CreatePostInput!) {
     createPost(data: $data) {
       ...postData
@@ -199,7 +199,7 @@ const gqlCreatePost = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlUpdatePost = gql`
+const gqlUpdatePost = `
   mutation ($id: ID!, $data: UpdatePostInput!) {
     updatePost(id: $id, data: $data) {
       ...postData
@@ -209,7 +209,7 @@ const gqlUpdatePost = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlCreateComment = gql`
+const gqlCreateComment = `
   mutation ($data: CreateCommentInput!) {
     createComment(data: $data) {
       ...commentData
@@ -218,7 +218,7 @@ const gqlCreateComment = gql`
   ${FRAGMENT_COMMENT_FIELDS}
 `
 
-const gqlDeleteComment = gql`
+const gqlDeleteComment = `
   mutation ($id: ID!) {
     deleteComment(id: $id) {
       ...commentData
@@ -227,7 +227,7 @@ const gqlDeleteComment = gql`
   ${FRAGMENT_COMMENT_FIELDS}
 `
 
-const gqlDeletePost = gql`
+const gqlDeletePost = `
   mutation ($id: ID!) {
     deletePost(id: $id) {
       ...postData
@@ -236,7 +236,7 @@ const gqlDeletePost = gql`
   ${FRAGMENT_POST_FIELDS}
 `
 
-const gqlCreatePinned = gql`
+const gqlCreatePinned = `
   mutation ($id: ID!) {
     createPinned(id: $id) {
       id
@@ -248,7 +248,7 @@ const gqlCreatePinned = gql`
   }
 `
 
-const gqlDeletePinned = gql`
+const gqlDeletePinned = `
   mutation ($id: ID!) {
     deletePinned(id: $id) {
       id
@@ -256,7 +256,7 @@ const gqlDeletePinned = gql`
   }
 `
 
-const gqlCreateFeatured = gql`
+const gqlCreateFeatured = `
   mutation ($id: ID!) {
     createFeatured(id: $id) {
       id
@@ -267,7 +267,7 @@ const gqlCreateFeatured = gql`
   }
 `
 
-const gqlDeleteFeatured = gql`
+const gqlDeleteFeatured = `
   mutation ($id: ID!) {
     deleteFeatured(id: $id) {
       id

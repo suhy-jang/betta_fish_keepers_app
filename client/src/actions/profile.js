@@ -1,15 +1,15 @@
-import axios from 'axios'
+import axiosInstance from '../utils/axiosInstance'
 import { PROFILE_LOADING, GET_PROFILE, PROFILE_ERROR } from '../utils/types'
 import { gqlGetProfile } from './gqlOperations'
 
 // Load Profile
-export const getProfile = id => async dispatch => {
+export const getProfile = (id) => async (dispatch) => {
   dispatch({ type: PROFILE_LOADING })
 
   const variables = { id }
 
   try {
-    const res = await axios.post('/graphql', {
+    const res = await axiosInstance.post('/graphql', {
       query: gqlGetProfile,
       variables,
     })

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axiosInstance from '../utils/axiosInstance'
 import { setAlert } from './alert'
 import {
   REGISTER_SUCCESS,
@@ -28,7 +28,7 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post('/graphql', { query: gqlGetMe })
+    const res = await axiosInstance.post('/graphql', { query: gqlGetMe })
 
     const {
       data: { data, errors },
@@ -69,7 +69,7 @@ export const register =
     }
 
     try {
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         '/graphql',
         { query: gqlCreateUser, variables },
         config,
@@ -94,7 +94,10 @@ export const register =
     } catch (err) {
       dispatch({
         type: REGISTER_FAILURE,
-        payload: { msg: err.statusText, status: err.status },
+        payload: {
+          msg: err.message || 'Request failed',
+          status: err.response?.status || 500,
+        },
       })
     }
   }
@@ -112,7 +115,7 @@ export const updateUser = (formData, callback) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlUpdateUser, variables },
       config,
@@ -142,7 +145,7 @@ export const updateUser = (formData, callback) => async (dispatch) => {
 // Delete User
 export const deleteUser = (callback) => async (dispatch) => {
   try {
-    const res = await axios.post('/graphql', { query: gqlDeleteUser })
+    const res = await axiosInstance.post('/graphql', { query: gqlDeleteUser })
 
     const {
       data: { data, errors },
@@ -181,7 +184,7 @@ export const login = (email, password) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       '/graphql',
       { query: gqlLogin, variables },
       config,
