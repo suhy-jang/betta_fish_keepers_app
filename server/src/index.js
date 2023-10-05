@@ -1,18 +1,15 @@
 import '@babel/polyfill/noConflict'
 import { createSchema, createYoga } from 'graphql-yoga'
-import { PrismaClient } from '@prisma/client'
 const path = require('path')
 const express = require('express')
-import getUserId from './utils/getUserId'
 import typeDefs from './typedefs'
 import { resolvers } from './resolvers'
+import context from './utils/context'
 
 const app = express()
 
-const prisma = new PrismaClient()
-
 const origin =
-  process.env.NODE_ENV === 'production' ? process.env.ORIGIN : 'localhost'
+  process.env.NODE_ENV === 'production' ? process.env.ORIGIN : 'localhost:3000'
 
 const opts = {
   endpoint: '/graphql',
@@ -42,14 +39,8 @@ const yoga = createYoga({
   schema: createSchema({
     typeDefs,
     resolvers,
-    context({ request }) {
-      return {
-        prisma,
-        request,
-        getUserId,
-      }
-    },
   }),
+  context,
 })
 
 app.use(yoga.graphqlEndpoint, yoga)

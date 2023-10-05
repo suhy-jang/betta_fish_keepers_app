@@ -2,19 +2,10 @@ import bcrypt from 'bcryptjs'
 import { generateToken } from '../../utils/auth'
 import hashPassword from '../../utils/hashPassword'
 import { PASSWORD_LENGTH } from '../../constants/constants.js'
-const gravatar = require('gravatar')
 import { AuthenticationError } from '../../utils/error'
 
-// Function to construct a random image URL from Lorem Picsum with custom options
-function getRandomImageUrl(options = {}) {
-  const baseUrl = 'https://picsum.photos'
-  const width = 200
-  const height = 200
-  const blur = '?blur=2'
-  const grayscale = '?grayscale'
-  const seed = options.seed ? `seed=${options.seed}` : ''
-
-  return `${baseUrl}/${width}/${height}${blur}${grayscale}${seed}`
+function defaultAvatar() {
+  return 'https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/no-image-icon-389x389.jpg'
 }
 
 const User = {
@@ -34,13 +25,7 @@ const User = {
       throw new Error('Email already taken.')
     }
 
-    // const avatar = gravatar.url(args.data.email, {
-    //   s: '200',
-    //   r: 'pg',
-    //   d: 'mm',
-    // })
-
-    const avatar = getRandomImageUrl({ seed: args.data.email })
+    const avatar = defaultAvatar()
 
     const user = await prisma.user.create({
       data: {

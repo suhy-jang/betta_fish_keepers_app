@@ -11,27 +11,26 @@ function getRandomImageUrl(options = {}) {
   const baseUrl = 'https://picsum.photos'
   const width = 200
   const height = 200
-  const blur = '?blur=2'
-  const grayscale = '?grayscale'
-  const seed = options.seed ? `seed=${options.seed}` : ''
-
-  return `${baseUrl}/${width}/${height}${blur}${grayscale}${seed}`
+  const seed = options.seed ? `/seed/${options.seed}` : ''
+  return `${baseUrl}${seed}/${width}/${height}`
 }
 
 const seedUsers = async () => {
   const users = []
   for (let i = 0; i < 5; i++) {
+    const name = faker.name.findName()
     const email = faker.internet.email()
     const password = await generatePassword(faker.internet.password())
-
     const avatar = getRandomImageUrl({ seed: email })
 
-    users.push({
-      name: faker.name.findName(),
+    const user = {
+      name,
       email,
       password,
       avatar,
-    })
+    }
+
+    users.push(user)
   }
   await prisma.user.createMany({ data: users })
 }
@@ -41,11 +40,12 @@ const seedPosts = async () => {
 
   const posts = []
   for (let i = 0; i < 5; i++) {
-    const randomUser = Math.floor(Math.random() * users.length)
+    const randomIndex = Math.floor(Math.random() * users.length)
+    const randomUser = users[randomIndex]
     posts.push({
       title: faker.lorem.sentence(),
       body: faker.lorem.paragraph(),
-      authorId: users[randomUser].id,
+      authorId: randomUser.id,
       published: true,
     })
   }
@@ -118,17 +118,16 @@ const deleteMany = async () => {
 const seedData = async () => {
   try {
     await deleteMany()
-    await Promise.all([
-      seedUsers(),
-      seedPosts(),
-      seedFeaturedPosts(),
-      seedPinnedPosts(),
-      seedComments(),
-    ])
+    // Sequence is important
+    await seedUsers()
+    await seedPosts()
+    await seedFeaturedPosts()
+    await seedPinnedPosts()
+    await seedComments()
   } catch (error) {
     console.error(error)
   }
-  await prisma.$disconnect()
+  process.exit(0)
 }
 
 seedData()

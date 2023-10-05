@@ -28,7 +28,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
-    "@prisma/client": "^5.3.0",
+    "@prisma/client": "^5.4.1",
     "bcryptjs": "^2.4.3",
     "caniuse-lite": "^1.0.30001509",
     "core-js": "^3.6.5",
@@ -38,11 +38,11 @@
     "faker": "^5.4.0",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.12.6",
-    "graphql-yoga": "^4.0.4",
     "graphql-ws": "^5.14.1",
+    "graphql-yoga": "^4.0.4",
     "gravatar": "^1.8.0",
-    "jsonwebtoken": "^9.0.2",
-    "prisma": "^5.3.0"
+    "prisma": "^5.4.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "@apollo/client": "^3.8.3",
