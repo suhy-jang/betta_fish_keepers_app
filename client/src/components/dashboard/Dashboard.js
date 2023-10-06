@@ -45,7 +45,7 @@ const Dashboard = ({
       <div className="my-2">
         <button
           className="btn btn-danger"
-          onClick={(e) => {
+          onClick={() => {
             if (window.confirm('Are you sure?')) {
               deleteUser(() => {
                 navigate('/')

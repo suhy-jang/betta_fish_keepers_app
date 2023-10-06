@@ -1,9 +1,7 @@
 import { verifyToken } from './auth'
 
 const getUserId = (request) => {
-  const header = request.request
-    ? request.request.headers.headersInit.authorization
-    : undefined
+  const header = request ? request.headers.headersInit.authorization : undefined
 
   if (header) {
     const token = header.replace('Bearer ', '')

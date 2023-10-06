@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { updatePost, getPost } from '../../actions/post'
 import { setAlert } from '../../actions/alert'
 
 const UpdatePost = ({
   auth,
-  post: { post, loading },
+  post: { post },
   updatePost,
   getPost,
   setAlert,
-  match,
 }) => {
+  const { id } = useParams()
   const navigate = useNavigate()
   const initialState = {
     title: '',
@@ -37,8 +37,8 @@ const UpdatePost = ({
   const { title, body, published, allowComments } = formData
 
   useEffect(() => {
-    getPost(match.params.id)
-  }, [auth.loading, auth.isAuthenticated, getPost, match.params.id])
+    getPost(id)
+  }, [id])
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })

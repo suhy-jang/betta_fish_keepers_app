@@ -1,31 +1,34 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import Avatar from '../avatar/Avatar'
 import Post from './Post'
 import { getProfile } from '../../actions/profile'
 
-const Profile = ({ profile: { loading, profile }, getProfile, match }) => {
+const Profile = ({ profile: { profile }, getProfile }) => {
+  const { id } = useParams()
+
   useEffect(() => {
-    getProfile(match.params.id)
-  }, [getProfile, match.params.id])
+    getProfile(id)
+  }, [id])
 
   return (
     <>
-      <div className="profile-grid my-1">
-        <div className="profile-top bg-purple-300 p-2">
-          <Avatar avatar={profile.avatar} className="round-img my-1" />
+      <div className="my-1 profile-grid">
+        <div className="p-2 bg-purple-300 profile-top">
+          <Avatar avatar={profile.avatar} className="my-1 round-img" />
           <h1 className="large">{profile.name}</h1>
           <p className="lead"></p>
         </div>
         <div className="profile-featuredpost">
-          <h2 className="text-purple-800 my-1">
+          <h2 className="my-1 text-purple-800">
             <i className="fas fa-pen" /> Featured
           </h2>
           {profile.featuredPost && <Post post={profile.featuredPost.post} />}
         </div>
         <div className="profile-pinnedposts">
-          <h2 className="text-purple-800 my-1">
+          <h2 className="my-1 text-purple-800">
             <i className="fas fa-pen" /> Pinned (
             {profile.pinnedPosts && profile.pinnedPosts.length})
           </h2>
@@ -35,7 +38,7 @@ const Profile = ({ profile: { loading, profile }, getProfile, match }) => {
             ))}
         </div>
         <div className="profile-posts">
-          <h2 className="text-purple-800 my-1">
+          <h2 className="my-1 text-purple-800">
             <i className="fas fa-pen" /> Posts (
             {profile.posts && profile.posts.length})
           </h2>

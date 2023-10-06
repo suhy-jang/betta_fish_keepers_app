@@ -66,7 +66,7 @@ const Query = {
             published: true,
           },
           {
-            author: { id: userId },
+            authorId: userId,
           },
         ],
       },

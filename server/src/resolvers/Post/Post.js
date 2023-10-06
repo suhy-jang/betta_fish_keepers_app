@@ -19,7 +19,7 @@ const Post = {
     async resolve(parent, args, { prisma }, _) {
       const pinned = await prisma.pinned.findMany({
         where: {
-          post: { id: parent.id },
+          postId: parent.id,
         },
         select: {
           user: {
@@ -42,7 +42,7 @@ const Post = {
     async resolve(parent, args, { prisma }, _) {
       const featured = await prisma.featured.findFirst({
         where: {
-          post: { id: parent.id },
+          postId: parent.id,
         },
         select: { user: { select: { id: true } } },
       })

@@ -9,16 +9,14 @@ const Featured = {
 
     const featured = await prisma.featured.findFirst({
       where: {
-        user: { id: userId },
+        userId: userId,
       },
     })
 
     const post = await prisma.post.findFirst({
       where: {
         id: args.postId,
-        author: {
-          id: userId,
-        },
+        authorId: userId,
       },
     })
 
@@ -59,7 +57,7 @@ const Featured = {
     const featuredPost = await prisma.featured.findFirst({
       where: {
         id: args.id,
-        user: { id: userId },
+        userId: userId,
       },
     })
 

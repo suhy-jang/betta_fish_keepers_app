@@ -1,5 +1,3 @@
-import { gql } from '@apollo/client'
-
 const gqlCreateUser = `
   mutation ($data: CreateUserInput!) {
     createUser(data: $data) {

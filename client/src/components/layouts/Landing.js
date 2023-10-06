@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const Landing = ({ isAuthenticated }) => {
   const navigate = useNavigate()
-  if (isAuthenticated) {
-    navigate('/dashboard')
-  }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard')
+    }
+  }, [isAuthenticated])
 
   return (
     <section className="landing">

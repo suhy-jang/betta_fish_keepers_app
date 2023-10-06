@@ -6,6 +6,7 @@ import { deletePost } from '../../actions/post'
 
 const PrivateButtons = ({ auth: { user }, deletePost, postId, authorId }) => {
   const navigate = useNavigate()
+
   return (
     user &&
     authorId === user.id && (

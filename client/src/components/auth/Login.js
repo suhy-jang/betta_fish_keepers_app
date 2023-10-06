@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -29,9 +29,11 @@ const Login = ({ login, isAuthenticated }) => {
     login(email, password)
   }
 
-  if (isAuthenticated) {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
 
   return (
     <Fragment>

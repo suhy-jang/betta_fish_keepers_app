@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Moment from 'react-moment'
+import moment from 'moment'
 import Avatar from '../avatar/Avatar'
 import Comment from '../comment/Comment'
 import CreateComment from '../comment/CreateComment'
@@ -11,17 +12,12 @@ import Feature from './Feature'
 import Pin from './Pin'
 import { getPost } from '../../actions/post'
 
-const Post = ({
-  auth: { loading: userLoading, user },
-  post: { post, loading },
-  userId,
-  getPost,
-  match,
-}) => {
+const Post = ({ post: { post, loading }, getPost }) => {
+  const { id } = useParams()
+
   useEffect(() => {
-    getPost(match.params.id)
-    // eslint-disable-next-line
-  }, [userLoading, match.params.id])
+    getPost(id)
+  }, [id])
 
   return (
     <div className="post-page">
@@ -56,7 +52,10 @@ const Post = ({
               post.createdAt && (
                 <>
                   Posted on{' '}
-                  <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
+                  <Moment
+                    format="YYYY/MM/DD"
+                    date={moment(post.createdAt, 'YYYY-MM-DD HH:mm:ss.SSS')}
+                  />
                 </>
               )
             ) : (
@@ -90,13 +89,11 @@ const Post = ({
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
   getPost: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   post: state.post,
-  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { getPost })(Post)
