@@ -11,7 +11,7 @@ const PrivateComponent = ({
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
-      navigate('/login')
+      navigate('/')
     }
   }, [loading, isAuthenticated, navigate])
 

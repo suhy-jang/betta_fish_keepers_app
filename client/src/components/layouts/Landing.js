@@ -17,7 +17,8 @@ const Landing = ({ isAuthenticated }) => {
       <div className="dark-overlay">
         <div className="landing-inner">
           <h1 className="x-large">
-            Betta Fish Keepers <span className="hide-sm">Community</span>
+            Betta Fish Keepers{' '}
+            <span className="d-none d-md-inline-block">Community</span>
           </h1>
           <p className="lead">
             Share your tips and get help from other Betta keepers!

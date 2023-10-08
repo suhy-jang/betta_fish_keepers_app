@@ -7,7 +7,7 @@ import { setAlert } from '../../actions/alert'
 
 const UpdatePost = ({
   auth,
-  post: { post },
+  post: { loading, post },
   updatePost,
   getPost,
   setAlert,
@@ -65,23 +65,21 @@ const UpdatePost = ({
 
   return (
     <div className="post-form">
-      <div className="bg-purple-300 post-form-header">
-        <h3>Say Something...</h3>
-      </div>
-      {!auth.loading && auth.isAuthenticated ? (
+      {!auth.loading && auth.isAuthenticated && !loading && (
         <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
           <textarea
             cols="30"
             rows="1"
-            placeholder="Post title"
+            placeholder="Title"
             name="title"
             value={title}
             onChange={(e) => onChange(e)}
+            style={{ marginBottom: '1rem' }}
           />
           <textarea
             cols="30"
             rows="5"
-            placeholder="Create a post"
+            placeholder="Say Something..."
             name="body"
             value={body}
             onChange={(e) => onChange(e)}
@@ -109,7 +107,8 @@ const UpdatePost = ({
           <div />
           <input type="submit" value="Submit" className="my-1 btn btn-dark" />
         </form>
-      ) : (
+      )}
+      {!auth.loading && !auth.isAuthenticated && (
         <div className="p-1 bg-light">Login first...</div>
       )}
     </div>

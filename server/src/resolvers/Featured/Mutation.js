@@ -1,7 +1,7 @@
 import { AuthenticationError } from '../../utils/error'
 
 const Featured = {
-  async createFeatured(_, args, { prisma, request, getUserId }, _) {
+  async createFeatured(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
     if (!userId) {
       throw new AuthenticationError('Authentication required')
@@ -48,7 +48,7 @@ const Featured = {
     _,
     args,
     { prisma, request, getUserId, AuthenticationError },
-    _,
+    __,
   ) {
     const userId = getUserId(request)
     if (!userId) {
@@ -56,8 +56,11 @@ const Featured = {
     }
     const featuredPost = await prisma.featured.findFirst({
       where: {
-        id: args.id,
+        postId: args.postId,
         userId: userId,
+      },
+      select: {
+        id: true,
       },
     })
 
@@ -67,7 +70,7 @@ const Featured = {
 
     const deleteFeatured = await prisma.featured.delete({
       where: {
-        id: args.id,
+        id: featuredPost.id,
       },
     })
     return deleteFeatured

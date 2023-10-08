@@ -1,7 +1,7 @@
 import { AuthenticationError } from '../../utils/error'
 
 const Pinned = {
-  async createPinned(_, args, { prisma, request, getUserId }, _) {
+  async createPinned(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
     if (!userId) {
       throw new AuthenticationError('Authentication required')
@@ -49,17 +49,20 @@ const Pinned = {
 
     return createdPinned
   },
-  async deletePinned(_, args, { prisma, request, getUserId }, _) {
+  async deletePinned(_, args, { prisma, request, getUserId }, __) {
     const userId = getUserId(request)
     if (!userId) {
       throw new AuthenticationError('Authentication required')
     }
     const pinned = await prisma.pinned.findFirst({
       where: {
-        id: args.id,
+        postId: args.postId,
         user: {
           id: userId,
         },
+      },
+      select: {
+        id: true,
       },
     })
     if (!pinned) {
@@ -68,7 +71,7 @@ const Pinned = {
 
     const deletePinned = await prisma.pinned.delete({
       where: {
-        id: args.id,
+        id: pinned.id,
       },
     })
     return deletePinned

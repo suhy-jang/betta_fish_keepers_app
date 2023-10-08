@@ -5,7 +5,7 @@ import Post from './Post'
 import CreatePost from './CreatePost'
 import { getPosts } from '../../actions/post'
 
-const Posts = ({ post: { posts }, getPosts }) => {
+const Posts = ({ auth: { user }, post: { posts }, getPosts }) => {
   useEffect(() => {
     getPosts()
   }, [getPosts])
@@ -17,9 +17,9 @@ const Posts = ({ post: { posts }, getPosts }) => {
       </p>
       <CreatePost />
       <div className="posts">
-        {posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
+        {user &&
+          posts &&
+          posts.map((post) => <Post key={post.id} post={post} user={user} />)}
       </div>
     </Fragment>
   )
@@ -30,6 +30,7 @@ Posts.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   post: state.post,
 })
 

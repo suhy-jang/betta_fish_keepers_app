@@ -1,42 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../actions/auth'
 import SearchBar from './SearchBar'
 
-const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
-  const guestLinks = (
-    <>
-      <li>
-        <Link to="/register">Register</Link>
-      </li>
-      <li>
-        <Link to="/login">Login</Link>
-      </li>
-    </>
-  )
+const NavBar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const navigate = useNavigate()
 
-  const authLinks = (
-    <>
-      <li>
-        <Link to="/dashboard">Dashboard</Link>
-      </li>
-      <li>
-        <a onClick={logout} href="/">
-          <i className="fas fa-sign-out-alert" />{' '}
-          <span className="hide-sm">Logout</span>
-        </a>
-      </li>
-    </>
-  )
+  const signout = () => {
+    logout(() => {
+      navigate('/')
+    })
+  }
 
   return (
-    <nav className="navbar bg-purple-200">
+    <nav className="bg-purple-200 navbar">
       <h1>
         <Link to="/">
           <i className="fas fa-water" /> Betta Fish Keepers{' '}
-          <span className="hide-sm">Community</span>
+          <span className="d-none d-md-inline-block">Community</span>
         </Link>
       </h1>
       <ul>
@@ -46,7 +29,28 @@ const NavBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         <li>
           <Link to="/posts">Posts</Link>
         </li>
-        {!loading && isAuthenticated ? authLinks : guestLinks}
+        {!loading && isAuthenticated && (
+          <>
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li onClick={signout}>
+              <a href="/">
+                <span className="d-none d-md-inline-block">Logout</span>
+              </a>
+            </li>
+          </>
+        )}
+        {!loading && !isAuthenticated && (
+          <>
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   )

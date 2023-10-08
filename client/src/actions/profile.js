@@ -1,6 +1,7 @@
 import axiosInstance from '../utils/axiosInstance'
 import { PROFILE_LOADING, GET_PROFILE, PROFILE_ERROR } from '../utils/types'
 import { gqlGetProfile } from './gqlOperations'
+import { setAlert } from './alert'
 
 // Load Profile
 export const getProfile = (id) => async (dispatch) => {
@@ -18,7 +19,8 @@ export const getProfile = (id) => async (dispatch) => {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
+      errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: PROFILE_ERROR, payload: errors })
     }
 

@@ -43,7 +43,7 @@ export const getPosts = () => async (dispatch) => {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       dispatch(setAlert('Unable to load posts', 'danger'))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
@@ -67,7 +67,7 @@ export const getMyPosts = () => async (dispatch) => {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       dispatch(setAlert('Unable to load posts', 'danger'))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
@@ -85,29 +85,19 @@ export const getMyPosts = () => async (dispatch) => {
 export const getPost = (id) => async (dispatch) => {
   dispatch({ type: POST_LOADING, payload: '' })
 
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = { id }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      {
-        query: gqlGetSinglePost,
-        variables,
-      },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlGetSinglePost,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
@@ -125,26 +115,19 @@ export const getPost = (id) => async (dispatch) => {
 
 // Create post
 export const createPost = (formData, callback) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = { data: formData }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlCreatePost, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlCreatePost,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
@@ -167,26 +150,19 @@ export const createPost = (formData, callback) => async (dispatch) => {
 
 // Update post
 export const updatePost = (id, data, callback) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = { id, data }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlUpdatePost, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlUpdatePost,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
@@ -209,26 +185,19 @@ export const updatePost = (id, data, callback) => async (dispatch) => {
 
 // Delete post
 export const deletePost = (id, callback) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = { id }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlDeletePost, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlDeletePost,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
@@ -250,22 +219,15 @@ export const deletePost = (id, callback) => async (dispatch) => {
 
 // Create comment
 export const createComment = (data) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = {
     data,
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlCreateComment, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlCreateComment,
+      variables,
+    })
 
     const {
       data: { data, errors },
@@ -291,22 +253,15 @@ export const createComment = (data) => async (dispatch) => {
 
 // Delete comment
 export const deleteComment = (id) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = {
     id,
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlDeleteComment, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlDeleteComment,
+      variables,
+    })
 
     const {
       data: { data, errors },
@@ -331,29 +286,24 @@ export const deleteComment = (id) => async (dispatch) => {
 }
 
 // Create pinned post
-export const createPinned = (id) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
+export const createPinned = (postId) => async (dispatch) => {
+  // TODO: move headers into axiosInstance
   const variables = {
-    id,
+    postId,
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlCreatePinned, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlCreatePinned,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    // TODO: checking data -> errors
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
@@ -372,23 +322,16 @@ export const createPinned = (id) => async (dispatch) => {
 }
 
 // Delete pinned post
-export const deletePinned = (id) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
+export const deletePinned = (postId) => async (dispatch) => {
   const variables = {
-    id,
+    postId,
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlDeletePinned, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlDeletePinned,
+      variables,
+    })
 
     const {
       data: { data, errors },
@@ -399,7 +342,7 @@ export const deletePinned = (id) => async (dispatch) => {
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
-    dispatch(setAlert('Removed Pin'))
+    dispatch(setAlert('This post is no longer marked as pinned.'))
     dispatch({
       type: DELETE_PINNED,
       payload: data.deletePinned,
@@ -413,29 +356,22 @@ export const deletePinned = (id) => async (dispatch) => {
 }
 
 // Create featured post
-export const createFeatured = (id) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
+export const createFeatured = (postId) => async (dispatch) => {
   const variables = {
-    id,
+    postId,
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlCreateFeatured, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlCreateFeatured,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
@@ -454,34 +390,27 @@ export const createFeatured = (id) => async (dispatch) => {
 }
 
 // Delete featured post
-export const deleteFeatured = (id) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
+export const deleteFeatured = (postId) => async (dispatch) => {
   const variables = {
-    id,
+    postId,
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlDeleteFeatured, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlDeleteFeatured,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: POST_ERROR, payload: errors })
     }
 
-    dispatch(setAlert('Removed Feature'))
+    dispatch(setAlert('This post is no longer marked as featured.'))
     dispatch({
       type: DELETE_FEATURED,
       payload: data.deleteFeatured,

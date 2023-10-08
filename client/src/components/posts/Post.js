@@ -1,14 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import Moment from 'react-moment'
+import { Link, useNavigate } from 'react-router-dom'
+import FormattedDate from '../../utils/formattedDate'
 import Avatar from '../avatar/Avatar'
+import { usePin } from '../../hooks/usePin'
+import { useFeature } from '../../hooks/useFeature'
+import Pin from '../post/Pin'
+import Feature from '../post/Feature'
 
-const Post = ({ post }) => {
+const Post = ({ post, user }) => {
+  const navigate = useNavigate()
+  const { pinPost, unpinPost } = usePin()
+  const { featurePost, unfeaturePost } = useFeature()
+
+  const navigateToPost = () => {
+    if (post && post.id) {
+      navigate(`/posts/${post.id}`)
+    }
+  }
+
   return (
-    <Link
-      to={`/posts/${post.id}`}
-      className="my-1 cursor-pointer btn bg-purple-50 hover:bg-purple-300"
+    <div
+      onClick={navigateToPost}
+      className="min-w-full my-1 cursor-pointer btn bg-purple-50 hover:bg-purple-300"
     >
       <div className="flex flex-row bg-white bg-opacity-50">
         <div>
@@ -19,27 +33,38 @@ const Post = ({ post }) => {
           </div>
         </div>
         <div className="flex-grow p-1">
-          <h4 className="font-bold">{post.author.name}</h4>
+          <div className="flex gap-2">
+            <h4 className="font-bold">{post.author.name}</h4>
+            <FormattedDate timestamp={post.createdAt} format="MMM d" />
+          </div>
 
-          <div className="post-title">{post.title}</div>
+          <div className="text-lg post-title">{post.title}</div>
           <p className="my-1">{post.body}</p>
-          <button className="bg-purple-100 rounded-lg btn" disabled>
-            <i className="fas fa-thumbtack" /> {post.pinGazers.length}
-          </button>
-          <button className="bg-purple-100 rounded-lg btn " disabled>
-            <i className="fas fa-comment" /> {post.comments.length}
-          </button>
-          <span className="post-date">
-            Posted on <Moment format="YYYY/MM/DD">{post.createdAt}</Moment>
-          </span>
+          {user && post && (
+            <>
+              <Pin
+                user={user}
+                post={post}
+                pinPost={pinPost}
+                unpinPost={unpinPost}
+              />
+              <Feature
+                user={user}
+                post={post}
+                featurePost={featurePost}
+                unfeaturePost={unfeaturePost}
+              />
+            </>
+          )}
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 export default Post

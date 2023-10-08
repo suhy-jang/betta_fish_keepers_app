@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Post from '../profile/Post'
+import Post from '../posts/Post'
 import { deleteUser } from '../../actions/auth'
 import { getMyPosts } from '../../actions/post'
 
@@ -35,12 +35,14 @@ const Dashboard = ({
         </a>
       </div>
 
-      <div className="profile-posts">
+      <div className="profile-posts min-h-[250px] my-5">
         <h2 className="my-1 text-dark">
           <i className="fas fa-pen" /> My Posts
         </h2>
-        {!postLoading &&
-          myPosts.map((post) => <Post key={post.id} post={post} />)}
+        {user &&
+          !postLoading &&
+          myPosts.length > 0 &&
+          myPosts.map((post) => <Post key={post.id} post={post} user={user} />)}
       </div>
       <div className="my-2">
         <button

@@ -2,36 +2,36 @@ import { gql } from 'graphql-tag'
 
 const typeDefs = gql`
   type Query {
-    users(query: String, first: Int, after: String, skip: Int): [User!]!
-    posts(query: String, first: Int, skip: Int, after: String): [Post!]!
-    myPosts(query: String, first: Int, skip: Int, after: String): [Post!]!
+    users(query: String, first: Int, after: String, skip: Int): [User!]
+    posts(query: String, first: Int, skip: Int, after: String): [Post!]
+    myPosts(query: String, first: Int, skip: Int, after: String): [Post!]
     comments(
       postId: ID!
       query: String
       first: Int
       skip: Int
       after: String
-    ): [Comment!]!
+    ): [Comment!]
     me: User
-    user(id: ID!): User!
-    post(id: ID!): Post!
+    user(id: ID!): User
+    post(id: ID!): Post
   }
 
   type Mutation {
-    createUser(data: CreateUserInput!): AuthPayload!
-    login(data: LoginUserInput!): AuthPayload!
-    deleteUser: User!
-    updateUser(data: UpdateUserInput!): User!
-    createPost(data: CreatePostInput!): Post!
-    deletePost(id: ID!): Post!
-    updatePost(id: ID!, data: UpdatePostInput!): Post!
-    createPinned(postId: ID!): Pinned!
-    createFeatured(postId: ID!): Featured!
-    deletePinned(id: ID!): Pinned!
-    deleteFeatured(id: ID!): Featured!
-    createComment(data: CreateCommentInput!): Comment!
-    updateComment(id: ID!, data: UpdateCommentInput!): Comment!
-    deleteComment(id: ID!): Comment!
+    createUser(data: CreateUserInput!): AuthPayload
+    login(data: LoginUserInput!): AuthPayload
+    deleteUser: User
+    updateUser(data: UpdateUserInput!): User
+    createPost(data: CreatePostInput!): Post
+    deletePost(id: ID!): Post
+    updatePost(id: ID!, data: UpdatePostInput!): Post
+    createPinned(postId: ID!): Pinned
+    createFeatured(postId: ID!): Featured
+    deletePinned(postId: ID!): Pinned
+    deleteFeatured(postId: ID!): Featured
+    createComment(data: CreateCommentInput!): Comment
+    updateComment(id: ID!, data: UpdateCommentInput!): Comment
+    deleteComment(id: ID!): Comment
   }
 
   type Subscription {

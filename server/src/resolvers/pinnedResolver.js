@@ -1,7 +1,9 @@
-import Mutation from './Comment/Mutation'
+import Mutation from './Pinned/Mutation'
+import Pinned from './Pinned/Pinned'
 
 const pinnedResolvers = {
   Mutation,
+  Pinned,
 }
 
 export { pinnedResolvers as default }

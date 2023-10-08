@@ -24,6 +24,8 @@ const resolvers = {
   User: userResolver.User,
   Post: postResolver.Post,
   Comment: commentResolver.Comment,
+  Pinned: pinnedResolver.Pinned,
+  Featured: featuredResolver.Featured,
 }
 
 export { resolvers }

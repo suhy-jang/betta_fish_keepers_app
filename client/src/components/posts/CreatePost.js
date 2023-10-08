@@ -43,23 +43,21 @@ const CreatePost = ({ auth, createPost, setAlert }) => {
 
   return (
     <div className="post-form">
-      <div className="text-gray-800 bg-purple-300 rounded-lg post-form-header">
-        <h3>Say Something...</h3>
-      </div>
       {auth.isAuthenticated ? (
         <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
           <textarea
             cols="30"
             rows="1"
-            placeholder="Post title"
+            placeholder="Title"
             name="title"
             value={title}
             onChange={(e) => onChange(e)}
+            style={{ marginBottom: '1rem' }}
           />
           <textarea
             cols="30"
             rows="5"
-            placeholder="Create a post"
+            placeholder="Say Something..."
             name="body"
             value={body}
             onChange={(e) => onChange(e)}

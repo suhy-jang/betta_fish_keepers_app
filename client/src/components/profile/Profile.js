@@ -3,17 +3,23 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Avatar from '../avatar/Avatar'
-import Post from './Post'
+import Post from '../posts/Post'
 import { getProfile } from '../../actions/profile'
 
-const Profile = ({ profile: { profile }, getProfile }) => {
+const Profile = ({
+  auth: { user },
+  profile: { loading, profile },
+  getProfile,
+}) => {
   const { id } = useParams()
 
   useEffect(() => {
     getProfile(id)
-  }, [id])
+  }, [id, getProfile])
 
-  return (
+  return loading ? (
+    <>loading...</>
+  ) : (
     <>
       <div className="my-1 profile-grid">
         <div className="p-2 bg-purple-300 profile-top">
@@ -25,7 +31,9 @@ const Profile = ({ profile: { profile }, getProfile }) => {
           <h2 className="my-1 text-purple-800">
             <i className="fas fa-pen" /> Featured
           </h2>
-          {profile.featuredPost && <Post post={profile.featuredPost.post} />}
+          {profile.featuredPost && (
+            <Post post={profile.featuredPost} user={user} />
+          )}
         </div>
         <div className="profile-pinnedposts">
           <h2 className="my-1 text-purple-800">
@@ -34,7 +42,7 @@ const Profile = ({ profile: { profile }, getProfile }) => {
           </h2>
           {profile.pinnedPosts &&
             profile.pinnedPosts.map((post) => (
-              <Post key={post.post.id} post={post.post} />
+              <Post key={post.id} post={post} user={user} />
             ))}
         </div>
         <div className="profile-posts">
@@ -43,7 +51,9 @@ const Profile = ({ profile: { profile }, getProfile }) => {
             {profile.posts && profile.posts.length})
           </h2>
           {profile.posts &&
-            profile.posts.map((post) => <Post key={post.id} post={post} />)}
+            profile.posts.map((post) => (
+              <Post key={post.id} post={post} user={user} />
+            ))}
         </div>
       </div>
     </>
@@ -56,6 +66,7 @@ Profile.propTypes = {
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, { getProfile })(Profile)

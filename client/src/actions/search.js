@@ -12,29 +12,21 @@ import { gqlSearchProfiles, gqlSearchPosts } from './gqlOperations'
 export const search = (query) => async (dispatch) => {
   dispatch({ type: SEARCH_QUERY, payload: query })
 
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = { query }
 
   try {
-    let res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlSearchProfiles, variables },
-      config,
-    )
+    let res = await axiosInstance.post('/graphql', {
+      query: gqlSearchProfiles,
+      variables,
+    })
 
     let data = errorHandling(dispatch, res)
     if (data) dispatch({ type: SEARCH_PROFILE, payload: data.users })
 
-    res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlSearchPosts, variables },
-      config,
-    )
+    res = await axiosInstance.post('/graphql', {
+      query: gqlSearchPosts,
+      variables,
+    })
 
     data = await errorHandling(dispatch, res)
     if (data) dispatch({ type: SEARCH_POST, payload: data.posts })

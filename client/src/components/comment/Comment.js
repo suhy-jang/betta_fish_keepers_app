@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Moment from 'react-moment'
 import Avatar from '../avatar/Avatar'
 import { deleteComment } from '../../actions/post'
+import FormattedDate from '../../utils/formattedDate'
 
 const Comment = ({
   auth: { loading, user },
@@ -29,9 +29,9 @@ const Comment = ({
     }
   }, [])
 
-  // const onDelete = (e) => {
-  //   deleteComment(comment.id)
-  // }
+  const onDelete = () => {
+    deleteComment(comment.id)
+  }
 
   return (
     <div
@@ -47,12 +47,12 @@ const Comment = ({
       </div>
       <div className="flex flex-grow">
         <div className="flex-grow">
-          <h4 className="font-bold">{comment.author.name}</h4>
+          <div className="flex gap-2">
+            <h4 className="font-bold">{comment.author.name}</h4>
+            <FormattedDate timestamp={comment.createdAt} format="MMM d" />
+          </div>
 
           <p className="my-1">{comment.text}</p>
-          <p className="post-date">
-            Posted on <Moment format="YYYY/MM/DD">{comment.createdAt}</Moment>
-          </p>
         </div>
         <div className="relative inline-block w-45">
           <div className="flex items-center justify-center rounded-full w-7 h-7 hover:bg-violet-200">
@@ -66,7 +66,7 @@ const Comment = ({
             {isDropDownOpen && (
               <div
                 ref={dropDownRef}
-                className="absolute bottom-0 right-0 z-10 flex flex-col h-48 bg-white rounded-lg shadow-md cursor-pointer w-80"
+                className="absolute bottom-0 right-0 z-10 flex flex-col bg-white rounded-lg shadow-md cursor-pointer h-fit w-80"
               >
                 {!loading &&
                   user &&
@@ -74,13 +74,7 @@ const Comment = ({
                     <>
                       <div
                         className="p-3 hover:bg-violet-50"
-                        onClick={() => console.log(1)}
-                      >
-                        Edit
-                      </div>
-                      <div
-                        className="p-3 hover:bg-violet-50"
-                        onClick={() => console.log(1)}
+                        onClick={onDelete}
                       >
                         Delete
                       </div>

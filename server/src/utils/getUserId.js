@@ -1,15 +1,17 @@
 import { verifyToken } from './auth'
 
 const getUserId = (request) => {
-  const header = request ? request.headers.headersInit.authorization : undefined
+  const bearerToken = request
+    ? request.headers.headersInit.authorization
+    : undefined
 
-  if (header) {
-    const token = header.replace('Bearer ', '')
+  if (bearerToken) {
+    const token = bearerToken.replace('Bearer ', '')
     const decoded = verifyToken(token)
     return decoded.userId
   }
 
-  return null
+  throw new Error('no token provided')
 }
 
 export { getUserId as default }

@@ -12,7 +12,6 @@ import {
   DELETE_USER,
   USER_ERROR,
 } from '../utils/types'
-import setAuthToken from '../utils/setAuthToken'
 import {
   gqlCreateUser,
   gqlUpdateUser,
@@ -23,10 +22,6 @@ import {
 
 // Load User
 export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token)
-  }
-
   try {
     const res = await axiosInstance.post('/graphql', { query: gqlGetMe })
 
@@ -34,7 +29,7 @@ export const loadUser = () => async (dispatch) => {
       data: { data, errors },
     } = res
 
-    if (!data || !data.me) {
+    if (errors) {
       return dispatch({ type: AUTH_ERROR, payload: errors })
     }
 
@@ -54,12 +49,6 @@ export const loadUser = () => async (dispatch) => {
 export const register =
   ({ name, email, password }) =>
   async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-
     const variables = {
       data: {
         name,
@@ -69,17 +58,16 @@ export const register =
     }
 
     try {
-      const res = await axiosInstance.post(
-        '/graphql',
-        { query: gqlCreateUser, variables },
-        config,
-      )
+      const res = await axiosInstance.post('/graphql', {
+        query: gqlCreateUser,
+        variables,
+      })
 
       const {
         data: { data, errors },
       } = res
 
-      if (!data) {
+      if (errors) {
         errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
         return dispatch({ type: REGISTER_FAILURE })
       }
@@ -104,28 +92,21 @@ export const register =
 
 // Update User
 export const updateUser = (formData, callback) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = {
     data: formData,
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlUpdateUser, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlUpdateUser,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: USER_ERROR, payload: errors })
     }
@@ -151,7 +132,7 @@ export const deleteUser = (callback) => async (dispatch) => {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: USER_ERROR, payload: errors })
     }
@@ -170,12 +151,6 @@ export const deleteUser = (callback) => async (dispatch) => {
 
 // Login User
 export const login = (email, password) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }
-
   const variables = {
     data: {
       email,
@@ -184,17 +159,16 @@ export const login = (email, password) => async (dispatch) => {
   }
 
   try {
-    const res = await axiosInstance.post(
-      '/graphql',
-      { query: gqlLogin, variables },
-      config,
-    )
+    const res = await axiosInstance.post('/graphql', {
+      query: gqlLogin,
+      variables,
+    })
 
     const {
       data: { data, errors },
     } = res
 
-    if (!data) {
+    if (errors) {
       errors.forEach((err) => dispatch(setAlert(err.message, 'danger')))
       return dispatch({ type: LOGIN_FAILURE })
     }
@@ -214,4 +188,7 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 // Logout
-export const logout = () => (dispatch) => dispatch({ type: LOGOUT })
+export const logout = (callback) => (dispatch) => {
+  dispatch({ type: LOGOUT })
+  callback()
+}

@@ -3,6 +3,7 @@ import { generateToken } from '../../utils/auth'
 import hashPassword from '../../utils/hashPassword'
 import { PASSWORD_LENGTH } from '../../constants/constants.js'
 import { AuthenticationError } from '../../utils/error'
+import { getGravatarUrl } from '../../utils/getGravatarUrl'
 
 function defaultAvatar() {
   return 'https://suhypractice.s3.ap-northeast-2.amazonaws.com/tweetx/Download/no-image-icon-389x389.jpg'
@@ -25,7 +26,7 @@ const User = {
       throw new Error('Email already taken.')
     }
 
-    const avatar = defaultAvatar()
+    const avatar = getGravatarUrl(args.data.email)
 
     const user = await prisma.user.create({
       data: {
@@ -85,7 +86,7 @@ const User = {
     }
 
     if (args.data.email) {
-      args.data.avatar = getRandomImageUrl({ seed: args.data.email })
+      args.data.avatar = getGravatarUrl(args.data.email)
     }
 
     const updateUser = await prisma.user.update({

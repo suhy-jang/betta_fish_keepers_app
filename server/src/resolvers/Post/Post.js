@@ -1,6 +1,6 @@
 const Post = {
   author: {
-    async resolve(parent, args, { prisma }, info) {
+    async resolve(parent, _, { prisma }, __) {
       const author = await prisma.user.findUnique({
         where: { id: parent.authorId },
       })
@@ -8,7 +8,7 @@ const Post = {
     },
   },
   comments: {
-    async resolve(parent, args, { prisma }, info) {
+    async resolve(parent, _, { prisma }, __) {
       const comments = await prisma.comment.findMany({
         where: { postId: parent.id },
       })
@@ -16,7 +16,7 @@ const Post = {
     },
   },
   pinGazers: {
-    async resolve(parent, args, { prisma }, _) {
+    async resolve(parent, _, { prisma }, __) {
       const pinned = await prisma.pinned.findMany({
         where: {
           postId: parent.id,
@@ -39,7 +39,7 @@ const Post = {
     },
   },
   featuredBy: {
-    async resolve(parent, args, { prisma }, _) {
+    async resolve(parent, _, { prisma }, __) {
       const featured = await prisma.featured.findFirst({
         where: {
           postId: parent.id,

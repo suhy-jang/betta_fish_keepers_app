@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Post from '../profile/Post'
+import Post from '../posts/Post'
 import Profile from './Profile'
 
 const Search = ({ search: { query, profiles, posts, loading } }) => {
@@ -10,7 +10,7 @@ const Search = ({ search: { query, profiles, posts, loading } }) => {
       <p className="lead">
         <i className="fas fa-search"></i> Search: "{query}"
       </p>
-      <div className="search-grid my-1">
+      <div className="my-1 search-grid">
         <div className="search-users">
           <h2 className="text-purple-800">
             <i className="fas fa-user" />

@@ -98,30 +98,74 @@ export default function postReducer(state = initialState, action) {
     case CREATE_PINNED:
       return {
         ...state,
+        posts: state.posts.map((post) => {
+          if (post.id === payload.post.id) {
+            return {
+              ...post,
+              pinGazers: [...post.pinGazers, payload.user],
+            }
+          } else {
+            return post
+          }
+        }),
         post: {
           ...state.post,
-          pinGazers: [...state.post.pinGazers, payload],
+          pinGazers: [...state.post.pinGazers, payload.user],
         },
       }
     case DELETE_PINNED:
       return {
         ...state,
+        posts: state.posts.map((post) => {
+          if (post.id === payload.post.id) {
+            return {
+              ...post,
+              pinGazers: post.pinGazers.filter(
+                (user) => user.id !== payload.user.id,
+              ),
+            }
+          } else {
+            return post
+          }
+        }),
         post: {
           ...state.post,
-          pinGazers: state.post.pinGazers.filter((p) => p.id !== payload.id),
+          pinGazers: state.post.pinGazers.filter(
+            (user) => user.id !== payload.user.id,
+          ),
         },
       }
     case CREATE_FEATURED:
       return {
         ...state,
+        posts: state.posts.map((post) => {
+          if (post.id === payload.post.id) {
+            return {
+              ...post,
+              featuredBy: payload.user,
+            }
+          } else {
+            return post
+          }
+        }),
         post: {
           ...state.post,
-          featuredBy: payload,
+          featuredBy: payload.user,
         },
       }
     case DELETE_FEATURED:
       return {
         ...state,
+        posts: state.posts.map((post) => {
+          if (post.id === payload.post.id) {
+            return {
+              ...post,
+              featuredBy: null,
+            }
+          } else {
+            return post
+          }
+        }),
         post: {
           ...state.post,
           featuredBy: null,

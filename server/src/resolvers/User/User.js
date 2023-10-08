@@ -1,6 +1,6 @@
 const User = {
   email: {
-    resolve(parent, args, { request, getUserId }, _) {
+    resolve(parent, _, { request, getUserId }, __) {
       const userId = getUserId(request)
       if (!userId) {
         return null
@@ -10,7 +10,7 @@ const User = {
     },
   },
   posts: {
-    resolve(parent, args, { prisma, request, getUserId }, _) {
+    resolve(parent, _, { prisma, request, getUserId }, __) {
       const userId = getUserId(request)
       return prisma.post.findMany({
         where: {
@@ -23,7 +23,7 @@ const User = {
     },
   },
   pinnedPosts: {
-    async resolve(parent, args, { prisma, request, getUserId }, _) {
+    async resolve(parent, _, { prisma }, __) {
       const pinned = await prisma.pinned.findMany({
         where: {
           userId: parent.id,
@@ -41,7 +41,7 @@ const User = {
     },
   },
   featuredPost: {
-    async resolve(parent, args, { prisma, request, getUserId }, _) {
+    async resolve(parent, _, { prisma }, __) {
       const featured = await prisma.featured.findFirst({
         where: {
           userId: parent.id,

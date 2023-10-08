@@ -71,6 +71,11 @@ const FRAGMENT_POST_FIELDS = `
     id
     title
     body
+    published
+    allowComments
+    featuredBy {
+      id
+    }
     createdAt
     updatedAt
     author {
@@ -134,16 +139,10 @@ const gqlGetProfile = `
     user(id: $id) {
       ...userData
       pinnedPosts {
-        id
-        post {
-          ...postData
-        }
+        ...postData
       }
       featuredPost {
-        id
-        post {
-          ...postData
-        }
+        ...postData
       }
       posts {
         ...postData
@@ -235,29 +234,41 @@ const gqlDeletePost = `
 `
 
 const gqlCreatePinned = `
-  mutation ($id: ID!) {
-    createPinned(id: $id) {
+  mutation ($postId: ID!) {
+    createPinned(postId: $postId) {
       id
       user {
         id
         avatar
+      }
+      post {
+        id
       }
     }
   }
 `
 
 const gqlDeletePinned = `
-  mutation ($id: ID!) {
-    deletePinned(id: $id) {
+  mutation ($postId: ID!) {
+    deletePinned(postId: $postId) {
       id
+      user {
+        id
+      }
+      post {
+        id
+      }
     }
   }
 `
 
 const gqlCreateFeatured = `
-  mutation ($id: ID!) {
-    createFeatured(id: $id) {
+  mutation ($postId: ID!) {
+    createFeatured(postId: $postId) {
       id
+      user {
+        id
+      }
       post {
         id
       }
@@ -266,9 +277,12 @@ const gqlCreateFeatured = `
 `
 
 const gqlDeleteFeatured = `
-  mutation ($id: ID!) {
-    deleteFeatured(id: $id) {
+  mutation ($postId: ID!) {
+    deleteFeatured(postId: $postId) {
       id
+      user {
+        id
+      }
       post {
         id
       }

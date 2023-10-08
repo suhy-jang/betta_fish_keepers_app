@@ -1,23 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { createFeatured, deleteFeatured } from '../../actions/post'
 
-const Feature = ({
-  auth: { user },
-  post: { post },
-  createFeatured,
-  deleteFeatured,
-}) => {
+const Feature = ({ user, post, featurePost, unfeaturePost }) => {
   const featured = post.featuredBy ? true : false
   const guest = !user || user.id !== post.author.id
 
+  const onClickFeatured = (e) => {
+    e.stopPropagation()
+    !featured ? featurePost(post.id) : unfeaturePost(post.id)
+  }
+
   return (
     <button
-      className={`btn btn-${featured ? 'dark' : 'light'} pin`}
-      onClick={() =>
-        featured ? deleteFeatured(post.id) : createFeatured(post.id)
-      }
+      className={`btn featured ${
+        featured
+          ? 'bg-purple-300 hover:bg-gray-300'
+          : 'bg-gray-300 hover:bg-purple-300'
+      }`}
+      onClick={onClickFeatured}
       disabled={guest || !post.published}
     >
       <i className="fas fa-asterisk" /> Feature
@@ -26,17 +26,10 @@ const Feature = ({
 }
 
 Feature.propTypes = {
-  auth: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
-  createFeatured: PropTypes.func.isRequired,
-  deleteFeatured: PropTypes.func.isRequired,
+  featurePost: PropTypes.func.isRequired,
+  unfeaturePost: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  post: state.post,
-})
-
-export default connect(mapStateToProps, { createFeatured, deleteFeatured })(
-  Feature,
-)
+export default Feature
