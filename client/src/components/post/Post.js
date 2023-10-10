@@ -66,7 +66,7 @@ const Post = ({ auth: { user }, post: { post, loading }, getPost }) => {
         </Link>
         <div className="p-1">
           <div className="text-gray-800 post-title">{post.title}</div>
-          <p className="my-1">{post.body}</p>
+          <p className="my-1 text-wrap pre-line">{post.body}</p>
           <div className="post-date">
             {!post.published && !loading && 'Temporiry saved'}
           </div>

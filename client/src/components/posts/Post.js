@@ -39,7 +39,7 @@ const Post = ({ post, user }) => {
           </div>
 
           <div className="text-lg post-title">{post.title}</div>
-          <p className="my-1">{post.body}</p>
+          <p className="my-1 text-wrap pre-line">{post.body}</p>
           {user && post && (
             <>
               <Pin

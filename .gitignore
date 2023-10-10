@@ -30,3 +30,5 @@ public/
 .env.*
 
 server/config
+# Local Netlify folder
+.netlify

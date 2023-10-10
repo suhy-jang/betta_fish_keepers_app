@@ -112,6 +112,14 @@ body {
   text-align: center;
 }
 
+.pre-line {
+  white-space: pre-line;
+}
+
+.text-wrap {
+  text-wrap: wrap;
+}
+
 .cursor-pointer:hover {
   cursor: pointer;
 }
