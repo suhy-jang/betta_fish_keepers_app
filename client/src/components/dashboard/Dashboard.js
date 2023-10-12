@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Post from '../posts/Post'
 import { deleteUser } from '../../actions/auth'
@@ -18,6 +18,16 @@ const Dashboard = ({
     getMyPosts()
   }, [getMyPosts])
 
+  const onClickDeleteUser = () => {
+    deleteUser(() => {
+      navigate('/')
+    })
+  }
+
+  if (!user) {
+    return null
+  }
+
   return userLoading ? (
     <>loading...</>
   ) : (
@@ -27,15 +37,15 @@ const Dashboard = ({
         <i className="fas fa-user" /> Welcome {user.name}
       </p>
       <div className="dash-buttons">
-        <a href={`/profile/${user.id}`} className="btn btn-light">
+        <Link to={`/profile/${user.id}`} className="mr-2 btn btn-light">
           <i className="text-purple-800 fas fa-user-circle" /> View Profile
-        </a>
-        <a href="/updateUserInfo" className="btn btn-light">
+        </Link>
+        <Link to="/updateUserInfo" className="btn btn-light">
           <i className="text-purple-800 fas fa-user-circle" /> Edit User Info
-        </a>
+        </Link>
       </div>
 
-      <div className="profile-posts min-h-[250px] my-5">
+      <div className="profile-posts min-h-[250px] mt-7 mb-5">
         <h2 className="my-1 text-dark">
           <i className="fas fa-pen" /> My Posts
         </h2>
@@ -55,8 +65,8 @@ const Dashboard = ({
             }
           }}
         >
-          <i className="fas fa-user-minus" onClick={() => deleteUser()} />
-          Delete My Account
+          <i className="fas fa-user-minus" onClick={onClickDeleteUser} /> Delete
+          My Account
         </button>
       </div>
     </>

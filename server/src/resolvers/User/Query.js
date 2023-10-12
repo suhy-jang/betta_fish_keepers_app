@@ -12,7 +12,7 @@ const User = {
     }
 
     if (args.query) {
-      opArgs.where = { name: { contains: args.query } }
+      opArgs.where = { name: { contains: args.query, mode: 'insensitive' } }
     }
 
     const users = await prisma.user.findMany(opArgs)

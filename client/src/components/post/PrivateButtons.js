@@ -1,50 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { deletePost } from '../../actions/post'
 
-const PrivateButtons = ({ auth: { user }, deletePost, postId, authorId }) => {
+const PrivateButtons = ({ postId }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const onDeletePost = () => {
+    const action = deletePost(postId, () => {
+      navigate('/')
+    })
+    dispatch(action)
+  }
 
   return (
-    user &&
-    authorId === user.id && (
-      <>
-        <button
-          type="button"
-          className="btn btn-dark"
-          onClick={() => {
-            navigate(`/posts/${postId}/edit`)
-          }}
-        >
-          <i className="fas fa-wrench" />
-        </button>
-        <button
-          type="button"
-          className="btn btn-danger"
-          onClick={() => {
-            deletePost(postId, () => {
-              navigate('/')
-            })
-          }}
-        >
-          <i className="fas fa-times" />
-        </button>
-      </>
-    )
+    <>
+      <button
+        type="button"
+        className="btn btn-dark"
+        onClick={() => {
+          navigate(`/posts/${postId}/edit`)
+        }}
+      >
+        <i className="fas fa-wrench" /> Edit
+      </button>
+      <button type="button" className="btn btn-danger" onClick={onDeletePost}>
+        <i className="fas fa-times" /> Delete
+      </button>
+    </>
   )
 }
 
 PrivateButtons.propTypes = {
-  auth: PropTypes.object.isRequired,
-  authorId: PropTypes.string.isRequired,
   postId: PropTypes.string.isRequired,
-  deletePost: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-})
-
-export default connect(mapStateToProps, { deletePost })(PrivateButtons)
+export default PrivateButtons

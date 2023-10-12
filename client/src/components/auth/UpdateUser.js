@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { updateUser } from '../../actions/auth'
 import { setAlert } from '../../actions/alert'
+import TextInput from '../utils/TextInput'
 
 const UpdateUser = ({
   setAlert,
@@ -55,19 +56,14 @@ const UpdateUser = ({
       <h1 className="text-purple-800 large">Edit User Info</h1>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => onChange(e)}
-          />
+          <TextInput name="name" value={name} onChange={onChange} />
         </div>
         <div className="form-group">
-          <input
+          <TextInput
             type="email"
             name="email"
             value={email}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
           <small className="form-text">
             This site uses Gravatar, so if you want a profile image, use a
@@ -75,21 +71,21 @@ const UpdateUser = ({
           </small>
         </div>
         <div className="form-group">
-          <input
+          <TextInput
             type="password"
             placeholder="Password"
             name="password"
             value={password}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <div className="form-group">
-          <input
+          <TextInput
             type="password"
             placeholder="Confirm Password"
             name="password2"
             value={password2}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <input

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
 import { setAlert } from '../../actions/alert'
+import TextInput from '../utils/TextInput'
 
 const Login = ({ login, isAuthenticated }) => {
   const navigate = useNavigate()
@@ -43,21 +44,21 @@ const Login = ({ login, isAuthenticated }) => {
       </p>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
-          <input
+          <TextInput
             type="email"
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <div className="form-group">
-          <input
+          <TextInput
             type="password"
             placeholder="Password"
             name="password"
             value={password}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <input
@@ -67,7 +68,10 @@ const Login = ({ login, isAuthenticated }) => {
         />
       </form>
       <p className="my-1">
-        Don't have an account? <Link to="/register">Sign Up</Link>
+        Don't have an account?{' '}
+        <Link to="/register" className="text-purple-800">
+          Sign Up
+        </Link>
       </p>
     </Fragment>
   )

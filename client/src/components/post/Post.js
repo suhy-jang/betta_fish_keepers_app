@@ -12,11 +12,14 @@ import { getPost } from '../../actions/post'
 import FormattedDate from '../../utils/formattedDate'
 import { usePin } from '../../hooks/usePin'
 import { useFeature } from '../../hooks/useFeature'
+import useDropdown from '../../hooks/useDropdown'
+import Dropdown from '../utils/Dropdown'
 
 const Post = ({ auth: { user }, post: { post, loading }, getPost }) => {
   const { id } = useParams()
   const { pinPost, unpinPost } = usePin()
   const { featurePost, unfeaturePost } = useFeature()
+  const { isDropdownOpen, dropdownRef, toggleDropdown } = useDropdown()
 
   useEffect(() => {
     getPost(id)
@@ -27,9 +30,9 @@ const Post = ({ auth: { user }, post: { post, loading }, getPost }) => {
   ) : (
     <div className="post-page">
       <div className="post-top">
-        <a href="/posts" className="bg-purple-300 btn hover:bg-purple-700">
+        <Link to="/posts" className="bg-purple-300 btn hover:bg-purple-700">
           Go All Posts
-        </a>
+        </Link>
         <div className="buttons">
           {user && post && (
             <>
@@ -38,6 +41,7 @@ const Post = ({ auth: { user }, post: { post, loading }, getPost }) => {
                 post={post}
                 featurePost={featurePost}
                 unfeaturePost={unfeaturePost}
+                className="mr-2"
               />
               <Pin
                 user={user}
@@ -50,6 +54,21 @@ const Post = ({ auth: { user }, post: { post, loading }, getPost }) => {
         </div>
       </div>
       <div className="p-1 my-1 bg-white">
+        <div className="relative">
+          <div className="absolute top-0 right-0">
+            <Dropdown
+              isOpen={isDropdownOpen}
+              toggle={toggleDropdown}
+              ref={dropdownRef}
+              top
+              left
+            >
+              {post.id && user && user.id === post.author.id && (
+                <PrivateButtons postId={post.id} authorId={post.author.id} />
+              )}
+            </Dropdown>
+          </div>
+        </div>
         <Link to={`/profile/${post.author.id}`}>
           <div className="flex items-center">
             <Avatar
@@ -64,15 +83,12 @@ const Post = ({ auth: { user }, post: { post, loading }, getPost }) => {
             </div>
           </div>
         </Link>
-        <div className="p-1">
-          <div className="text-gray-800 post-title">{post.title}</div>
+        <div className="p-2">
+          <div className="text-lg text-gray-800 post-title">{post.title}</div>
           <p className="my-1 text-wrap pre-line">{post.body}</p>
           <div className="post-date">
             {!post.published && !loading && 'Temporiry saved'}
           </div>
-          {post.id && (
-            <PrivateButtons postId={post.id} authorId={post.author.id} />
-          )}
         </div>
       </div>
       {post.published && post.allowComments ? (

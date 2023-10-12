@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { createPost } from '../../actions/post'
 import { setAlert } from '../../actions/alert'
+import TextInput from '../utils/TextInput'
+import CheckBox from '../utils/CheckBox'
 
 const CreatePost = ({ auth, createPost, setAlert }) => {
   const navigate = useNavigate()
@@ -45,45 +47,38 @@ const CreatePost = ({ auth, createPost, setAlert }) => {
     <div className="post-form">
       {auth.isAuthenticated ? (
         <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
-          <textarea
-            cols="30"
-            rows="1"
-            placeholder="Title"
+          <TextInput
             name="title"
             value={title}
-            onChange={(e) => onChange(e)}
-            style={{ marginBottom: '1rem' }}
+            onChange={onChange}
+            placeholder="Title"
+            className="mb-2"
           />
-          <textarea
-            cols="30"
-            rows="5"
-            placeholder="Say Something..."
+          <TextInput
             name="body"
             value={body}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
+            placeholder="Say Something..."
+            isTextArea={true}
           />
-          <input
-            type="checkbox"
+          <CheckBox
             name="published"
             checked={published}
-            value={published}
             onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
               toggleDisabledComment(!disabledComment)
             }}
+            label="Publish"
           />
-          <label htmlFor="publish"> Publish </label>
-          <input
-            type="checkbox"
+          <CheckBox
             name="allowComments"
-            checked={allowComments}
-            value={allowComments}
+            checked={allowComments && !disabledComment}
             onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
             }}
+            label="allow comments"
             disabled={disabledComment}
           />
-          <label htmlFor="allowComments"> allow comments</label>
           <div />
           <input type="submit" value="Submit" className="my-1 btn btn-dark" />
         </form>

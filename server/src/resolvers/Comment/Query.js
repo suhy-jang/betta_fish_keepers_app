@@ -7,6 +7,7 @@ const Comment = {
         text: args.query
           ? {
               contains: args.query,
+              mode: 'insensitive',
             }
           : undefined,
       },

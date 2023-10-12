@@ -35,9 +35,9 @@ const NavBar = ({ auth: { isAuthenticated, loading }, logout }) => {
               <Link to="/dashboard">Dashboard</Link>
             </li>
             <li onClick={signout}>
-              <a href="/">
+              <Link to="/">
                 <span className="d-none d-md-inline-block">Logout</span>
-              </a>
+              </Link>
             </li>
           </>
         )}

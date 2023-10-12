@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Feature = ({ user, post, featurePost, unfeaturePost }) => {
+const Feature = ({ user, post, featurePost, unfeaturePost, className }) => {
   const featured = post.featuredBy ? true : false
   const guest = !user || user.id !== post.author.id
 
@@ -12,7 +12,7 @@ const Feature = ({ user, post, featurePost, unfeaturePost }) => {
 
   return (
     <button
-      className={`btn featured ${
+      className={`btn featured ${className} ${
         featured
           ? 'bg-purple-300 hover:bg-gray-300'
           : 'bg-gray-300 hover:bg-purple-300'
@@ -30,6 +30,7 @@ Feature.propTypes = {
   post: PropTypes.object.isRequired,
   featurePost: PropTypes.func.isRequired,
   unfeaturePost: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
 
 export default Feature

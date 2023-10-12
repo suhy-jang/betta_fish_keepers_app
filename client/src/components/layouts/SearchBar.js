@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { search } from '../../actions/search'
 import { setAlert } from '../../actions/alert'
 import { connect } from 'react-redux'
+import TextInput from '../utils/TextInput'
 
 const SearchBar = ({ search }) => {
   const navigate = useNavigate()
@@ -29,15 +30,14 @@ const SearchBar = ({ search }) => {
       <form name="search-form" onSubmit={(e) => onSubmit(e)}>
         <div className="bg-purple-400 search-form">
           <span className="form-control-wrap">
-            <input
-              type="text"
+            <TextInput
               name="search"
               value={query}
               id="search"
               size="40"
               className="placeholder-purple-100 form-control text-purple-50"
               placeholder="search"
-              onChange={(e) => onChange(e)}
+              onChange={onChange}
             />
           </span>
           <button

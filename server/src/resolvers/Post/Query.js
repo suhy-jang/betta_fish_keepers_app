@@ -14,8 +14,8 @@ const Query = {
         published: true,
         OR: args.query
           ? [
-              { title: { contains: args.query } },
-              { body: { contains: args.query } },
+              { title: { contains: args.query, mode: 'insensitive' } },
+              { body: { contains: args.query, mode: 'insensitive' } },
             ]
           : undefined,
       },
@@ -43,8 +43,8 @@ const Query = {
         },
         OR: args.query
           ? [
-              { title: { contains: args.query } },
-              { body: { contains: args.query } },
+              { title: { contains: args.query, mode: 'insensitive' } },
+              { body: { contains: args.query, mode: 'insensitive' } },
             ]
           : undefined,
       },

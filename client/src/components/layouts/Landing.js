@@ -24,7 +24,7 @@ const Landing = ({ isAuthenticated }) => {
             Share your tips and get help from other Betta keepers!
           </p>
           <div className="buttons">
-            <Link to="/register" className="btn btn-dark">
+            <Link to="/register" className="mr-2 btn btn-dark">
               Sign Up
             </Link>
             <Link to="/login" className="btn btn-dark">

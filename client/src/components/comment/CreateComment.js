@@ -19,9 +19,9 @@ const CreateComment = ({ auth, createComment, postId }) => {
   }
 
   return (
-    <div className="post-form">
+    <div className="my-5 post-form">
       <div className="p-1 text-purple-900 bg-purple-200 p">
-        <h3>Leave A Comment</h3>
+        <h3>Leave A Comment...</h3>
       </div>
       {!auth.loading && auth.isAuthenticated ? (
         <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
@@ -35,7 +35,7 @@ const CreateComment = ({ auth, createComment, postId }) => {
           />
           <input
             type="submit"
-            className="my-1 bg-purple-300 rounded-lg btn hover:bg-purple-700"
+            className="my-1 bg-purple-300 btn hover:bg-purple-700"
             value="Submit"
           />
         </form>

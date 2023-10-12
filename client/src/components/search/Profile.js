@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import Avatar from '../avatar/Avatar'
 
 const Profile = ({ profile }) => {
@@ -8,12 +9,12 @@ const Profile = ({ profile }) => {
       <Avatar avatar={profile.avatar} className="round-img" />
       <div>
         <h2>{profile.name}</h2>
-        <a
-          href={`/profile/${profile.id}`}
-          className="btn bg-purple-300 hover:bg-purple-700 rounded-lg"
+        <Link
+          to={`/profile/${profile.id}`}
+          className="bg-purple-300 btn hover:bg-purple-700"
         >
           View profile
-        </a>
+        </Link>
       </div>
 
       <ul>

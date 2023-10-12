@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setAlert } from '../../actions/alert'
 import { register } from '../../actions/auth'
+import TextInput from '../utils/TextInput'
 
 const Register = ({ isAuthenticated, setAlert, register }) => {
   const navigate = useNavigate()
@@ -43,21 +44,20 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
       </p>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
-          <input
-            type="text"
+          <TextInput
             placeholder="Name"
             name="name"
             value={name}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <div className="form-group">
-          <input
+          <TextInput
             type="email"
             placeholder="Email Address"
             name="email"
             value={email}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
           <small className="form-text">
             This site uses Gravatar, so if you want a profile image, use a
@@ -65,23 +65,23 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
           </small>
         </div>
         <div className="form-group">
-          <input
+          <TextInput
             type="password"
             placeholder="Password"
             minLength="6"
             name="password"
             value={password}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <div className="form-group">
-          <input
+          <TextInput
             type="password"
             placeholder="Confirm Password"
             minLength="6"
             name="password2"
             value={password2}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <input
@@ -91,7 +91,10 @@ const Register = ({ isAuthenticated, setAlert, register }) => {
         />
       </form>
       <p className="my-1">
-        Already have an account? <Link to="/login">Sign In</Link>
+        Already have an account?{' '}
+        <Link to="/login" className="text-purple-800">
+          Sign In
+        </Link>
       </p>
     </Fragment>
   )

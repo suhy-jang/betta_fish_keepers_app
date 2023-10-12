@@ -38,21 +38,22 @@ const Post = ({ post, user }) => {
             <FormattedDate timestamp={post.createdAt} format="MMM d" />
           </div>
 
-          <div className="text-lg post-title">{post.title}</div>
+          <div className="text-lg text-gray-800 post-title">{post.title}</div>
           <p className="my-1 text-wrap pre-line">{post.body}</p>
           {user && post && (
             <>
-              <Pin
-                user={user}
-                post={post}
-                pinPost={pinPost}
-                unpinPost={unpinPost}
-              />
               <Feature
                 user={user}
                 post={post}
                 featurePost={featurePost}
                 unfeaturePost={unfeaturePost}
+                className="mr-2"
+              />
+              <Pin
+                user={user}
+                post={post}
+                pinPost={pinPost}
+                unpinPost={unpinPost}
               />
             </>
           )}

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { updatePost, getPost } from '../../actions/post'
 import { setAlert } from '../../actions/alert'
+import TextInput from '../utils/TextInput'
+import CheckBox from '../utils/CheckBox'
 
 const UpdatePost = ({
   auth,
@@ -40,70 +42,71 @@ const UpdatePost = ({
     getPost(id)
   }, [id])
 
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  const onChange = useCallback(
+    (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value })
+    },
+    [formData],
+  )
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    if (!title && !body) {
-      return setAlert("Don't leave all blank (Fill at least one)", 'danger')
-    }
-    updatePost(
-      post.id,
-      {
-        ...formData,
-        allowComments: published && allowComments,
-      },
-      (postId) => {
-        navigate(`/posts/${postId}`)
-      },
-    )
-    setFormData(initialState)
-    toggleDisabledComment(false)
-  }
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+      if (!title && !body) {
+        return setAlert("Don't leave all blank (Fill at least one)", 'danger')
+      }
+      updatePost(
+        post.id,
+        {
+          ...formData,
+          allowComments: published && allowComments,
+        },
+        (postId) => {
+          navigate(`/posts/${postId}`)
+        },
+      )
+      setFormData(initialState)
+      toggleDisabledComment(false)
+    },
+    [formData],
+  )
 
   return (
     <div className="post-form">
       {!auth.loading && auth.isAuthenticated && !loading && (
         <form className="my-1 form" onSubmit={(e) => onSubmit(e)}>
-          <textarea
-            cols="30"
-            rows="1"
-            placeholder="Title"
+          <TextInput
             name="title"
             value={title}
-            onChange={(e) => onChange(e)}
-            style={{ marginBottom: '1rem' }}
+            onChange={onChange}
+            placeholder="Title"
+            className="mb-2"
           />
-          <textarea
-            cols="30"
-            rows="5"
-            placeholder="Say Something..."
+          <TextInput
             name="body"
             value={body}
-            onChange={(e) => onChange(e)}
+            onChange={onChange}
+            placeholder="Say Something..."
+            isTextArea={true}
           />
-          <input
-            type="checkbox"
+          <CheckBox
             name="published"
             checked={published}
             onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
               toggleDisabledComment(!disabledComment)
             }}
+            label="Publish"
           />
-          <label htmlFor="publish"> Publish </label>
-          <input
-            type="checkbox"
+          <CheckBox
             name="allowComments"
             checked={allowComments && !disabledComment}
             onChange={(e) => {
               setFormData({ ...formData, [e.target.name]: e.target.checked })
             }}
+            label="allow comments"
             disabled={disabledComment}
           />
-          <label htmlFor="allowComments"> allow comments</label>
           <div />
           <input type="submit" value="Submit" className="my-1 btn btn-dark" />
         </form>

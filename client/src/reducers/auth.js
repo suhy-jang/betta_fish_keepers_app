@@ -48,8 +48,6 @@ export default function authReducer(state = initialState, action) {
         loading: false,
         user: payload,
       }
-    case DELETE_USER:
-      return { ...state }
     case USER_ERROR:
       return {
         ...state,
@@ -60,6 +58,7 @@ export default function authReducer(state = initialState, action) {
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
     case LOGOUT:
+    case DELETE_USER:
       localStorage.removeItem('token')
       return {
         ...state,
@@ -69,6 +68,6 @@ export default function authReducer(state = initialState, action) {
         user: null,
       }
     default:
-      return { ...state }
+      return state
   }
 }

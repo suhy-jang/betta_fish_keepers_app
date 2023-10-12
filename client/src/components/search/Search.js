@@ -5,7 +5,9 @@ import Post from '../posts/Post'
 import Profile from './Profile'
 
 const Search = ({ search: { query, profiles, posts, loading } }) => {
-  return (
+  return loading ? (
+    <>loading...</>
+  ) : (
     <>
       <p className="lead">
         <i className="fas fa-search"></i> Search: "{query}"
@@ -14,20 +16,19 @@ const Search = ({ search: { query, profiles, posts, loading } }) => {
         <div className="search-users">
           <h2 className="text-purple-800">
             <i className="fas fa-user" />
-            Keepers
+            Users
           </h2>
-          {profiles.map((profile) => (
-            <Profile key={profile.id} profile={profile} />
-          ))}
+          {profiles &&
+            profiles.map((profile) => (
+              <Profile key={profile.id} profile={profile} />
+            ))}
         </div>
         <div className="search-posts">
           <h2 className="text-purple-800">
             <i className="fas fa-pen" />
             Posts
           </h2>
-          {posts.map((post) => (
-            <Post key={post.id} post={post} />
-          ))}
+          {posts && posts.map((post) => <Post key={post.id} post={post} />)}
         </div>
       </div>
     </>

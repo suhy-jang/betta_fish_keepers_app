@@ -142,7 +142,7 @@ export const deleteUser = (callback) => async (dispatch) => {
       payload: data.deleteUser,
     })
 
-    callback?.()
+    callback()
   } catch (err) {
     dispatch(setAlert('Unable to delete user', 'danger'))
     dispatch({ type: USER_ERROR, payload: err })
