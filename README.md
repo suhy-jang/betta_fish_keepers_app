@@ -61,11 +61,14 @@ $ npm run dev
 
 ## ✨Live Demo
 
-The full website is live at [heroku-app](https://suhy-betta-keepers-app.herokuapp.com/)
+The full website is live at [Netlify](betta-fish-community.netlify.app/)
 
-The Backend is running at https://suhy-betta-keepers-app.herokuapp.com/graphql, can see API structure [graphql playground](https://suhy-betta-keepers-app.herokuapp.com/graphql/playground)
+The Backend is running at https://betta-fish-app-server-e68429f6645d.herokuapp.com/, can see API structure [GraphQL playground](https://betta-fish-app-server-e68429f6645d.herokuapp.com/graphql).
+Watch graphql playground tutorial video [here](<https://suhypractice.s3.ap-northeast-2.amazonaws.com/shared/graphql-bettafish.mp4>).
 
-Extensive documentation with examples [postman](https://documenter.getpostman.com/view/8001436/T17CEALp)
+Extensive documentation with examples [Postman doc](https://documenter.getpostman.com/view/8001436/T17CEALp)
+
+
 
 - Version: 1.0.0
 - Author: Suhyeon Jang
