@@ -61,7 +61,7 @@ $ npm run dev
 
 ## ✨Live Demo
 
-The full website is live at [Netlify](betta-fish-community.netlify.app/)
+The full website is live at [Netlify](https://betta-fish-community.netlify.app/)
 
 The Backend is running at https://betta-fish-app-server-e68429f6645d.herokuapp.com/, can see API structure [GraphQL playground](https://betta-fish-app-server-e68429f6645d.herokuapp.com/graphql).
 Watch graphql playground tutorial video [here](<https://suhypractice.s3.ap-northeast-2.amazonaws.com/shared/graphql-bettafish.mp4>).
